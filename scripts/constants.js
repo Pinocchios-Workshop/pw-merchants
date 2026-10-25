@@ -1,4 +1,4 @@
-export const MODULE_ID = "pw-merchant-dev";
+export const MODULE_ID = "pw-merchants-dev";
 
 /**
  * Flaga własnej ceny przedmiotu (czyszczona przy wyjściu przedmiotu ze sklepu, pricing.js).

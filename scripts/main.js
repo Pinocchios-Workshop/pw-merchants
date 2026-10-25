@@ -10,8 +10,8 @@ import { patchLootSheet } from "./sheets/merchant-sheet.js";
 import { patchItemPrice, registerPriceCleanup, patchTransferToShop } from "./pricing.js";
 import { patchAmmoPreCreate } from "./ammo.js";
 import { registerPurchaseSocket } from "./purchase.js";
-import { registerStockListsSetting, migrateStockLists } from "./stock-lists-store.js";
-import { registerDataVersionSetting, migrateWorld, restoreShopBackup } from "./shop-store.js";
+import { registerStockListsSetting, migrateStockLists, STOCK_LIST_SETTINGS } from "./stock-lists-store.js";
+import { registerDataVersionSetting, migrateWorld, moveLegacyData, restoreShopBackup, DATA_VERSION_SETTING } from "./shop-store.js";
 import { activateTooltips } from "./apps/tooltip.js";
 import { handleSellMessage } from "./selling.js";
 import { SellReview } from "./apps/sell-review.js";
@@ -53,7 +53,7 @@ function tryPatch(hookName) {
 }
 
 /**
- * Wersja robocza (pw-merchant-dev) i wydanie (pw-merchant) to ten sam kod pod
+ * Wersja robocza (pw-merchants-dev) i wydanie (pw-merchants) to ten sam kod pod
  * innym ID. Włączone razem podpięłyby kartę dwa razy, więc działa tylko pierwszy
  * załadowany wariant, a drugi zgłasza to MG i nic nie robi.
  */
@@ -91,7 +91,11 @@ function onReady() {
   }
   tryPatch("ready");
   // Dane z poprzednich wersji modułu → aktualny format (z kopią; tylko MG, raz na wersję danych).
-  migrateWorld(migrateStockLists).catch((error) => console.error(`${MODULE_ID} | Migracja danych nie powiodła się`, error));
+  // Najpierw kopia danych spod dawnego ID modułu (do 0.54: pw-merchant), potem migracja schematów.
+  moveLegacyData([DATA_VERSION_SETTING, ...STOCK_LIST_SETTINGS])
+    .catch((error) => console.error(`${MODULE_ID} | Kopiowanie danych spod dawnego ID nie powiodło się`, error))
+    .then(() => migrateWorld(migrateStockLists))
+    .catch((error) => console.error(`${MODULE_ID} | Migracja danych nie powiodła się`, error));
   registerPurchaseSocket();
   game.socket.on(`module.${MODULE_ID}`, (data) => handleSellMessage(data, (offer) => SellReview.openFromOffer(offer)));
   if (!patched) ui.notifications.error(game.i18n.format("PF2E_SHOP.Error.PatchFailed", { module: moduleTitle() }));

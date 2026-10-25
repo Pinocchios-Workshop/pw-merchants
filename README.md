@@ -42,20 +42,20 @@ A merchant sheet for **Pathfinder 2e** in **Foundry VTT**. It replaces the look 
 In Foundry: **Add-on Modules → Install Module**, paste the manifest URL and install:
 
 ```
-https://github.com/<organization>/pw-merchant/releases/latest/download/module.json
+https://github.com/<organization>/pw-merchants/releases/latest/download/module.json
 ```
 
 Enable **Pinocchio's Merchants** in the world and set a Loot actor to **Merchant** mode to open the shop.
 
-Do not enable it together with the development build (`pw-merchant-dev`); if both are on, only the first one loaded works and the GM sees a warning.
+Do not enable it together with the development build (`pw-merchants-dev`); if both are on, only the first one loaded works and the GM sees a warning.
 
 ## Development
 
-The repository holds the development build (`pw-merchant-dev`), which can be installed next to the release build.
+The repository holds the development build (`pw-merchants-dev`), which can be installed next to the release build.
 
 - `dev` — ongoing work; changes arrive through pull requests.
 - `main` — the state of the latest release.
-- Releases are built from version tags (`v0.55.0`) on `main` by `tools/build-release.mjs`, which switches the module ID to `pw-merchant`.
+- Releases are built from version tags (`v0.55.0`) on `main` by `tools/build-release.mjs`, which switches the module ID to `pw-merchants`.
 
 Run the tests with Node 18+:
 

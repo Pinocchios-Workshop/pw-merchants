@@ -432,7 +432,8 @@
       "NewerShop": "{module}: ten sklep zapisała nowsza wersja modułu. Zaktualizuj moduł, żeby go zmieniać — do tego czasu jest tylko do odczytu.",
       "NewerWorld": "{module}: dane tego świata zapisała nowsza wersja modułu. Zaktualizuj moduł; do tego czasu sklepy zapisane w nowszym formacie są tylko do odczytu.",
       "MigrationFailed": "{module}: nie udało się przenieść danych sklepu „{name}” do nowego formatu. Nic nie zginęło — stare dane zostały bez zmian. Szczegóły w konsoli (F12).",
-      "Migrated": "{module}: dane przeniesione do nowego formatu (sklepy: {shops}, listy towaru: {lists}). Kopia starych danych została zachowana."
+      "Migrated": "{module}: dane przeniesione do nowego formatu (sklepy: {shops}, listy towaru: {lists}). Kopia starych danych została zachowana.",
+      "LegacyMoved": "{module}: sklepy i listy towaru zapisane pod dawnym ID modułu ({old}) zostały skopiowane pod nowe ID. Stare dane zostały na miejscu."
     },
     "SyntaxGuide": {
       "Title": "Syntax Guide",

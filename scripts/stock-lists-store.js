@@ -8,13 +8,13 @@
  * → oczyszczenie. Pola, których moduł nie zna, zostają w dokumencie.
  *
  * Dokument listy:
- * { format: "pw-merchant.stock-list", schema: 1, id, name, mode: "manual" | "partyLevel",
+ * { format: "pw-merchants.stock-list", schema: 1, id, name, mode: "manual" | "partyLevel",
  *   guaranteed, drawLimit,
  *   entries: [{ uuid, name, img, level, rarity, weight, limit, scroll }],      (limit: null = bez limitu)
  *   guaranteedEntries: [{ uuid, name, img, level, rarity, min, max, scroll }] }
  * `scroll` / `wand`: null = przedmiot; { rank } = zwój / różdżka z zaklęcia (uuid = zaklęcie,
  * patrz spell-consumables.js). Najwyżej jedno z nich.
- * Plik z kilkoma listami: { format: "pw-merchant.stock-lists", schema: 1, lists: [ … ] }.
+ * Plik z kilkoma listami: { format: "pw-merchants.stock-lists", schema: 1, lists: [ … ] }.
  *
  * Listy są wspólne dla wszystkich sklepów świata: jedno ustawienie świata (`stockLists`),
  * bez pozycji w menu ustawień. Zapisywać może tylko MG.
@@ -24,8 +24,12 @@ import { MODULE_ID } from "./constants.js";
 const SETTING = "stockLists";
 
 /** Nazwa formatu i aktualna wersja schematu. Schemat rośnie tylko przy zmianie znaczenia lub kształtu danych. */
-export const LIST_FORMAT = "pw-merchant.stock-list";
-export const BUNDLE_FORMAT = "pw-merchant.stock-lists";
+export const LIST_FORMAT = "pw-merchants.stock-list";
+export const BUNDLE_FORMAT = "pw-merchants.stock-lists";
+/** Formaty plików sprzed zmiany ID modułu (do 0.54) — nadal czytane przy imporcie i z zapisu świata. */
+const LEGACY_LIST_FORMATS = ["pw-merchant.stock-list"];
+const LEGACY_BUNDLE_FORMATS = ["pw-merchant.stock-lists"];
+const isBundle = (data) => data?.format === BUNDLE_FORMAT || LEGACY_BUNDLE_FORMATS.includes(data?.format);
 export const SCHEMA = 1;
 
 /** Wartości domyślne pól listy i pozycji (nowa opcja = nowy wpis tutaj, bez zmiany schematu). */
@@ -85,7 +89,7 @@ function readEntry(raw, defaults) {
  */
 export function readStockList(raw) {
   if (!raw || typeof raw !== "object" || Array.isArray(raw)) return { error: "PF2E_SHOP.StockLists.ImportInvalid" };
-  if (raw.format && raw.format !== LIST_FORMAT) return { error: "PF2E_SHOP.StockLists.ImportInvalid" };
+  if (raw.format && raw.format !== LIST_FORMAT && !LEGACY_LIST_FORMATS.includes(raw.format)) return { error: "PF2E_SHOP.StockLists.ImportInvalid" };
   let doc = foundry.utils.deepClone(raw);
   let schema = Number.isInteger(doc.schema) ? doc.schema : 0;
   if (schema > SCHEMA) return { error: "PF2E_SHOP.StockLists.ImportNewer" };
@@ -144,6 +148,9 @@ async function writeLists(lists) {
 
 /** Ustawienie z kopią list sprzed ostatniej migracji. */
 const BACKUP_SETTING = "stockListsBackup";
+
+/** Ustawienia świata z listami towaru (przenoszone ze starego ID modułu, shop-store.js `moveLegacyData`). */
+export const STOCK_LIST_SETTINGS = [SETTING, BACKUP_SETTING];
 
 /** Rejestruje ustawienie kopii list (wywoływane w `init`). */
 function registerBackupSetting() {
@@ -241,10 +248,10 @@ export function parseImport(text) {
   } catch {
     return { lists: [], errors: ["PF2E_SHOP.StockLists.ImportInvalid"] };
   }
-  if (data?.format === BUNDLE_FORMAT && Number.isInteger(data.schema) && data.schema > SCHEMA) {
+  if (isBundle(data) && Number.isInteger(data.schema) && data.schema > SCHEMA) {
     return { lists: [], errors: ["PF2E_SHOP.StockLists.ImportNewer"] };
   }
-  const raws = Array.isArray(data) ? data : data?.format === BUNDLE_FORMAT ? data.lists ?? [] : [data];
+  const raws = Array.isArray(data) ? data : isBundle(data) ? data.lists ?? [] : [data];
   const lists = [];
   const errors = [];
   for (const raw of raws) {

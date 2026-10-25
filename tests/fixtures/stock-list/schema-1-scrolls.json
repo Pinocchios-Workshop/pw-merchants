@@ -1,7 +1,7 @@
 {
   "description": "Lista w schemacie 1 z pozycjami-zwojami i różdżką (pola scroll i wand dodane w 0.49/0.50 z wartością domyślną null; zła ranga → null).",
   "input": {
-    "format": "pw-merchant.stock-list",
+    "format": "pw-merchants.stock-list",
     "schema": 1,
     "id": "list3",
     "name": "Zwoje",
@@ -62,7 +62,7 @@
     ]
   },
   "expected": {
-    "format": "pw-merchant.stock-list",
+    "format": "pw-merchants.stock-list",
     "schema": 1,
     "id": "list3",
     "name": "Zwoje",

@@ -432,7 +432,8 @@
       "NewerShop": "{module}: this shop was saved by a newer version of the module. Update the module to change it — until then it is read-only.",
       "NewerWorld": "{module}: this world's data was saved by a newer version of the module. Update the module; shops saved in the newer format stay read-only until then.",
       "MigrationFailed": "{module}: could not update the data of the shop \"{name}\" to the new format. Nothing was lost — the old data is still in place. See the console (F12).",
-      "Migrated": "{module}: data updated to the new format (shops: {shops}, stock lists: {lists}). A copy of the old data was kept."
+      "Migrated": "{module}: data updated to the new format (shops: {shops}, stock lists: {lists}). A copy of the old data was kept.",
+      "LegacyMoved": "{module}: shops and stock lists saved under the old module ID ({old}) were copied to the new ID. The old data was left in place."
     },
     "SyntaxGuide": {
       "Title": "Syntax Guide",

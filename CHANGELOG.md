@@ -1,9 +1,10 @@
 # Changelog
 
-## Unreleased (development 0.26 – 0.54)
+## Unreleased (development 0.26 – 0.55)
 
 Highlights since the first release; the detailed development history is kept internally.
 
+- **New module ID `pw-merchants`** (was `pw-merchant`). The module is a new package in Foundry: install it from the new manifest URL and disable the old one. On the first start the GM's client copies shops and stock lists saved under the old ID; the old data stays in place. Stock list files exported by older versions still import.
 - **Stock lists:** lists saved in the world with weighted entries, guaranteed items and draw limits; a party-level mode that computes chances from the level of the party; export and import as JSON files; categories draw from stock lists.
 - **Spells as scrolls and wands:** a spell list in the stock list browser; scrolls and wands of a chosen rank, including heightened spells; spell descriptions in the PF2e style.
 - **Search:** `tag:` replaced by `trait:`; new keys for rarity, item types, weapons, armor, shields, consumables, ammunition and spell traditions, each with a short form; logical operators AND, OR and NOT; filters shown as PF2e-style labels in the search field.

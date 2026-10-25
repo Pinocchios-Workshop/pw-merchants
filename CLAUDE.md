@@ -4,7 +4,7 @@ Moduł Foundry VTT v14 dla systemu Pathfinder 2e (karta sklepu dla aktorów Loot
 
 ## Repozytoria
 
-- `pw-merchant` (to repo, publiczne): kod modułu, testy, wydania.
+- `pw-merchants` (to repo, publiczne): kod modułu, testy, wydania.
 - `project-docs` (prywatne, ta sama organizacja): dokumenty wewnętrzne — plan i historia zmian (`modules/merchant/PLAN.md`), architektura (`modules/merchant/ARCHITECTURE.md`), audyt, opis wyszukiwarki (`modules/merchant/SEARCH.md`), zasady nazewnictwa i podziału pracy. Przed większą zmianą przeczytaj odpowiednie dokumenty stamtąd.
 
 Nie wrzucaj do tego repo dokumentów wewnętrznych (planów, audytów, opisów luk bezpieczeństwa).
@@ -13,7 +13,9 @@ Nie wrzucaj do tego repo dokumentów wewnętrznych (planów, audytów, opisów l
 
 - Praca zawsze na gałęzi `dev` albo na gałęzi zadania odbitej od `dev`; zmiany wchodzą do `dev` przez pull request.
 - `main` = stan ostatniego wydania. `dev` → `main` tylko na wyraźną prośbę autora, potem tag `vX.Y.Z` na `main` uruchamia wydanie (`.github/workflows/release.yml`).
-- W repo jest wersja robocza: `module.json` i `scripts/constants.js` mają ID `pw-merchant-dev`. Nie zmieniaj go na `pw-merchant` — robi to tylko `tools/build-release.mjs` przy wydaniu.
+- W repo jest wersja robocza: `module.json` i `scripts/constants.js` mają ID `pw-merchants-dev`. Nie zmieniaj go na `pw-merchants` — robi to tylko `tools/build-release.mjs` przy wydaniu.
+- Do wersji 0.54 moduł miał ID `pw-merchant` / `pw-merchant-dev`. `moveLegacyData` (`shop-store.js`) kopiuje dane spod dawnego ID i dawne formaty plików list są nadal czytane — nie usuwaj tego bez decyzji autora.
+- Rodzina modułów: `pw-merchants`, `pw-core`, `pw-search` (ID = nazwa folderu = nazwa repo).
 
 ## Po każdej zmianie
 

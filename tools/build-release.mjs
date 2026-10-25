@@ -1,9 +1,9 @@
 /**
  * Builds the release package of Pinocchio's Merchants from the development sources.
  *
- * The repository holds the development build (ID `pw-merchant-dev`, title "… (dev)"), so it can
+ * The repository holds the development build (ID `pw-merchants-dev`, title "… (dev)"), so it can
  * be installed next to the release build on a GM's own Foundry. A release is the same code under
- * the release ID: this script copies the module files to `dist/pw-merchant/`, switches the ID and
+ * the release ID: this script copies the module files to `dist/pw-merchants/`, switches the ID and
  * the title, writes the GitHub URLs into module.json and zips the package.
  *
  * Usage: node tools/build-release.mjs [--version 0.55.0] [--repo owner/name]
@@ -11,22 +11,22 @@
  *   --repo     GitHub repository for the manifest and download URLs (default: $GITHUB_REPOSITORY)
  *
  * Output:
- *   dist/pw-merchant/      unpacked package
+ *   dist/pw-merchants/     unpacked package
  *   dist/module.json       manifest (the same file as in the package)
- *   dist/pw-merchant.zip   package for the GitHub release
+ *   dist/pw-merchants.zip  package for the GitHub release
  */
 import { cpSync, existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { execFileSync } from "node:child_process";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
-const RELEASE_ID = "pw-merchant";
+const RELEASE_ID = "pw-merchants";
 const RELEASE_TITLE = "Pinocchio's Merchants";
 const RELEASE_DESCRIPTION =
   "A full merchant sheet for Pathfinder 2e Loot actors in Merchant mode: categories with stock lists, " +
   "a powerful item search with key:value filters, a price modifier, random stock, buying for players " +
   "and selling to the shop with GM offers and counteroffers.";
-const DEV_ID = "pw-merchant-dev";
+const DEV_ID = "pw-merchants-dev";
 
 /** Files and folders that go into the package; everything else (tests, tools, docs) stays out. */
 const PACKAGE_FILES = ["lang", "scripts", "styles", "templates", "README.md", "CHANGELOG.md", "LICENSE"];

@@ -1,5 +1,5 @@
 {
-  "description": "Lista w schemacie 1 (tryb według poziomu, przedmioty gwarantowane, pole nieznane).",
+  "description": "Lista w schemacie 1 (tryb według poziomu, przedmioty gwarantowane, pole nieznane); dawny format pliku pw-merchant.stock-list (do 0.54) czytany i zapisywany w nowym.",
   "input": {
     "format": "pw-merchant.stock-list",
     "schema": 1,
@@ -34,7 +34,7 @@
     "futureOption": 1
   },
   "expected": {
-    "format": "pw-merchant.stock-list",
+    "format": "pw-merchants.stock-list",
     "schema": 1,
     "id": "list2",
     "name": "Broń",

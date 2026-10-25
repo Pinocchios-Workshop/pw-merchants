@@ -42,7 +42,7 @@
       }
     ],
     "guaranteedEntries": [],
-    "format": "pw-merchant.stock-list",
+    "format": "pw-merchants.stock-list",
     "schema": 1
   }
 }

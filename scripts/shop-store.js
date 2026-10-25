@@ -274,10 +274,13 @@ export function newItemFlags(sourceFlags, categoryId) {
 /** Wersja danych świata: rośnie, gdy rośnie którykolwiek schemat (sklep albo listy towaru). */
 export const DATA_VERSION = 1;
 const VERSION_SETTING = "dataVersion";
+/** Klucz ustawienia wersji danych (do kopiowania spod dawnego ID, `moveLegacyData`). */
+export const DATA_VERSION_SETTING = VERSION_SETTING;
 
 /** Rejestruje ustawienie wersji danych świata (wywoływane w `init`). */
 export function registerDataVersionSetting() {
   game.settings.register(MODULE_ID, VERSION_SETTING, { scope: "world", config: false, type: Number, default: 0 });
+  game.settings.register(MODULE_ID, LEGACY_SETTING, { scope: "world", config: false, type: Boolean, default: false });
 }
 
 /** Czy aktor jest sklepem albo ma dane sklepu (postacie graczy pomijamy). */
@@ -385,4 +388,90 @@ export async function migrateWorld(migrateLists) {
   const lists = await migrateLists();
   await game.settings.set(MODULE_ID, VERSION_SETTING, DATA_VERSION);
   if (shops || lists) ui.notifications.info(game.i18n.format("PF2E_SHOP.Data.Migrated", { module, shops, lists }));
+}
+
+/* ---------------- Dawne ID modułu ---------------- */
+
+/**
+ * Dawne ID modułu (do wersji 0.54): obecne ID → ID, spod których przenosimy dane.
+ * Wersja robocza bierze dane z dawnej wersji roboczej, wydanie z dawnego wydania.
+ */
+export const LEGACY_IDS = Object.freeze({ "pw-merchants-dev": ["pw-merchant-dev"], "pw-merchants": ["pw-merchant"] });
+/** Ustawienie świata: dane spod dawnego ID zostały już sprawdzone i przeniesione. */
+const LEGACY_SETTING = "legacyDataMoved";
+
+/** Surowa wartość ustawienia świata innego modułu (bez rejestracji) albo undefined. */
+function rawWorldSetting(id, key) {
+  const doc = game.settings.storage.get("world")?.find?.((s) => s.key === `${id}.${key}`);
+  if (!doc) return undefined;
+  const value = doc.value ?? doc._source?.value;
+  if (typeof value !== "string") return value;
+  try {
+    return JSON.parse(value);
+  } catch {
+    return value;
+  }
+}
+
+/**
+ * Kopiuje dane świata zapisane pod dawnym ID modułu (`LEGACY_IDS`) pod obecne ID: flagi
+ * aktorów, przedmiotów (także w niepołączonych tokenach i w zakładce Przedmioty) oraz
+ * podane ustawienia świata. Dane już zapisane pod obecnym ID nie są nadpisywane, a stare
+ * zostają na miejscu (kopia, nie przeniesienie). Raz na świat (ustawienie `legacyDataMoved`),
+ * tylko jeden aktywny MG; uruchamiane przed `migrateWorld`, która potem przenosi skopiowane
+ * dane do aktualnego schematu.
+ * @param {string[]} settingKeys  klucze ustawień świata do skopiowania
+ * @returns {Promise<{ shops: number, items: number, settings: number } | null>}  null = pominięte
+ */
+export async function moveLegacyData(settingKeys) {
+  if (!(game.users.activeGM?.isSelf ?? game.user.isGM)) return null;
+  if (game.settings.get(MODULE_ID, LEGACY_SETTING)) return null;
+  const oldIds = LEGACY_IDS[MODULE_ID] ?? [];
+  const copy = (value) => JSON.parse(JSON.stringify(value));
+  const legacyFlags = (flags) => {
+    const id = oldIds.find((old) => isObject(flags?.[old]));
+    return id ? flags[id] : null;
+  };
+  const needsMove = (doc) => !!legacyFlags(doc?.flags) && !isObject(doc.flags?.[MODULE_ID]);
+  const moved = { shops: 0, items: 0, settings: 0 };
+
+  const moveActor = async (actor) => {
+    if (needsMove(actor)) {
+      await actor.update({ [`flags.${MODULE_ID}`]: copy(legacyFlags(actor.flags)) });
+      moved.shops += 1;
+    }
+    const items = actor.items.filter(needsMove).map((i) => ({ _id: i.id, [`flags.${MODULE_ID}`]: copy(legacyFlags(i.flags)) }));
+    if (items.length) await actor.updateEmbeddedDocuments("Item", items);
+    moved.items += items.length;
+  };
+
+  for (const actor of game.actors) await moveActor(actor);
+  // Niepołączone tokeny: tylko gdy dawne dane są w delcie tokenu (dane aktora bazowego już przeniesione).
+  for (const scene of game.scenes) {
+    for (const token of scene.tokens) {
+      const delta = token.delta?._source;
+      const touched = legacyFlags(delta?.flags) || delta?.items?.some?.((i) => legacyFlags(i.flags));
+      if (!token.actorLink && touched && token.actor) await moveActor(token.actor);
+    }
+  }
+  for (const item of game.items ?? []) {
+    if (!needsMove(item)) continue;
+    await item.update({ [`flags.${MODULE_ID}`]: copy(legacyFlags(item.flags)) });
+    moved.items += 1;
+  }
+
+  for (const key of settingKeys) {
+    if (rawWorldSetting(MODULE_ID, key) !== undefined) continue; // już zapisane pod obecnym ID
+    const id = oldIds.find((old) => rawWorldSetting(old, key) !== undefined);
+    if (!id) continue;
+    await game.settings.set(MODULE_ID, key, copy(rawWorldSetting(id, key)));
+    moved.settings += 1;
+  }
+
+  await game.settings.set(MODULE_ID, LEGACY_SETTING, true);
+  if (moved.shops || moved.items || moved.settings) {
+    const module = game.modules.get(MODULE_ID)?.title ?? MODULE_ID;
+    ui.notifications.info(game.i18n.format("PF2E_SHOP.Data.LegacyMoved", { module, old: oldIds.join(", ") }), { permanent: true });
+  }
+  return moved;
 }

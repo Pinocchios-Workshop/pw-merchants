@@ -156,6 +156,99 @@ await migrateWorld(migrateStockLists);
 check("nowszy świat: ostrzeżenie", () => strictEqual(notes[0], "PF2E_SHOP.Data.NewerWorld"));
 check("nowszy świat: wersja bez zmian", () => strictEqual(settings.get("dataVersion"), DATA_VERSION + 1));
 
+/* ---------- Dawne ID modułu (do 0.54): kopia danych pod nowe ID ---------- */
+
+const { moveLegacyData, LEGACY_IDS, DATA_VERSION_SETTING } = await import("../scripts/shop-store.js");
+const { STOCK_LIST_SETTINGS, parseImport } = await import("../scripts/stock-lists-store.js");
+{
+  const OLD = LEGACY_IDS[MODULE][0];
+  check("dawne ID: wersja robocza bierze dane z dawnej wersji roboczej", () => deepStrictEqual(LEGACY_IDS["pw-merchants-dev"], ["pw-merchant-dev"]));
+  check("dawne ID: wydanie bierze dane z dawnego wydania", () => deepStrictEqual(LEGACY_IDS["pw-merchants"], ["pw-merchant"]));
+  check("dawne ID: obecne ID ma wpis", () => strictEqual(Array.isArray(LEGACY_IDS[MODULE]), true));
+
+  // Świat zapisany pod dawnym ID: sklep, sklep z danymi już pod nowym ID, postać z ceną,
+  // niepołączony token, przedmiot w zakładce Przedmioty, ustawienia list i wersji danych.
+  const oldShop = mockActor("Stary sklep", { [OLD]: legacyShop.input }, [{ id: "o1", flags: { [OLD]: legacyItem.input } }, { id: "o2", flags: {} }]);
+  const bothShop = mockActor("Oba", { [OLD]: { schema: 1, shop: { priceModifier: 9 } }, [MODULE]: { schema: 1, shop: { priceModifier: 2 } } });
+  const hero = mockActor("Bohater", {}, [{ id: "h1", flags: { [OLD]: { basePrice: { gp: 5 } } } }], { type: "character", system: {} });
+  const tokenActor = mockActor("Token", { [OLD]: { schema: 1, shop: { priceModifier: 3 } } });
+  const looseItem = { id: "w1", flags: { [OLD]: { schema: 1, category: null, basePrice: null } } };
+  looseItem.update = async (c) => applyUpdate(looseItem, c);
+  const store = new Map([
+    [`${OLD}.stockLists`, { key: `${OLD}.stockLists`, value: JSON.stringify([legacyList.input]) }],
+    [`${OLD}.dataVersion`, { key: `${OLD}.dataVersion`, value: "0" }],
+    [`${MODULE}.stockListsBackup`, { key: `${MODULE}.stockListsBackup`, value: JSON.stringify({ lists: ["nowe"] }) }],
+    [`${OLD}.stockListsBackup`, { key: `${OLD}.stockListsBackup`, value: JSON.stringify({ lists: ["stare"] }) }]
+  ]);
+  const vals = new Map([["legacyDataMoved", false]]);
+  const legacyNotes = [];
+  globalThis.game = {
+    user: { isGM: true }, users: { activeGM: { isSelf: true } },
+    actors: [oldShop, bothShop, hero],
+    scenes: [{ tokens: [{ actorLink: false, actor: tokenActor, delta: { _source: { flags: { [OLD]: tokenActor.flags[OLD] } } } }] }],
+    items: [looseItem],
+    modules: { get: () => ({ title: "Test", version: "test" }) },
+    settings: {
+      get: (_m, k) => structuredClone(vals.has(k) ? vals.get(k) : JSON.parse(store.get(`${MODULE}.${k}`)?.value ?? "null")),
+      set: async (_m, k, v) => {
+        if (k === "legacyDataMoved") vals.set(k, v);
+        else store.set(`${MODULE}.${k}`, { key: `${MODULE}.${k}`, value: JSON.stringify(v) });
+      },
+      storage: { get: () => ({ find: (fn) => [...store.values()].find(fn) }) }
+    },
+    i18n: { format: (k) => k, localize: (k) => k }
+  };
+  globalThis.ui = { notifications: { info: (m) => legacyNotes.push(m), warn: (m) => legacyNotes.push(m), error: (m) => legacyNotes.push(m) } };
+
+  const moved = await moveLegacyData([DATA_VERSION_SETTING, ...STOCK_LIST_SETTINGS]);
+  check("dawne ID: liczniki", () => deepStrictEqual(moved, { shops: 2, items: 3, settings: 2 }));
+  check("dawne ID: sklep skopiowany", () => deepStrictEqual(oldShop.flags[MODULE], legacyShop.input));
+  check("dawne ID: stare dane zostały", () => deepStrictEqual(oldShop.flags[OLD], legacyShop.input));
+  check("dawne ID: przedmiot sklepu skopiowany", () => deepStrictEqual(oldShop.items[0].flags[MODULE], legacyItem.input));
+  check("dawne ID: przedmiot bez danych nietknięty", () => deepStrictEqual(oldShop.items[1].flags, {}));
+  check("dawne ID: dane pod nowym ID nie nadpisane", () => strictEqual(bothShop.flags[MODULE].shop.priceModifier, 2));
+  check("dawne ID: cena przedmiotu postaci", () => deepStrictEqual(hero.items[0].flags[MODULE], { basePrice: { gp: 5 } }));
+  check("dawne ID: niepołączony token", () => strictEqual(tokenActor.flags[MODULE].shop.priceModifier, 3));
+  check("dawne ID: przedmiot w zakładce Przedmioty", () => strictEqual(looseItem.flags[MODULE].schema, 1));
+  check("dawne ID: listy towaru skopiowane", () => deepStrictEqual(game.settings.get(MODULE, "stockLists"), [legacyList.input]));
+  check("dawne ID: wersja danych skopiowana", () => strictEqual(game.settings.get(MODULE, "dataVersion"), 0));
+  check("dawne ID: ustawienie pod nowym ID nie nadpisane", () => deepStrictEqual(game.settings.get(MODULE, "stockListsBackup"), { lists: ["nowe"] }));
+  check("dawne ID: znacznik zapisany", () => strictEqual(vals.get("legacyDataMoved"), true));
+  check("dawne ID: komunikat", () => deepStrictEqual(legacyNotes, ["PF2E_SHOP.Data.LegacyMoved"]));
+
+  // Potem zwykła migracja schematów działa na skopiowanych danych.
+  await migrateWorld(migrateStockLists);
+  check("dawne ID → migracja: sklep w schemacie 1", () => deepStrictEqual(readShopDoc(oldShop.flags[MODULE]).doc.categories, legacyShop.expected.categories));
+  check("dawne ID → migracja: listy w schemacie 1", () => strictEqual(game.settings.get(MODULE, "stockLists")[0].schema, 1));
+  check("dawne ID → migracja: listy w nowym formacie", () => strictEqual(game.settings.get(MODULE, "stockLists")[0].format, "pw-merchants.stock-list"));
+  check("dawne ID → migracja: stare dane nadal nietknięte", () => deepStrictEqual(oldShop.flags[OLD], legacyShop.input));
+
+  // Drugi start: nic nie robi.
+  legacyNotes.length = 0;
+  const second = await moveLegacyData(STOCK_LIST_SETTINGS);
+  check("dawne ID: drugi start pominięty", () => strictEqual(second, null));
+  check("dawne ID: drugi start bez komunikatu", () => strictEqual(legacyNotes.filter((n) => n === "PF2E_SHOP.Data.LegacyMoved").length, 0));
+
+  // Świat bez dawnych danych: znacznik zapisany, bez komunikatu.
+  vals.set("legacyDataMoved", false);
+  store.clear();
+  game.actors = [mockActor("Nowy", { [MODULE]: { schema: 1 } })];
+  game.scenes = [];
+  game.items = [];
+  legacyNotes.length = 0;
+  const none = await moveLegacyData(STOCK_LIST_SETTINGS);
+  check("dawne ID: pusty świat — nic", () => deepStrictEqual(none, { shops: 0, items: 0, settings: 0 }));
+  check("dawne ID: pusty świat — bez komunikatu", () => strictEqual(legacyNotes.length, 0));
+
+  // Import plików list wyeksportowanych przed zmianą ID.
+  const oldBundle = JSON.stringify({ format: "pw-merchant.stock-lists", schema: 1, lists: [{ ...legacyList.input, format: "pw-merchant.stock-list", schema: 1 }] });
+  const newBundle = JSON.stringify({ format: "pw-merchants.stock-lists", schema: 1, lists: [{ ...legacyList.input, format: "pw-merchants.stock-list", schema: 1 }] });
+  check("import: dawny format paczki", () => strictEqual(parseImport(oldBundle).lists.length, 1));
+  check("import: nowy format paczki", () => strictEqual(parseImport(newBundle).lists.length, 1));
+  check("import: zapis w nowym formacie", () => strictEqual(parseImport(oldBundle).lists[0].format, "pw-merchants.stock-list"));
+  check("import: obcy format odrzucony", () => strictEqual(readStockList({ format: "other.stock-list", name: "x" }).error, "PF2E_SHOP.StockLists.ImportInvalid"));
+}
+
 /* ---------- Operatory logiczne wyszukiwania (filters.js, czyste funkcje) ---------- */
 
 const { parseGroup: pg, matches: rowMatches, filterRow: mkRow } = await import("../scripts/sheets/filters.js");
