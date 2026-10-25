@@ -42,7 +42,7 @@ A merchant sheet for **Pathfinder 2e** in **Foundry VTT**. It replaces the look 
 In Foundry: **Add-on Modules → Install Module**, paste the manifest URL and install:
 
 ```
-https://github.com/<organization>/pw-merchants/releases/latest/download/module.json
+https://github.com/Pinocchios-Workshop/pw-merchants/releases/latest/download/module.json
 ```
 
 Enable **Pinocchio's Merchants** in the world and set a Loot actor to **Merchant** mode to open the shop.
