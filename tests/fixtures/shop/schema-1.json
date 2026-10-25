@@ -1,0 +1,19 @@
+{
+  "description": "Sklep w schemacie 1, z polami nieznanymi tej wersji (muszą zostać) i kopią po migracji.",
+  "input": {
+    "schema": 1,
+    "shop": { "priceModifier": 1.1, "tags": ["Książki"], "futureOption": true },
+    "categories": [
+      { "id": "cat1", "name": "Mikstury", "color": "#ff0000", "tables": [{ "listId": "list1", "countMin": 1, "countMax": 3, "futureSlot": 5 }] }
+    ],
+    "backup": { "fromSchema": 0 }
+  },
+  "expected": {
+    "schema": 1,
+    "shop": { "priceModifier": 1.1, "tags": ["Książki"], "futureOption": true },
+    "categories": [
+      { "id": "cat1", "name": "Mikstury", "color": "#ff0000", "tables": [{ "futureSlot": 5, "listId": "list1", "countMin": 1, "countMax": 3 }] }
+    ],
+    "backup": { "fromSchema": 0 }
+  }
+}

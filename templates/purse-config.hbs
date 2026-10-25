@@ -1,0 +1,30 @@
+<div class="psm-dialog">
+  <section class="psm-gm" aria-label="{{localize "PF2E_SHOP.Purse"}}">
+    <header><h2>{{localize "PF2E_SHOP.Purse"}}</h2></header>
+
+    <div class="psm-price-editor psm-purse-editor">
+      {{#each coins}}
+        <label class="psm-coin-input">
+          <input type="number" min="0" step="1" value="{{value}}" data-coin="{{denomination}}" aria-label="{{denomination}}" />
+          <span class="psm-micro">{{denomination}}</span>
+        </label>
+      {{/each}}
+    </div>
+
+    <div class="psm-modifier__row psm-price-result">
+      <span class="psm-micro">{{localize "PF2E_SHOP.PurseConfig.Total"}}</span>
+      <span class="psm-price-value psm-price-value--big" data-purse-total>{{total}}</span>
+    </div>
+  </section>
+
+  <p class="psm-note">{{localize "PF2E_SHOP.PurseConfig.Note"}}</p>
+
+  <footer class="psm-dialog__footer">
+    <button type="button" class="psm-btn psm-btn--neutral" data-action="clear">
+      <i class="fa-solid fa-eraser" inert></i> {{localize "PF2E_SHOP.PurseConfig.Clear"}}
+    </button>
+    <span class="psm-spacer"></span>
+    <button type="button" class="psm-btn psm-btn--neutral" data-action="cancel">{{localize "PF2E_SHOP.CategoryConfig.Cancel"}}</button>
+    <button type="submit" class="psm-btn psm-btn--primary">{{localize "PF2E_SHOP.CategoryConfig.Save"}}</button>
+  </footer>
+</div>

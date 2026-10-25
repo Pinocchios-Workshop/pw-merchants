@@ -1,0 +1,98 @@
+{{!--
+  Pasek filtrów: wyszukiwanie (nazwa, trait:x, rarity:x, type:x), sortowanie, zakres poziomu i ceny,
+  „Resetuj filtry” i przełączniki grup (kategorie sklepu albo typy przedmiotów).
+  Wspólny dla karty sklepu (MG i gracz) i przeglądarki przedmiotów w listach towaru,
+  żeby wyglądał i działał tak samo. Logika: sheets/filters.js i sheets/category-chips.js.
+  Parametry: idPrefix (unikalne id pól), chips ([{ id, name, count }]; bez nich nie ma wiersza przełączników),
+  chipsLabel (klucz tłumaczenia), sourceToggle (przełącznik „Lista przedmiotów” / „Lista zaklęć” na lewo od
+  zakresów — tylko przeglądarka list towaru).
+  Na lewo od wyszukiwania: ikona pomocy — otwiera Syntax Guide (apps/syntax-guide.js).
+--}}
+<section class="psm-filters" aria-label="{{localize "PF2E_SHOP.Filters.Label"}}">
+  <div class="psm-filters__row">
+    <div class="psm-field psm-field--grow">
+      <label for="psm-search-{{idPrefix}}" class="psm-micro">{{localize "PF2E_SHOP.Filters.Search"}}</label>
+      <div class="psm-search-row">
+      {{!-- Pomoc do składni wyszukiwania: okno Syntax Guide --}}
+      <button type="button" class="psm-search-help" data-search-help
+              data-psm-tooltip="{{localize "PF2E_SHOP.Filters.SearchHelp"}}"
+              aria-label="{{localize "PF2E_SHOP.Filters.SearchHelp"}}"><i class="fa-solid fa-circle-question" inert></i></button>
+      <div class="psm-search">
+        <i class="fa-solid fa-magnifying-glass" inert></i>
+        <input id="psm-search-{{idPrefix}}" type="search" data-filter="search" autocomplete="off" spellcheck="false"
+               data-psm-tooltip="{{localize "PF2E_SHOP.Filters.SearchHint"}}"
+               placeholder="{{localize "PF2E_SHOP.Filters.SearchPlaceholder"}}" />
+      </div>
+      </div>
+    </div>
+    <div class="psm-field">
+      <label for="psm-sort-{{idPrefix}}" class="psm-micro">{{localize "PF2E_SHOP.Filters.Sort"}}</label>
+      <select id="psm-sort-{{idPrefix}}" class="psm-sort" data-filter="sort">
+        <option value="level">{{localize "PF2E_SHOP.Filters.SortLevel"}}</option>
+        <option value="name">{{localize "PF2E_SHOP.Filters.SortName"}}</option>
+        <option value="priceAsc">{{localize "PF2E_SHOP.Filters.SortPriceAsc"}}</option>
+        <option value="priceDesc">{{localize "PF2E_SHOP.Filters.SortPriceDesc"}}</option>
+      </select>
+    </div>
+  </div>
+  <div class="psm-filters__row psm-filters__row--ranges">
+    {{#if sourceToggle}}
+    {{!-- Źródło przeglądarki list towaru: przedmioty albo zaklęcia (pozycje listy zostają bez zmian) --}}
+    <div class="psm-field psm-source" role="group" aria-label="{{localize "PF2E_SHOP.StockLists.Source"}}">
+      <span class="psm-micro">{{localize "PF2E_SHOP.StockLists.Source"}}</span>
+      <div class="psm-source__buttons">
+        <button type="button" class="psm-source__btn" data-browser-source="items" aria-pressed="true">
+          <i class="fa-solid fa-sword" inert></i> {{localize "PF2E_SHOP.StockLists.SourceItems"}}
+        </button>
+        <button type="button" class="psm-source__btn" data-browser-source="spells" aria-pressed="false">
+          <i class="fa-solid fa-wand-magic-sparkles" inert></i> {{localize "PF2E_SHOP.StockLists.SourceSpells"}}
+        </button>
+      </div>
+    </div>
+    {{/if}}
+    <div class="psm-field psm-range" role="group" aria-label="{{localize "PF2E_SHOP.Filters.Level"}}">
+      <span class="psm-micro psm-range__label"><i class="fa-solid fa-signal" inert></i> {{localize "PF2E_SHOP.Filters.Level"}}</span>
+      <div class="psm-level">
+        <label for="psm-lvl-from-{{idPrefix}}" class="psm-micro">{{localize "PF2E_SHOP.Filters.From"}}</label>
+        <input id="psm-lvl-from-{{idPrefix}}" type="number" data-filter="levelMin" min="0" max="30" step="1" placeholder="0" />
+        <label for="psm-lvl-to-{{idPrefix}}" class="psm-micro">{{localize "PF2E_SHOP.Filters.To"}}</label>
+        <input id="psm-lvl-to-{{idPrefix}}" type="number" data-filter="levelMax" min="0" max="30" step="1" placeholder="25" />
+      </div>
+    </div>
+    <div class="psm-field psm-range" role="group" aria-label="{{localize "PF2E_SHOP.Filters.Price"}}">
+      <span class="psm-micro psm-range__label"><i class="fa-solid fa-coins" inert></i> {{localize "PF2E_SHOP.Filters.Price"}}</span>
+      <div class="psm-level psm-price-range">
+        <label for="psm-price-from-{{idPrefix}}" class="psm-micro">{{localize "PF2E_SHOP.Filters.From"}}</label>
+        <input id="psm-price-from-{{idPrefix}}" type="number" data-filter="priceMin" min="0" step="any" placeholder="0" />
+        <label for="psm-price-to-{{idPrefix}}" class="psm-micro">{{localize "PF2E_SHOP.Filters.To"}}</label>
+        <input id="psm-price-to-{{idPrefix}}" type="number" data-filter="priceMax" min="0" step="any" placeholder="∞" />
+        <span class="psm-micro">gp</span>
+      </div>
+    </div>
+    <span class="psm-spacer"></span>
+    <button type="button" class="psm-btn psm-btn--neutral psm-filters__reset" data-filter-reset>
+      <i class="fa-solid fa-rotate-left" inert></i> {{localize "PF2E_SHOP.Filters.Reset"}}
+    </button>
+  </div>
+  {{#if chips}}
+  {{!-- Przełącznik kategorii (ten sam w linii i w rozwiniętej liście) --}}
+  {{#*inline "categoryChip"}}<button type="button" class="psm-chip" aria-pressed="true" data-category-chip="{{chip.id}}"
+    data-psm-tooltip="{{chip.name}} — {{localize "PF2E_SHOP.Filters.ToggleCategory"}}" aria-label="{{chip.name}} ({{chip.count}})"><i class="fa-solid fa-eye-slash psm-chip__hidden-icon" inert></i><span class="psm-chip__name">{{chip.name}}</span><span class="psm-chip__count">&nbsp;· {{chip.count}}</span></button>{{/inline}}
+  <div class="psm-chips" data-category-chips>
+    <span class="psm-micro">{{localize chipsLabel}}</span>
+    {{!-- Kategorie w jednej linii; te, które się nie mieszczą, chowa przycisk „+N” (jak tagi sklepu) --}}
+    <div class="psm-chips__list" data-chips-list>
+      {{#each chips}}{{> categoryChip chip=this}}{{/each}}
+    </div>
+    <button type="button" class="psm-chips__more" data-chips-more hidden aria-expanded="false"
+            data-psm-tooltip="{{localize "PF2E_SHOP.Filters.ShowAllCategories"}}"></button>
+    <div class="psm-chips__popover" data-chips-popover hidden>
+      <span class="psm-micro psm-chips__popover-title">{{localize "PF2E_SHOP.Filters.AllCategories"}}</span>
+      <div class="psm-chips__popover-list">
+        {{#each chips}}{{> categoryChip chip=this}}{{/each}}
+      </div>
+    </div>
+  </div>
+  {{/if}}
+</section>
+

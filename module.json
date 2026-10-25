@@ -1,0 +1,43 @@
+{
+  "id": "pw-merchant-dev",
+  "title": "Pinocchio's Merchants (dev)",
+  "description": "Rozbudowana karta merchanta dla aktorów Loot w Pathfinder 2e: kategorie, filtry, mnożnik cen i losowanie asortymentu.",
+  "version": "0.54.1",
+  "authors": [
+    {
+      "name": "Pinocchio's Workshop"
+    }
+  ],
+  "compatibility": {
+    "minimum": "14",
+    "verified": "14"
+  },
+  "relationships": {
+    "systems": [
+      {
+        "id": "pf2e",
+        "type": "system",
+        "compatibility": {}
+      }
+    ]
+  },
+  "esmodules": [
+    "scripts/main.js"
+  ],
+  "styles": [
+    "styles/shop.css"
+  ],
+  "languages": [
+    {
+      "lang": "pl",
+      "name": "Polski",
+      "path": "lang/pl.json"
+    },
+    {
+      "lang": "en",
+      "name": "English",
+      "path": "lang/en.json"
+    }
+  ],
+  "socket": true
+}

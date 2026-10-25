@@ -1,0 +1,21 @@
+{
+  "description": "Sklep sprzed wersjonowania: kategoria z jedną tabelą (tableUuid + count), druga z countMin/countMax, trzecia już ze slotami; mnożnik poza zakresem; pusty tag.",
+  "input": {
+    "shop": { "priceModifier": 2.5, "tags": ["Zwoje", "  ", 7] },
+    "categories": [
+      { "id": "cat1", "name": "Mikstury", "tableUuid": "RollTable.abc", "count": 3 },
+      { "id": "cat2", "name": "Broń", "tableUuid": "RollTable.def", "countMin": 1, "countMax": 4 },
+      { "id": "cat3", "name": "Zwoje", "tables": [{ "listId": "list1", "countMin": 2, "countMax": 1 }] },
+      { "name": "bez id — pomijana" }
+    ]
+  },
+  "expected": {
+    "schema": 1,
+    "shop": { "priceModifier": 2, "tags": ["Zwoje"] },
+    "categories": [
+      { "id": "cat1", "name": "Mikstury", "tables": [{ "uuid": "RollTable.abc", "countMin": 3, "countMax": 3 }] },
+      { "id": "cat2", "name": "Broń", "tables": [{ "uuid": "RollTable.def", "countMin": 1, "countMax": 4 }] },
+      { "id": "cat3", "name": "Zwoje", "tables": [{ "listId": "list1", "countMin": 2, "countMax": 2 }] }
+    ]
+  }
+}

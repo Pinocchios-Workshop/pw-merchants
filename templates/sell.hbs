@@ -1,0 +1,151 @@
+<div class="psm-dialog">
+  <header class="psm-sell-head">
+    <img class="psm-sell-portrait" src="{{seller.img}}" alt="" />
+    <div class="psm-sell-head__who">
+      {{#if multipleSellers}}
+        <select name="seller" class="psm-buyer-select psm-sell-head__select" aria-label="{{localize "PF2E_SHOP.Sell.Seller"}}">
+          {{#each sellers}}<option value="{{id}}" {{#if selected}}selected{{/if}}>{{name}}</option>{{/each}}
+        </select>
+      {{else}}
+        <span class="psm-sell-head__name">{{seller.name}}</span>
+      {{/if}}
+      <span class="psm-micro psm-sell-head__meta">{{localize "PF2E_SHOP.Sell.Level" level=seller.level}}{{#if seller.className}} · {{seller.className}}{{/if}}{{#if seller.ancestry}} · {{seller.ancestry}}{{/if}}</span>
+    </div>
+    <div class="psm-sell-head__side">
+      <span class="psm-micro">{{localize "PF2E_SHOP.CharacterPurse"}}</span>
+      <span class="psm-sell-head__money">{{seller.money}}</span>
+    </div>
+  </header>
+
+  <div class="psm-sell-grid">
+    {{!-- ===== LEWA: ekwipunek postaci ===== --}}
+    <div class="psm-sell-inv psm-sheet{{#unless building}} psm-sell-inv--locked{{/unless}}">
+      <div class="psm-search">
+        <i class="fa-solid fa-magnifying-glass" inert></i>
+        <input type="search" data-sell-search value="{{search}}" autocomplete="off" placeholder="{{localize "PF2E_SHOP.Sell.Search"}}" {{#unless building}}disabled{{/unless}} />
+      </div>
+      <div class="psm-sell-scroll">
+        {{#each groups}}
+          <section class="psm-category">
+            <header class="psm-category__header">
+              <h3>{{label}}</h3>
+              <span class="psm-count psm-micro">{{count}}</span>
+              <span class="psm-category__meta psm-micro"></span>
+              <span class="psm-col psm-col--qty psm-micro">{{localize "PF2E_SHOP.Inventory.Quantity"}}</span>
+              <span class="psm-col psm-col--price psm-micro">{{localize "PF2E_SHOP.Sell.Value"}}</span>
+              <span class="psm-col psm-sell-col--act"></span>
+            </header>
+            <ul class="psm-items">
+              {{#each rows}}
+                <li class="psm-item{{#if odd}} odd{{/if}}{{#if offerAll}} psm-sell-row--in{{/if}}" data-item-id="{{id}}" data-sell-row data-name="{{name}}"
+                    {{#if rarityColor}}style="border-left-color: {{rarityColor}}"{{/if}} {{#if hidden}}hidden{{/if}}>
+                  <img class="psm-item__img" src="{{img}}" alt="" />
+                  <span class="psm-item__name">
+                    <button type="button" class="psm-item__toggle" data-action="summary"
+                            aria-label="{{localize "PF2E_SHOP.Inventory.ShowDetails"}}: {{name}}">{{name}}</button>
+                    {{#if equipped}}<i class="fa-solid fa-hand-fist psm-sell-equipped" data-psm-tooltip="{{localize "PF2E_SHOP.Sell.Equipped"}}"></i>{{/if}}
+                    {{#if showRarity}}<span class="psm-rarity psm-micro" style="background: {{rarityColor}}">{{rarityLabel}}</span>{{/if}}
+                    {{#if full}}<span class="psm-full-price psm-micro">{{localize "PF2E_SHOP.Sell.FullPrice"}}</span>{{/if}}
+                    {{#if inOffer}}<span class="psm-sell-tag psm-micro">{{#if offerAll}}{{localize "PF2E_SHOP.Sell.InOffer"}}{{else}}{{inOffer}}/{{quantity}}{{/if}}</span>{{/if}}
+                  </span>
+                  <span class="psm-col psm-col--qty">{{quantity}}</span>
+                  <span class="psm-col psm-col--price">{{value}}</span>
+                  <span class="psm-col psm-sell-col--act">
+                    {{#if reason}}
+                      <i class="fa-solid fa-ban psm-sell-blocked" data-psm-tooltip="{{localize reason}}"></i>
+                    {{else}}
+                      <button type="button" class="psm-sell-add{{#if inOffer}} psm-sell-add--in{{/if}}" data-action="add"
+                              aria-label="{{localize "PF2E_SHOP.Sell.Add"}}: {{name}}" {{#unless @root.building}}disabled{{/unless}}>
+                        <i class="fa-solid {{#if inOffer}}fa-check{{else}}fa-plus{{/if}}" inert></i>
+                      </button>
+                    {{/if}}
+                  </span>
+                  <div class="item-summary psm-item__summary" hidden></div>
+                </li>
+              {{/each}}
+            </ul>
+          </section>
+        {{else}}
+          <p class="psm-note">{{localize "PF2E_SHOP.Sell.NoItems"}}</p>
+        {{/each}}
+      </div>
+      <p class="psm-note psm-list-hint">{{localize "PF2E_SHOP.Inventory.ExpandHint"}}</p>
+    </div>
+
+    {{!-- ===== PRAWA: propozycja / stan ===== --}}
+    <section class="psm-gm psm-sell-offer">
+      {{#if building}}
+        <header><h2>{{localize "PF2E_SHOP.Sell.Offer"}}</h2><span class="psm-micro">{{localize "PF2E_SHOP.Sell.Positions" count=count}}</span></header>
+        <div class="psm-offer-list">
+          {{#each lines}}
+            <div class="psm-offer-item" data-item-id="{{id}}">
+              <img class="psm-offer-item__ico" src="{{img}}" alt="" />
+              <span class="psm-offer-item__name">{{name}}</span>
+              <span class="psm-mini-stepper">
+                <button type="button" data-action="less" aria-label="−1"><i class="fa-solid fa-minus" inert></i></button>
+                <span>{{quantity}}</span>
+                <button type="button" data-action="more" aria-label="+1" {{#if atMax}}disabled{{/if}}><i class="fa-solid fa-plus" inert></i></button>
+              </span>
+              <span class="psm-offer-item__val">{{priceText}}</span>
+              <button type="button" class="psm-offer-item__rm" data-action="remove" aria-label="{{localize "PF2E_SHOP.Sell.Remove"}}"><i class="fa-solid fa-xmark" inert></i></button>
+            </div>
+          {{else}}
+            <p class="psm-sell-empty">{{localize "PF2E_SHOP.Sell.EmptyHint"}}</p>
+          {{/each}}
+        </div>
+        <div class="psm-offer-sum">
+          <div class="psm-sum-row psm-sum-row--small"><span class="psm-micro">{{localize "PF2E_SHOP.Purse"}}</span><span class="psm-sum-row__v">{{shopPurse}}</span></div>
+          <div class="psm-sum-row psm-sum-row--small"><span class="psm-micro">{{localize "PF2E_SHOP.Sell.TotalValue"}}</span><span class="psm-sum-row__v">{{totalValue}}</span></div>
+          <div class="psm-sum-row psm-sum-row--main"><span class="psm-micro">{{localize "PF2E_SHOP.Sell.YouGet"}}</span><span class="psm-sum-row__v psm-sum-row__v--big{{#if tooExpensive}} psm-sum-row__v--bad{{/if}}">{{total}}</span></div>
+          {{#if tooExpensive}}<span class="psm-sell-warning"><i class="fa-solid fa-triangle-exclamation" inert></i> {{localize "PF2E_SHOP.Sell.ShopTooPoor"}}</span>{{/if}}
+          <span class="psm-hint">{{localize "PF2E_SHOP.Sell.Rules"}}</span>
+        </div>
+        <button type="submit" class="psm-btn psm-btn--light psm-btn--full" {{#unless canSend}}disabled{{/unless}}>
+          <i class="fa-solid fa-paper-plane" inert></i> {{localize "PF2E_SHOP.Sell.Send"}}
+        </button>
+        <span class="psm-hint">{{localize "PF2E_SHOP.Sell.KeepHint"}}</span>
+
+      {{else if waiting}}
+        <header><h2>{{localize "PF2E_SHOP.Sell.SentTitle"}}</h2></header>
+        <div class="psm-sell-status"><i class="fa-solid fa-hourglass-half" inert></i><span>{{localize "PF2E_SHOP.Sell.Waiting"}}</span></div>
+        <div class="psm-offer-list">
+          {{#each lines}}{{#if accepted}}<div class="psm-offer-item"><span class="psm-offer-item__name">{{acceptedQuantity}}× {{name}}</span><span class="psm-offer-item__val">{{acceptedPriceText}}</span></div>{{/if}}{{/each}}
+        </div>
+        <div class="psm-offer-sum"><div class="psm-sum-row"><span class="psm-micro">{{localize "PF2E_SHOP.Sell.ForAll"}}</span><span class="psm-sum-row__v psm-sum-row__v--big">{{acceptedTotal}}</span></div></div>
+        <button type="button" class="psm-btn psm-btn--ghost psm-btn--full" data-action="withdraw"><i class="fa-solid fa-xmark" inert></i> {{localize "PF2E_SHOP.Sell.Withdraw"}}</button>
+
+      {{else if counter}}
+        <header><h2>{{localize "PF2E_SHOP.Sell.CounterTitle"}}</h2></header>
+        <div class="psm-sell-status"><i class="fa-solid fa-right-left" inert></i><span>{{localize "PF2E_SHOP.Sell.CounterText"}}</span></div>
+        <div class="psm-offer-list">
+          {{#each lines}}
+            <div class="psm-offer-item{{#unless accepted}} psm-offer-item--removed{{/unless}}">
+              <span class="psm-offer-item__name">{{#if accepted}}{{acceptedQuantity}}{{else}}{{quantity}}{{/if}}× {{name}}</span>
+              {{#if partial}}<span class="psm-gm-tag psm-micro">{{localize "PF2E_SHOP.Sell.PartlyWanted" count=quantity}}</span>{{/if}}
+              {{#if accepted}}<span class="psm-offer-item__val">{{acceptedPriceText}}</span>{{else}}<span class="psm-gm-tag psm-micro">{{localize "PF2E_SHOP.Sell.NotWanted"}}</span>{{/if}}
+            </div>
+          {{/each}}
+        </div>
+        <div class="psm-offer-sum"><div class="psm-sum-row"><span class="psm-micro">{{localize "PF2E_SHOP.Sell.YouGet"}}</span><span class="psm-sum-row__v psm-sum-row__v--big">{{acceptedTotal}}</span></div></div>
+        <div class="psm-sell-actions">
+          <button type="button" class="psm-btn psm-btn--ghost" data-action="declineCounter"><i class="fa-solid fa-xmark" inert></i> {{localize "PF2E_SHOP.Sell.Decline"}}</button>
+          <button type="button" class="psm-btn psm-btn--light" data-action="acceptCounter"><i class="fa-solid fa-handshake" inert></i> {{localize "PF2E_SHOP.Sell.Accept"}}</button>
+        </div>
+
+      {{else if done}}
+        <header><h2>{{localize "PF2E_SHOP.Sell.DoneTitle"}}</h2></header>
+        <div class="psm-sell-status psm-sell-status--ok"><i class="fa-solid fa-circle-check" inert></i><span>{{localize "PF2E_SHOP.Sell.DoneText" price=soldTotal}}</span></div>
+        <div class="psm-offer-list">
+          {{#each soldLines}}<div class="psm-offer-item psm-offer-item--sold"><span class="psm-offer-item__name">{{quantity}}× {{name}}</span><span class="psm-offer-item__val">{{priceText}}</span></div>{{/each}}
+        </div>
+        <button type="button" class="psm-btn psm-btn--light psm-btn--full" data-action="again"><i class="fa-solid fa-rotate-left" inert></i> {{localize "PF2E_SHOP.Sell.Again"}}</button>
+
+      {{else}}
+        <header><h2>{{localize "PF2E_SHOP.Sell.RejectedTitle"}}</h2></header>
+        <div class="psm-sell-status psm-sell-status--no"><i class="fa-solid fa-circle-xmark" inert></i><span>{{localize "PF2E_SHOP.Sell.RejectedText"}}</span></div>
+        <span class="psm-hint">{{localize "PF2E_SHOP.Sell.KeptAll"}}</span>
+        <button type="button" class="psm-btn psm-btn--light psm-btn--full" data-action="again"><i class="fa-solid fa-rotate-left" inert></i> {{localize "PF2E_SHOP.Sell.Again"}}</button>
+      {{/if}}
+    </section>
+  </div>
+</div>

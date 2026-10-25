@@ -1,0 +1,70 @@
+<div class="psm-dialog">
+  <header class="psm-item-head">
+    <img class="psm-item-head__img" src="{{img}}" alt="" />
+    <div class="psm-item-head__text">
+      <span class="psm-item-head__name">{{name}}</span>
+      <span class="psm-micro">{{localize "PF2E_SHOP.ItemConfig.Level" level=level}} · {{localize "PF2E_SHOP.Purchase.Stock" stock=stock}}</span>
+    </div>
+  </header>
+
+  <section class="psm-gm" aria-label="{{localize "PF2E_SHOP.Purchase.Section"}}">
+    <header><h2>{{localize "PF2E_SHOP.Purchase.Section"}}</h2></header>
+
+    <div class="psm-modifier__row">
+      <span class="psm-micro">{{localize "PF2E_SHOP.Purchase.UnitPrice"}}</span>
+      <span class="psm-price-value">{{unitPrice}}</span>
+    </div>
+
+    <div class="psm-modifier__row">
+      <label for="psm-buy-qty" class="psm-micro">{{localize "PF2E_SHOP.Purchase.Quantity"}}</label>
+      <div class="psm-stepper">
+        <button type="button" class="psm-stepper__btn" data-action="less" aria-label="−1"><i class="fa-solid fa-minus" inert></i></button>
+        <input id="psm-buy-qty" type="number" name="quantity" min="1" max="{{stock}}" step="1" value="{{quantity}}" />
+        <button type="button" class="psm-stepper__btn" data-action="more" aria-label="+1"><i class="fa-solid fa-plus" inert></i></button>
+        <button type="button" class="psm-btn psm-btn--ghost psm-micro" data-action="max">{{localize "PF2E_SHOP.Purchase.Max"}}</button>
+      </div>
+    </div>
+
+    <div class="psm-modifier__row">
+      <span class="psm-micro">{{localize "PF2E_SHOP.Purchase.Buyer"}}</span>
+      {{#if multipleBuyers}}
+        <select name="buyer" class="psm-buyer-select">
+          {{#each buyers}}<option value="{{id}}" {{#if selected}}selected{{/if}}>{{name}}</option>{{/each}}
+        </select>
+      {{else}}
+        <span class="psm-price-value">{{buyerName}}</span>
+      {{/if}}
+    </div>
+
+    {{#if chooseAmmo}}
+    {{!-- Amunicja specjalna bez typu: gracz wybiera typ (jedna lista, alfabetycznie) --}}
+    <div class="psm-modifier__row">
+      <label for="psm-buy-ammo" class="psm-micro">{{localize "PF2E_SHOP.Purchase.AmmoType"}}</label>
+      <select id="psm-buy-ammo" name="ammoType" class="psm-sort psm-ammo-select">
+        {{#each ammoOptions}}<option value="{{value}}" {{#if selected}}selected{{/if}}>{{label}}</option>{{/each}}
+      </select>
+    </div>
+    {{/if}}
+
+    <div class="psm-modifier__row">
+      <span class="psm-micro">{{localize "PF2E_SHOP.CharacterPurse"}}</span>
+      <span class="psm-price-value" data-funds>{{funds}}</span>
+    </div>
+
+    <div class="psm-modifier__row psm-price-result">
+      <span class="psm-micro">{{localize "PF2E_SHOP.Purchase.Total"}}</span>
+      <span class="psm-price-value psm-price-value--big{{#unless enough}} psm-price-value--bad{{/unless}}" data-total>{{total}}</span>
+    </div>
+    <span class="psm-purchase-warning" data-not-enough {{#if enough}}hidden{{/if}}>
+      <i class="fa-solid fa-triangle-exclamation" inert></i> {{localize "PF2E_SHOP.Purchase.NotEnough"}}
+    </span>
+  </section>
+
+  <footer class="psm-dialog__footer">
+    <span class="psm-spacer"></span>
+    <button type="button" class="psm-btn psm-btn--neutral" data-action="cancel">{{localize "PF2E_SHOP.CategoryConfig.Cancel"}}</button>
+    <button type="submit" class="psm-btn psm-btn--primary" {{#unless enough}}disabled{{/unless}}>
+      <i class="fa-solid fa-cart-shopping" inert></i> {{localize "PF2E_SHOP.Inventory.Buy"}}
+    </button>
+  </footer>
+</div>

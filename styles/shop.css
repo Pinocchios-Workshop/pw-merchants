@@ -1,0 +1,4709 @@
+/*
+ * PF2e Shop — karta merchanta i okno kategorii.
+ * Styl przeniesiony z makiety: kolory, czcionki i tekstury karty postaci PF2e.
+ * Wszystkie klasy mają prefiks "psm-", żeby nie kolidowały ze stylami systemu.
+ */
+
+.pf2e-shop {
+  --psm-primary: var(--color-pf-primary, #5e0000);
+  --psm-primary-dark: #3a0000;
+  --psm-alt: var(--color-pf-alternate, #786452);
+  --psm-alt-dark: var(--color-pf-alternate-dark, #443730);
+  --psm-tertiary: var(--color-pf-tertiary, #e9d7a1);
+  --psm-tertiary-muted: #d9c48c;
+  --psm-gold: #a98f39;
+  --psm-text: #1c1c1c;
+  --psm-text-light: #f8f4f1;
+  --psm-serif: var(--serif, Eczar, Georgia, serif);
+  --psm-body: var(--body-serif, Gelasio, Georgia, serif);
+  --psm-condensed: var(--sans-serif-condensed, "Roboto Condensed", sans-serif);
+  --psm-bg: url("../../../systems/pf2e/assets/sheet/background.webp");
+  --psm-header: url("../../../systems/pf2e/assets/sheet/header.webp");
+}
+
+.pf2e-shop .psm-micro {
+  font-family: var(--psm-condensed);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* ================= Okno karty merchanta ================= */
+
+.app.pf2e-shop.psm-window .window-content {
+  padding: 0;
+  overflow: hidden;
+  background: #f8f4f1;
+}
+
+.app.pf2e-shop.psm-window form.psm-sheet {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  height: 100%;
+  box-sizing: border-box;
+  padding: 14px 20px 20px;
+  overflow-y: auto;
+  color: var(--psm-text);
+  font-family: var(--psm-body);
+  background-color: #f8f4f1;
+  background-image: var(--psm-header), var(--psm-bg);
+  background-repeat: repeat-x, no-repeat;
+  background-size: auto 92px, cover;
+  background-attachment: local;
+}
+
+/* ---------- Góra ---------- */
+
+.psm-sheet .psm-top {
+  display: grid;
+  grid-template-columns: 176px minmax(0, 1fr);
+  gap: 20px;
+  align-items: start;
+}
+
+.psm-sheet .psm-art {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 176px;
+}
+
+.psm-sheet .psm-art .psm-description-btn {
+  width: 100%;
+  justify-content: center;
+}
+
+.psm-sheet .psm-portrait {
+  position: relative;
+  margin: 0;
+  width: 176px;
+  height: 222px;
+  background: linear-gradient(180deg, #5a4c3e, #2f2721);
+  box-shadow:
+    0 0 0 1px #918c88,
+    0 0 0 2px #e1d8cf,
+    0 0 0 3px var(--psm-gold),
+    inset 0 0 10px rgba(0, 0, 0, 0.6),
+    0 0 8px #000;
+}
+
+.psm-sheet .psm-portrait img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+  border: none;
+  border-radius: 0;
+}
+
+.psm-sheet .psm-portrait img[data-edit] {
+  cursor: pointer;
+}
+
+.psm-sheet .psm-portrait figcaption {
+  position: absolute;
+  inset: auto 0 0 0;
+  padding: 6px 4px;
+  text-align: center;
+  color: var(--psm-tertiary);
+  background: rgba(0, 0, 0, 0.55);
+  pointer-events: none;
+}
+
+.psm-sheet .psm-top-main {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+}
+
+.psm-sheet .psm-title-row {
+  min-height: 78px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.psm-sheet .psm-title {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.psm-sheet .psm-title h1 {
+  margin: 0;
+  border: none;
+  font-family: var(--psm-serif);
+  font-weight: 600;
+  font-size: 32px;
+  line-height: 1.1;
+  color: var(--psm-text-light);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.psm-sheet .psm-name-edit {
+  width: 100%;
+  min-width: 0;
+  height: auto;
+  margin: 0;
+  padding: 0 4px;
+  margin-left: -5px;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  background: transparent;
+  box-shadow: none;
+  font-family: var(--psm-serif);
+  font-weight: 600;
+  font-size: 32px;
+  line-height: 1.1;
+  color: var(--psm-text-light);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+  text-overflow: ellipsis;
+}
+
+.psm-sheet .psm-name-edit:hover {
+  border-color: rgba(233, 215, 161, 0.45);
+}
+
+.psm-sheet .psm-name-edit:focus {
+  outline: none;
+  border-color: var(--psm-tertiary);
+  background: rgba(0, 0, 0, 0.3);
+  box-shadow: none;
+}
+
+/* Podtytuł „Merchant” + własne tagi sklepu */
+.psm-sheet .psm-title {
+  position: relative;
+}
+
+/* Jedna linia: „Merchant · tagi … +N +”. Nadmiarowe tagi chowa „+N”. */
+.psm-sheet .psm-shop-tags {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 5px;
+  min-height: 20px;
+  min-width: 0;
+}
+
+.psm-sheet .psm-shop-tags__type,
+.psm-sheet .psm-shop-tags__dot,
+.psm-sheet .psm-shop-tags__more,
+.psm-sheet .psm-shop-tag-add,
+.psm-sheet .psm-shop-tag-input {
+  flex: 0 0 auto;
+}
+
+.psm-sheet .psm-shop-tag-add,
+.psm-sheet .psm-shop-tag__remove {
+  min-width: 0;
+  flex: 0 0 auto;
+}
+
+.psm-sheet .psm-shop-tags__list {
+  flex: 0 1 auto;
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 5px;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.psm-sheet .psm-shop-tags__list:empty {
+  display: none;
+}
+
+.psm-sheet .psm-shop-tag[hidden] {
+  display: none;
+}
+
+.psm-sheet .psm-shop-tag__name {
+  max-width: 160px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.psm-sheet .psm-shop-tags button.psm-shop-tags__more {
+  /* Foundry daje przyciskom szerokość 100% — tu przycisk ma mieć szerokość tekstu. */
+  width: auto;
+  min-width: 0;
+  max-width: max-content;
+  height: 18px;
+  margin: 0;
+  padding: 0 7px;
+  border: 1px solid var(--psm-tertiary);
+  border-radius: 9px;
+  background: var(--psm-tertiary);
+  color: var(--psm-primary-dark);
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 16px;
+  cursor: pointer;
+}
+
+.psm-sheet .psm-shop-tags__more[hidden] {
+  display: none;
+}
+
+.psm-sheet .psm-shop-tags button.psm-shop-tags__more:hover {
+  background: #f3e6bd;
+}
+
+.psm-sheet .psm-shop-tags button.psm-shop-tags__more[aria-expanded="true"] {
+  background: transparent;
+  color: var(--psm-tertiary);
+}
+
+/* Rozwinięta lista wszystkich tagów */
+.psm-sheet .psm-shop-tags__popover {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: max-content;
+  max-width: min(420px, 100%);
+  margin-top: 6px;
+  padding: 10px 12px;
+  border: 1px solid var(--psm-gold);
+  background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.45)), var(--psm-primary);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.6);
+}
+
+.psm-sheet .psm-shop-tags__popover[hidden] {
+  display: none;
+}
+
+.psm-sheet .psm-shop-tags__popover-title {
+  color: var(--psm-tertiary);
+}
+
+.psm-sheet .psm-shop-tags__popover-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.psm-sheet .psm-shop-tags__popover-list .psm-shop-tag {
+  height: auto;
+  min-height: 18px;
+}
+
+.psm-sheet .psm-shop-tags__popover-list .psm-shop-tag__name {
+  max-width: none;
+  white-space: normal;
+}
+
+.psm-sheet .psm-shop-tags__dot {
+  margin: 0 1px;
+  color: var(--psm-tertiary);
+  font-size: 16px;
+  line-height: 1;
+}
+
+.psm-sheet .psm-shop-tag {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  height: 18px;
+  padding: 0 7px;
+  border: 1px solid var(--psm-gold);
+  border-radius: 9px;
+  background: rgba(0, 0, 0, 0.35);
+  color: var(--psm-text-light);
+  font-size: 10px;
+}
+
+.psm-sheet .psm-shop-tag__remove {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 12px;
+  height: 12px;
+  margin: 0 -3px 0 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--psm-tertiary);
+  font-size: 9px;
+  line-height: 1;
+  opacity: 0.6;
+  cursor: pointer;
+}
+
+.psm-sheet .psm-shop-tag__remove:hover {
+  opacity: 1;
+}
+
+.psm-sheet .psm-shop-tag-add {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  padding: 0;
+  border: 1px dashed var(--psm-tertiary);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--psm-tertiary);
+  font-size: 9px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.psm-sheet .psm-shop-tag-add:hover {
+  border-style: solid;
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.psm-sheet .psm-shop-tag-add[hidden] {
+  display: none;
+}
+
+.psm-sheet .psm-shop-tag-input {
+  width: 120px;
+  height: 20px;
+  margin: 0;
+  padding: 0 8px;
+  border: 1px solid var(--psm-tertiary);
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.45);
+  color: var(--psm-text-light);
+  font-size: 10px;
+  text-transform: none;
+}
+
+.psm-sheet .psm-shop-tag-input::placeholder {
+  color: rgba(233, 215, 161, 0.6);
+}
+
+.psm-sheet .psm-shop-tag-input[hidden] {
+  display: none;
+}
+
+.psm-sheet .psm-title .psm-micro,
+.psm-sheet .psm-purse > .psm-micro {
+  color: var(--psm-tertiary);
+}
+
+.psm-sheet .psm-purse {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+}
+
+.psm-sheet .psm-coins {
+  display: flex;
+  justify-content: flex-end;
+  gap: 6px;
+}
+
+.psm-sheet .psm-coin,
+.psm-sheet .psm-coin-edit {
+  padding: 3px 8px;
+  border-radius: 3px;
+  border: 1px solid var(--psm-gold);
+  background: rgba(0, 0, 0, 0.35);
+  color: var(--psm-text-light);
+  font-family: var(--psm-serif);
+  font-size: 15px;
+  line-height: 1.4;
+}
+
+.psm-sheet .psm-coin .psm-micro {
+  color: var(--psm-tertiary);
+}
+
+.psm-sheet .psm-coin-edit {
+  width: 30px;
+  padding: 0;
+  margin: 0;
+  color: var(--psm-tertiary);
+  cursor: pointer;
+}
+
+/* ---------- Panel MG (też w oknie kategorii) ---------- */
+
+.pf2e-shop .psm-gm {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 12px 14px 14px;
+  color: var(--psm-tertiary);
+  background: linear-gradient(rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0.38)), var(--psm-primary);
+  box-shadow: 0 0 0 1px var(--psm-primary-dark), inset 0 0 14px rgba(0, 0, 0, 0.6);
+}
+
+.pf2e-shop .psm-gm header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid var(--psm-tertiary);
+}
+
+.pf2e-shop .psm-gm h2 {
+  margin: 0;
+  border: none;
+  color: var(--psm-tertiary);
+  font-family: var(--psm-condensed);
+  font-size: 14px;
+  font-weight: 600;
+  font-variant: small-caps;
+  letter-spacing: 0.06em;
+}
+
+.psm-sheet .psm-mode {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.psm-sheet .psm-mode select {
+  height: 24px;
+  padding: 0 4px;
+  border: 1px solid var(--psm-gold);
+  background: rgba(0, 0, 0, 0.35);
+  color: var(--psm-text-light);
+  font-family: var(--psm-condensed);
+  font-size: 13px;
+}
+
+.pf2e-shop .psm-modifier {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.pf2e-shop .psm-modifier__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.psm-sheet .psm-modifier__value {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.psm-sheet .psm-modifier__value [data-shop-modifier-label] {
+  font-family: var(--psm-serif);
+  font-size: 20px;
+  color: var(--psm-text-light);
+}
+
+/*
+ * Suwak mnożnika: zielony (taniej) -> jasny środek (100%) -> czerwony (drożej).
+ * Czerwień jest jaśniejsza i cieplejsza niż tło panelu, a pasek ma jasną ramkę
+ * i ciemną obwódkę, żeby nie zlewał się z czerwonym panelem.
+ */
+.pf2e-shop {
+  --psm-mod-thumb: 18px;
+  --psm-mod-track: 10px;
+  --psm-mod-gradient: linear-gradient(90deg,
+      #1f8a4c 0%, #5cb870 28%, #e9dcb4 50%, #f2a65a 72%, #e8432e 100%);
+}
+
+.psm-sheet .psm-modifier input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  display: block;
+  width: 100%;
+  height: var(--psm-mod-thumb);
+  margin: 2px 0 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+  box-shadow: none;
+  cursor: pointer;
+}
+
+.psm-sheet .psm-modifier input[type="range"]:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+/* Pasek (WebKit/Chromium — Foundry działa na Electronie/Chromium) */
+.psm-sheet .psm-modifier input[type="range"]::-webkit-slider-runnable-track {
+  height: var(--psm-mod-track);
+  border: 1px solid var(--psm-tertiary);
+  border-radius: 999px;
+  background:
+    linear-gradient(rgba(28, 28, 28, 0.55), rgba(28, 28, 28, 0.55)) center / 2px 100% no-repeat,
+    var(--psm-mod-gradient);
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.55), inset 0 1px 2px rgba(0, 0, 0, 0.35);
+}
+
+.psm-sheet .psm-modifier input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: var(--psm-mod-thumb);
+  height: var(--psm-mod-thumb);
+  margin-top: calc((var(--psm-mod-track) - 2px - var(--psm-mod-thumb)) / 2);
+  border: 2px solid var(--psm-primary-dark);
+  border-radius: 50%;
+  background: var(--psm-tertiary);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+}
+
+.psm-sheet .psm-modifier input[type="range"]:focus-visible::-webkit-slider-thumb {
+  box-shadow: 0 0 0 3px rgba(233, 215, 161, 0.55), 0 1px 3px rgba(0, 0, 0, 0.6);
+}
+
+/* Pasek (Firefox) */
+.psm-sheet .psm-modifier input[type="range"]::-moz-range-track {
+  height: var(--psm-mod-track);
+  border: 1px solid var(--psm-tertiary);
+  border-radius: 999px;
+  background:
+    linear-gradient(rgba(28, 28, 28, 0.55), rgba(28, 28, 28, 0.55)) center / 2px 100% no-repeat,
+    var(--psm-mod-gradient);
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.55), inset 0 1px 2px rgba(0, 0, 0, 0.35);
+}
+
+.psm-sheet .psm-modifier input[type="range"]::-moz-range-thumb {
+  width: var(--psm-mod-thumb);
+  height: var(--psm-mod-thumb);
+  box-sizing: border-box;
+  border: 2px solid var(--psm-primary-dark);
+  border-radius: 50%;
+  background: var(--psm-tertiary);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+}
+
+/*
+ * Podziałka: trzy kolumny o równych bokach, więc „100%” stoi dokładnie
+ * na środku paska (tam, gdzie środek suwaka przy wartości 100).
+ */
+.psm-sheet .psm-modifier__scale {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  color: var(--psm-tertiary-muted);
+}
+
+.psm-sheet .psm-modifier__scale > :first-child { text-align: left; }
+.psm-sheet .psm-modifier__scale > :nth-child(2) { text-align: center; }
+.psm-sheet .psm-modifier__scale > :last-child { text-align: right; }
+
+.psm-sheet .psm-gm__buttons {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+/* ---------- Przyciski ---------- */
+
+.pf2e-shop .psm-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: auto;
+  min-height: 34px;
+  margin: 0;
+  padding: 0 12px;
+  border-radius: 2px;
+  font-family: var(--psm-condensed);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: none;
+}
+
+.pf2e-shop .psm-btn.psm-micro {
+  min-height: 24px;
+  padding: 0 8px;
+  font-size: 11px;
+}
+
+.psm-sheet .psm-gm__buttons .psm-btn {
+  flex: 1 1 0;
+  min-height: 36px;
+}
+
+.pf2e-shop .psm-btn--light {
+  border: 1px solid var(--psm-gold);
+  background: var(--psm-tertiary);
+  color: var(--psm-primary-dark);
+}
+
+.pf2e-shop .psm-btn--ghost {
+  border: 1px solid var(--psm-gold);
+  background: rgba(0, 0, 0, 0.3);
+  color: var(--psm-tertiary);
+}
+
+.pf2e-shop .psm-btn--primary,
+.pf2e-shop .psm-btn--buy {
+  border: 1px solid var(--psm-primary-dark);
+  background: var(--psm-primary);
+  color: var(--psm-text-light);
+}
+
+.pf2e-shop .psm-btn--neutral {
+  border: 1px solid var(--psm-alt);
+  background: rgba(248, 244, 241, 0.7);
+  color: var(--psm-alt-dark);
+}
+
+.pf2e-shop .psm-btn--danger {
+  border: 1px solid var(--psm-primary);
+  background: transparent;
+  color: var(--psm-primary);
+}
+
+.pf2e-shop .psm-btn:hover {
+  filter: brightness(1.12);
+}
+
+.pf2e-shop .psm-icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 28px;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+  box-shadow: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+.pf2e-shop .psm-icon-btn--danger {
+  color: var(--psm-primary);
+}
+
+/* ---------- Opis sklepu (gracz) ---------- */
+
+.psm-sheet .psm-description {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-height: 120px;
+  /* Opis kończy się na wysokości artu: dłuższy tekst przewija się w środku. */
+  box-sizing: border-box;
+  max-height: 132px;
+  padding: 12px 14px;
+  background: rgba(248, 244, 241, 0.8);
+  border: 1px solid var(--psm-alt);
+  box-shadow: inset 0 0 8px rgba(120, 100, 82, 0.25);
+}
+
+.psm-sheet .psm-description h2 {
+  margin: 0;
+  padding-bottom: 4px;
+  border-bottom: 1px solid var(--psm-alt);
+  color: var(--psm-primary);
+  font-family: var(--psm-condensed);
+  font-size: 14px;
+  font-weight: 600;
+  font-variant: small-caps;
+  letter-spacing: 0.06em;
+}
+
+.psm-sheet .psm-description__text,
+.psm-sheet .psm-description__empty {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.psm-sheet .psm-description__text {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  padding-right: 6px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--psm-alt) transparent;
+}
+
+.psm-sheet .psm-description__text > :first-child {
+  margin-top: 0;
+}
+
+.psm-sheet .psm-description__text > :last-child {
+  margin-bottom: 0;
+}
+
+.psm-sheet .psm-description__empty {
+  font-style: italic;
+  opacity: 0.75;
+}
+
+/* ---------- Filtry ---------- */
+
+.psm-sheet .psm-filters {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px 12px;
+  background: rgba(248, 244, 241, 0.75);
+  border: 1px solid var(--psm-alt);
+}
+
+/* Ukryte przez filtry (nadpisuje display: flex wierszy) */
+.psm-sheet .psm-item[hidden] {
+  display: none !important;
+}
+
+.psm-sheet .psm-filters__reset {
+  min-height: 30px;
+  align-self: flex-end;
+}
+
+.psm-sheet .psm-filters__reset:disabled {
+  opacity: 0.5;
+  cursor: default;
+  filter: none;
+}
+
+/* Zakresy poziomu i ceny: osobne, obramowane grupy z odstępem */
+.psm-sheet .psm-filters__row--ranges {
+  gap: 16px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(120, 100, 82, 0.35);
+}
+
+.psm-sheet .psm-range {
+  gap: 6px;
+  padding: 6px 10px 8px;
+  border: 1px solid rgba(120, 100, 82, 0.55);
+  border-radius: 2px;
+  background: rgba(120, 100, 82, 0.08);
+}
+
+.psm-sheet .psm-range__label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+  color: var(--psm-alt-dark);
+}
+
+.psm-sheet .psm-range__label i {
+  color: var(--psm-alt);
+}
+
+.psm-sheet .psm-level.psm-price-range input {
+  width: 64px;
+}
+
+.psm-sheet .psm-spacer {
+  flex: 1 1 auto;
+}
+
+.psm-sheet .psm-level input::placeholder {
+  color: rgba(28, 28, 28, 0.35);
+}
+
+.psm-sheet .psm-search input[type="search"]::-webkit-search-cancel-button {
+  cursor: pointer;
+}
+
+.psm-sheet .psm-item--no-match {
+  font-size: 13px;
+}
+
+.psm-sheet .psm-filters__row {
+  display: flex;
+  gap: 12px;
+  align-items: flex-end;
+  flex-wrap: wrap;
+}
+
+.pf2e-shop .psm-field {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.pf2e-shop .psm-field > .psm-micro,
+.psm-sheet .psm-level .psm-micro,
+.psm-sheet .psm-chips > .psm-micro {
+  color: var(--psm-alt-dark);
+}
+
+.psm-sheet .psm-field--grow {
+  flex: 1 1 220px;
+}
+
+.psm-sheet .psm-search {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 30px;
+  padding: 0 8px;
+  border: 1px solid var(--psm-alt);
+  background: rgba(28, 28, 28, 0.06);
+  color: var(--psm-alt-dark);
+}
+
+.psm-sheet .psm-search input {
+  flex: 1;
+  height: 100%;
+  border: none;
+  background: transparent;
+  box-shadow: none;
+  font-family: var(--psm-body);
+  font-size: 14px;
+  color: var(--psm-text);
+}
+
+.psm-sheet .psm-level {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.psm-sheet .psm-level input {
+  width: 46px;
+  height: 30px;
+  text-align: center;
+  border: 1px solid var(--psm-alt);
+  background: rgba(28, 28, 28, 0.06);
+  color: var(--psm-text);
+  font-family: var(--psm-serif);
+  font-size: 15px;
+}
+
+/* Lista rozwijana w stylu sortowania karty sklepu — jedna reguła także dla innych okien
+ * modułu (np. typ amunicji w oknie zakupu). */
+.psm-sheet .psm-sort,
+.pf2e-shop .psm-sort {
+  height: 30px;
+  padding: 0 6px;
+  border: 1px solid var(--psm-alt);
+  background: var(--psm-alt);
+  color: var(--psm-text-light);
+  font-family: var(--psm-condensed);
+  font-size: 14px;
+}
+
+/*
+ * Rozwinięta lista opcji: przeglądarka rysuje ją na białym tle, a opcje
+ * dziedziczyły jasny tekst z pola. Jedna reguła dla wszystkich list rozwijanych
+ * modułu (sortowanie, tryb Loot/Merchant, kupujący, tryb losowania listy towaru…):
+ * opcje mają ciemne tło i jasny tekst.
+ */
+.pf2e-shop select option {
+  background: #3b2f27;
+  color: var(--psm-text-light);
+}
+
+.pf2e-shop select option:checked {
+  background: var(--psm-primary);
+  color: #fff;
+}
+
+.psm-sheet .psm-chips {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.psm-sheet .psm-chip {
+  width: auto;
+  min-height: 28px;
+  margin: 0;
+  padding: 0 10px;
+  border: 1px solid var(--psm-alt-dark);
+  border-radius: 14px;
+  background: var(--psm-alt-dark);
+  color: var(--psm-text-light);
+  font-family: var(--psm-condensed);
+  font-size: 13px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.psm-sheet .psm-chip[aria-pressed="false"] {
+  background: transparent;
+  color: var(--psm-alt-dark);
+  border-style: dashed;
+  opacity: 0.6;
+}
+
+.psm-sheet .psm-chip__hidden-icon {
+  display: none;
+  margin-right: 5px;
+}
+
+.psm-sheet .psm-chip[aria-pressed="false"] .psm-chip__hidden-icon {
+  display: inline;
+}
+
+.psm-sheet .psm-category[hidden] {
+  display: none !important;
+}
+
+/* ---------- Lista towaru (też tabela w oknie kategorii) ---------- */
+
+.psm-sheet .psm-body {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.pf2e-shop .psm-category {
+  display: flex;
+  flex-direction: column;
+}
+
+.pf2e-shop .psm-category__header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 30px;
+  padding: 0 8px;
+  background: var(--psm-alt);
+  color: var(--psm-text-light);
+}
+
+.pf2e-shop .psm-category__header h3 {
+  margin: 0;
+  border: none;
+  color: inherit;
+  font-family: var(--psm-serif);
+  font-size: 16px;
+  font-weight: 600;
+  text-shadow: 0 0 2px rgba(0, 0, 0, 0.6);
+}
+
+.psm-sheet .psm-category__controls {
+  display: inline-flex;
+  gap: 2px;
+}
+
+.psm-sheet .psm-category__controls .psm-icon-btn {
+  width: 26px;
+  height: 24px;
+  border-radius: 2px;
+  color: var(--psm-text-light);
+}
+
+.psm-sheet .psm-category__controls .psm-icon-btn:hover:not(:disabled) {
+  background: rgba(0, 0, 0, 0.25);
+}
+
+.psm-sheet .psm-category__controls .psm-icon-btn:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+/* Kolumna akcji MG: w nagłówku zębatka + kosz, w wierszu kosz pod koszem nagłówka (skrajnie z prawej) */
+.psm-sheet .psm-category__header .psm-col--action {
+  width: 54px;
+  display: inline-flex;
+  justify-content: flex-start;
+}
+
+/* Wiersz (MG): zębatka pod zębatką kategorii, kosz pod koszem kategorii */
+.psm-sheet .psm-item .psm-item__controls {
+  width: 54px;
+  display: inline-flex;
+  gap: 2px;
+}
+
+.psm-sheet .psm-item__controls .psm-icon-btn {
+  width: 26px;
+  height: 24px;
+  border-radius: 2px;
+}
+
+.psm-sheet .psm-item__controls .psm-icon-btn:not(.psm-icon-btn--danger) {
+  color: var(--psm-alt-dark);
+}
+
+.psm-sheet .psm-item__controls .psm-icon-btn:hover {
+  background: rgba(0, 0, 0, 0.08);
+}
+
+/* Znacznik własnej ceny bazowej (tylko MG) */
+.psm-sheet .psm-custom-price {
+  font-size: 10px;
+  color: var(--psm-gold);
+}
+
+.psm-sheet .psm-icon-spacer {
+  width: 26px;
+}
+
+.psm-sheet .psm-count {
+  padding: 1px 6px;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.25);
+}
+
+.pf2e-shop .psm-category__meta {
+  flex: 1 1 auto;
+  min-width: 0;
+  color: #f3e9cf;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.pf2e-shop .psm-col { flex: 0 0 auto; }
+.pf2e-shop .psm-col--level { width: 40px; text-align: center; }
+.pf2e-shop .psm-col--price { width: 96px; text-align: right; }
+.pf2e-shop .psm-col--qty { width: 52px; text-align: center; }
+.pf2e-shop .psm-col--bulk { width: 52px; text-align: center; }
+.pf2e-shop .psm-col--action { width: 30px; }
+.pf2e-shop .psm-col--buy { width: 74px; }
+.pf2e-shop .psm-col--weight { width: 52px; text-align: center; }
+.pf2e-shop .psm-col--chance { width: 56px; text-align: right; }
+
+.pf2e-shop .psm-items {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border: 1px solid var(--psm-alt);
+  border-top: none;
+  background: rgba(248, 244, 241, 0.55);
+}
+
+.pf2e-shop .psm-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 36px;
+  padding: 2px 8px;
+  border-left: 3px solid transparent;
+}
+
+.pf2e-shop .psm-item.odd {
+  background: rgba(120, 100, 82, 0.12);
+}
+
+.pf2e-shop .psm-item--empty {
+  justify-content: center;
+  font-style: italic;
+  opacity: 0.75;
+}
+
+.psm-sheet .psm-item__img {
+  width: 28px;
+  height: 28px;
+  flex: 0 0 auto;
+  border: none;
+  box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.6);
+}
+
+.pf2e-shop .psm-item__name {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.psm-sheet .psm-item {
+  flex-wrap: wrap;
+}
+
+/* Nazwa przedmiotu jako przycisk rozwijający opis */
+.psm-sheet .psm-item__toggle {
+  flex: 0 1 auto;
+  width: auto;
+  min-width: 0;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: none;
+  box-shadow: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  line-height: inherit;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.psm-sheet .psm-item__toggle:hover,
+.psm-sheet .psm-item__toggle:focus-visible {
+  color: var(--psm-primary);
+  text-decoration: underline;
+}
+
+/* Rozwinięty opis przedmiotu: pełna szerokość pod wierszem */
+.psm-sheet .psm-item__summary {
+  flex: 0 0 100%;
+  box-sizing: border-box;
+  margin: 2px 0 4px;
+  border-top: 1px dashed var(--psm-alt);
+  font-weight: 400;
+  cursor: auto;
+}
+
+.pf2e-shop .psm-item__name > span:first-child {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.psm-sheet .psm-rarity {
+  padding: 1px 5px;
+  color: #fff;
+  border: 1px solid var(--psm-tertiary);
+  font-weight: 400;
+}
+
+.psm-sheet .psm-item .psm-col--level,
+.psm-sheet .psm-item .psm-col--bulk,
+.psm-sheet .psm-item .psm-col--qty,
+.psm-sheet .psm-item .psm-col--weight,
+.psm-sheet .psm-item .psm-col--chance {
+  font-family: var(--psm-serif);
+  font-size: 15px;
+}
+
+.psm-sheet .psm-item .psm-col--price {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  line-height: 1.15;
+  font-size: 14px;
+}
+
+.psm-sheet .psm-base {
+  font-size: 10px;
+  color: #5a4c3e;
+}
+
+.psm-sheet .psm-item .psm-col--qty input,
+.psm-sheet .psm-item .psm-col--weight input,
+.psm-sheet .psm-item .psm-col--limit input {
+  width: 44px;
+  height: 26px;
+  text-align: center;
+  border: 1px solid var(--psm-alt);
+  background: rgba(255, 255, 255, 0.5);
+  color: var(--psm-text);
+  font-family: var(--psm-serif);
+  font-size: 14px;
+}
+
+.psm-sheet .psm-btn--buy {
+  min-height: 30px;
+  padding: 0 8px;
+  font-size: 13px;
+}
+
+/* Zmiana kolejności kategorii: uchwyt w nagłówku i znacznik miejsca upuszczenia */
+.psm-sheet .psm-cat-handle {
+  width: 22px;
+  height: 24px;
+  margin-left: -4px;
+  color: var(--psm-text-light);
+  opacity: 0.75;
+  cursor: grab;
+}
+
+.psm-sheet .psm-cat-handle:hover,
+.psm-sheet .psm-cat-handle:focus-visible {
+  opacity: 1;
+  background: rgba(0, 0, 0, 0.25);
+}
+
+.psm-sheet .psm-cat-handle:active {
+  cursor: grabbing;
+}
+
+.psm-sheet .psm-category.psm-reordering {
+  opacity: 0.45;
+}
+
+.psm-sheet .psm-category.psm-reorder-before {
+  box-shadow: 0 -7px 0 -4px var(--psm-primary);
+}
+
+.psm-sheet .psm-category.psm-reorder-after {
+  box-shadow: 0 7px 0 -4px var(--psm-primary);
+}
+
+/* Przedmiot z ilością 0: zostaje na liście jako wyprzedany */
+.psm-sheet .psm-item--sold-out .psm-item__img,
+.psm-sheet .psm-item--sold-out .psm-item__toggle,
+.psm-sheet .psm-item--sold-out .psm-col--level,
+.psm-sheet .psm-item--sold-out .psm-col--price,
+.psm-sheet .psm-item--sold-out .psm-col--bulk {
+  opacity: 0.5;
+}
+
+.psm-sheet .psm-sold-out {
+  padding: 1px 5px;
+  border: 1px solid var(--psm-alt);
+  color: var(--psm-alt-dark);
+  font-weight: 400;
+}
+
+/* Kategoria, nad którą MG trzyma przeciągany przedmiot */
+.psm-sheet .psm-category.psm-drop-target {
+  outline: 2px solid var(--psm-primary);
+  outline-offset: 2px;
+}
+
+.psm-sheet .psm-drop-hint {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  margin: 0;
+  border: 1px dashed var(--psm-alt);
+  background: rgba(248, 244, 241, 0.5);
+  color: var(--psm-alt-dark);
+  font-style: italic;
+  font-size: 14px;
+}
+
+/* ================= Okno ustawień kategorii ================= */
+
+.psm-category-window .window-content {
+  padding: 0;
+}
+
+.psm-category-window .psm-dialog {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 18px 20px 20px;
+  color: var(--psm-text);
+  font-family: var(--psm-body);
+  background: #f8f4f1 var(--psm-bg) center / cover;
+}
+
+.psm-category-window .psm-name-input {
+  height: 34px;
+  padding: 0 10px;
+  border: 1px solid var(--psm-alt);
+  background: rgba(255, 255, 255, 0.55);
+  color: var(--psm-text);
+  font-family: var(--psm-serif);
+  font-size: 17px;
+}
+
+.psm-category-window .psm-hint {
+  font-size: 12px;
+  font-style: italic;
+  color: var(--psm-tertiary-muted);
+}
+
+/* Lista pozycji tabeli: przewijana, nagłówek zostaje na miejscu */
+.psm-category-window .psm-entries {
+  max-height: 260px;
+  overflow-y: auto;
+  scrollbar-gutter: stable;
+}
+
+.psm-category-window .psm-tag {
+  padding: 1px 5px;
+  border: 1px solid var(--psm-alt);
+  color: var(--psm-alt-dark);
+  font-weight: 400;
+}
+
+.psm-category-window .psm-item__img {
+  width: 24px;
+  height: 24px;
+  flex: 0 0 auto;
+  border: none;
+}
+
+.psm-category-window .psm-table-zone.psm-drop-target {
+  outline: 2px solid var(--psm-tertiary);
+  outline-offset: 2px;
+}
+
+.psm-category-window .psm-gm .psm-field > .psm-micro,
+.psm-category-window .psm-gm .psm-modifier__row label {
+  color: var(--psm-tertiary);
+}
+
+.psm-category-window .psm-table-link,
+.psm-category-window .psm-table-drop {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 48px;
+  padding: 8px 10px;
+  border: 1px solid var(--psm-gold);
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.psm-category-window .psm-table-drop {
+  justify-content: center;
+  border-style: dashed;
+  font-style: italic;
+  font-size: 13px;
+}
+
+.psm-category-window .psm-table-link__text {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.psm-category-window .psm-table-link__name {
+  font-family: var(--psm-serif);
+  font-size: 16px;
+  color: var(--psm-text-light);
+}
+
+.psm-category-window .psm-count-input {
+  width: 64px;
+  height: 32px;
+  text-align: center;
+  border: 1px solid #956d58;
+  background: rgba(0, 0, 0, 0.35);
+  color: var(--psm-text-light);
+  font-family: var(--psm-serif);
+  font-size: 17px;
+}
+
+.psm-category-window .psm-note {
+  margin: 6px 0 0;
+  font-size: 12px;
+  font-style: italic;
+  color: var(--psm-alt-dark);
+}
+
+.psm-category-window .psm-dialog__footer {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.psm-category-window .psm-spacer {
+  flex: 1 1 auto;
+}
+
+/* ================= Okno losowania ================= */
+
+.psm-randomize-window .psm-dialog__intro {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--psm-alt-dark);
+}
+
+.psm-randomize-window .psm-entries {
+  max-height: 220px;
+}
+
+.psm-randomize-window .psm-randomize__row {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.psm-randomize-window .psm-randomize__check {
+  flex: 0 0 auto;
+  width: 16px;
+  height: 16px;
+  margin: 0 4px 0 0;
+  accent-color: var(--psm-primary);
+  cursor: pointer;
+}
+
+.psm-randomize-window .psm-category__header .psm-randomize__check {
+  accent-color: var(--psm-tertiary);
+}
+
+.psm-randomize-window .psm-item:has(.psm-randomize__check:not(:checked)) .psm-item__name,
+.psm-randomize-window .psm-item:has(.psm-randomize__check:not(:checked)) .psm-randomize__table,
+.psm-randomize-window .psm-item:has(.psm-randomize__check:not(:checked)) .psm-randomize__range {
+  opacity: 0.45;
+}
+
+.psm-randomize-window .psm-randomize__none {
+  margin: 6px 0 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--psm-primary);
+}
+
+.psm-randomize-window button[type="submit"]:disabled {
+  opacity: 0.5;
+  cursor: default;
+  filter: none;
+}
+
+.psm-randomize-window .psm-randomize__table {
+  flex: 0 1 auto;
+  max-width: 45%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--psm-alt-dark);
+}
+
+.pf2e-shop .psm-modes {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.pf2e-shop .psm-mode-card {
+  position: relative;
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  padding: 10px 12px;
+  border: 1px solid var(--psm-gold);
+  background: rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+}
+
+.pf2e-shop .psm-mode-card:has(input:checked) {
+  background: var(--psm-tertiary);
+  border-color: var(--psm-tertiary);
+}
+
+.pf2e-shop .psm-mode-card input {
+  margin: 3px 0 0;
+  accent-color: var(--psm-primary);
+}
+
+.pf2e-shop .psm-mode-card input:focus-visible {
+  outline: 2px solid var(--psm-text-light);
+  outline-offset: 2px;
+}
+
+.pf2e-shop .psm-mode-card__body {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.pf2e-shop .psm-mode-card__title {
+  font-family: var(--psm-condensed);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--psm-text-light);
+}
+
+.pf2e-shop .psm-mode-card__text {
+  font-size: 12px;
+  line-height: 1.4;
+  color: var(--psm-tertiary-muted);
+}
+
+.pf2e-shop .psm-mode-card:has(input:checked) .psm-mode-card__title {
+  color: var(--psm-primary-dark);
+}
+
+.pf2e-shop .psm-mode-card:has(input:checked) .psm-mode-card__text {
+  color: var(--psm-alt-dark);
+}
+
+/* ================= Okno usuwania kategorii ================= */
+
+.psm-delete-window .psm-delete__head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.psm-delete-window .psm-delete__icon {
+  flex: 0 0 auto;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--psm-gold);
+  background: rgba(0, 0, 0, 0.35);
+  color: var(--psm-tertiary);
+  font-size: 18px;
+}
+
+.psm-delete-window .psm-delete__text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.psm-delete-window .psm-gm h2.psm-delete__name {
+  margin: 0;
+  border: none;
+  font-family: var(--psm-serif);
+  font-size: 22px;
+  font-weight: 600;
+  font-variant: normal;
+  letter-spacing: 0;
+  color: var(--psm-text-light);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.psm-delete-window .psm-delete__facts {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.psm-delete-window .psm-delete__facts li {
+  display: flex;
+  gap: 10px;
+  align-items: baseline;
+}
+
+.psm-delete-window .psm-delete__facts i {
+  width: 18px;
+  text-align: center;
+  color: var(--psm-alt);
+}
+
+/* ================= Okno opróżniania kategorii ================= */
+
+.psm-category-window .psm-warning {
+  display: flex;
+  gap: 8px;
+  align-items: baseline;
+  margin: 0;
+  padding: 8px 10px;
+  border: 1px solid var(--psm-primary);
+  background: rgba(94, 0, 0, 0.08);
+  color: var(--psm-primary);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.psm-category-window .psm-entries .psm-col--qty {
+  font-family: var(--psm-serif);
+  font-size: 15px;
+}
+
+/* ================= Okno ustawień przedmiotu ================= */
+
+.psm-item-window .psm-item-head,
+.psm-purchase-window .psm-item-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.psm-item-window .psm-item-head__img,
+.psm-purchase-window .psm-item-head__img {
+  width: 48px;
+  height: 48px;
+  flex: 0 0 auto;
+  border: 1px solid var(--psm-alt);
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.psm-item-window .psm-item-head__text,
+.psm-purchase-window .psm-item-head__text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  color: var(--psm-alt-dark);
+}
+
+.psm-item-window .psm-item-head__name,
+.psm-purchase-window .psm-item-head__name {
+  font-family: var(--psm-serif);
+  font-size: 20px;
+  line-height: 1.2;
+  color: var(--psm-text);
+}
+
+.psm-item-window .psm-gm .psm-micro,
+.psm-purse-window .psm-gm .psm-micro,
+.psm-purchase-window .psm-gm .psm-micro {
+  color: var(--psm-tertiary);
+}
+
+.psm-item-window .psm-price-value,
+.psm-purse-window .psm-price-value,
+.psm-purchase-window .psm-price-value {
+  font-family: var(--psm-serif);
+  font-size: 16px;
+  color: var(--psm-text-light);
+}
+
+.psm-item-window .psm-price-value--big,
+.psm-purse-window .psm-price-value--big,
+.psm-purchase-window .psm-price-value--big {
+  font-size: 20px;
+}
+
+.pf2e-shop .psm-check {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  align-self: flex-start;
+  color: var(--psm-text-light);
+  font-size: 14px;
+  line-height: 18px;
+  cursor: pointer;
+}
+
+/* Natywne pole ukryte (zostaje dla klawiatury i czytników), rysujemy własne pole. */
+.pf2e-shop .psm-check__input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.pf2e-shop .psm-check__box {
+  position: relative;
+  flex: 0 0 auto;
+  width: 18px;
+  height: 18px;
+  border: 1px solid var(--psm-gold);
+  border-radius: 2px;
+  background: #fff;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* Po zaznaczeniu pojawia się tylko ptaszek, pole zostaje białe. */
+.pf2e-shop .psm-check__input:checked + .psm-check__box::after {
+  content: "";
+  position: absolute;
+  left: 5px;
+  top: 1px;
+  width: 5px;
+  height: 10px;
+  border: solid var(--psm-primary);
+  border-width: 0 2.5px 2.5px 0;
+  transform: rotate(45deg);
+}
+
+.pf2e-shop .psm-check__input:focus-visible + .psm-check__box {
+  outline: 2px solid var(--psm-tertiary);
+  outline-offset: 2px;
+}
+
+.psm-item-window .psm-price-editor,
+.psm-purse-window .psm-price-editor {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+  transition: opacity 0.15s;
+}
+
+.psm-item-window .psm-price-editor--off {
+  opacity: 0.45;
+}
+
+.psm-item-window .psm-coin-input,
+.psm-purse-window .psm-coin-input {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.psm-item-window .psm-coin-input input,
+.psm-purse-window .psm-coin-input input {
+  width: 100%;
+  min-width: 0;
+  height: 32px;
+  text-align: center;
+  border: 1px solid #956d58;
+  background: rgba(0, 0, 0, 0.35);
+  color: var(--psm-text-light);
+  font-family: var(--psm-serif);
+  font-size: 16px;
+}
+
+.psm-item-window .psm-coin-input input:disabled {
+  cursor: not-allowed;
+}
+
+.psm-item-window .psm-price-result,
+.psm-purse-window .psm-price-result,
+.psm-purchase-window .psm-price-result {
+  padding-top: 10px;
+  border-top: 1px solid rgba(233, 215, 161, 0.35);
+}
+
+.psm-item-window .psm-dialog__footer .psm-btn:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+/* ================= Okno kasy sklepu ================= */
+
+.psm-purse-window .psm-purse-editor {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px 14px;
+}
+
+/* ================= Okno opisu sklepu ================= */
+
+.psm-description-window .psm-dialog__intro {
+  margin: 0;
+  font-size: 14px;
+  color: var(--psm-alt-dark);
+}
+
+.psm-description-window .psm-description-slot {
+  display: flex;
+  flex-direction: column;
+  min-height: 320px;
+  border: 1px solid var(--psm-alt);
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.psm-description-window .psm-description-slot > prose-mirror,
+.psm-description-window .psm-description-slot > textarea {
+  flex: 1 1 auto;
+  min-height: 320px;
+}
+
+.psm-description-window .psm-description-slot > textarea {
+  padding: 8px;
+  border: none;
+  background: transparent;
+  font-family: var(--psm-body);
+  font-size: 14px;
+  resize: vertical;
+}
+
+/* ================= Okno zakupu ================= */
+
+.psm-purchase-window .psm-stepper {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.psm-purchase-window .psm-stepper input {
+  width: 64px;
+  height: 30px;
+  text-align: center;
+  border: 1px solid #956d58;
+  background: rgba(0, 0, 0, 0.35);
+  color: var(--psm-text-light);
+  font-family: var(--psm-serif);
+  font-size: 16px;
+}
+
+.psm-purchase-window .psm-stepper__btn {
+  width: 28px;
+  min-width: 0;
+  height: 28px;
+  flex: 0 0 auto;
+  margin: 0;
+  padding: 0;
+  border: 1px solid var(--psm-gold);
+  border-radius: 3px;
+  background: rgba(0, 0, 0, 0.3);
+  color: var(--psm-tertiary);
+  font-size: 11px;
+  cursor: pointer;
+}
+
+.psm-purchase-window .psm-stepper .psm-btn {
+  width: auto;
+  flex: 0 0 auto;
+  margin-left: 4px;
+}
+
+.psm-purchase-window .psm-buyer-select {
+  height: 28px;
+  max-width: 220px;
+  border: 1px solid var(--psm-gold);
+  background: rgba(0, 0, 0, 0.35);
+  color: var(--psm-text-light);
+  font-family: var(--psm-serif);
+  font-size: 15px;
+}
+
+.psm-purchase-window .psm-price-value--bad {
+  color: #ff9a85;
+}
+
+.psm-purchase-window .psm-purchase-warning {
+  color: #ffc9b8;
+  font-size: 13px;
+  font-style: italic;
+}
+
+.psm-purchase-window .psm-purchase-warning[hidden] {
+  display: none;
+}
+
+.psm-purchase-window .psm-dialog__footer .psm-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.psm-sheet .psm-btn--buy:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* ================= Sprzedaż (gracz) i propozycja (MG) ================= */
+
+.psm-sell-window .psm-dialog {
+  gap: 14px;
+}
+
+.psm-sell-window .psm-sell-head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 14px;
+  color: var(--psm-text-light);
+  background: linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.4)), var(--psm-primary);
+  box-shadow: 0 0 0 1px var(--psm-primary-dark), inset 0 0 14px rgba(0, 0, 0, 0.6);
+}
+
+.psm-sell-window .psm-sell-portrait {
+  width: 64px;
+  height: 64px;
+  flex: 0 0 auto;
+  object-fit: cover;
+  object-position: top;
+  border: none;
+  background: linear-gradient(180deg, #6b5a49, #2f2721);
+  box-shadow: 0 0 0 1px #918c88, 0 0 0 2px #e1d8cf, 0 0 0 3px var(--psm-gold);
+}
+
+.psm-sell-window .psm-sell-head__who {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.psm-sell-window .psm-sell-head__name {
+  font: 600 22px/1.1 var(--psm-serif);
+}
+
+.psm-sell-window .psm-sell-head__select {
+  max-width: 260px;
+}
+
+.psm-sell-window .psm-sell-head__meta,
+.psm-sell-window .psm-sell-head__side .psm-micro {
+  color: var(--psm-tertiary);
+}
+
+.psm-sell-window .psm-sell-head__side {
+  margin-left: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+}
+
+.psm-sell-window .psm-sell-head__money {
+  font: 17px var(--psm-serif);
+}
+
+.psm-sell-window .psm-sell-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+  gap: 16px;
+  align-items: start;
+}
+
+.psm-sell-window .psm-sell-grid--review {
+  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+}
+
+/* Lewa kolumna: ekwipunek */
+.psm-sell-window .psm-sell-inv {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+}
+
+.psm-sell-window .psm-sell-inv--locked .psm-sell-scroll {
+  opacity: 0.55;
+}
+
+.psm-sell-window .psm-sell-search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 30px;
+  padding: 0 8px;
+  border: 1px solid var(--psm-alt);
+  background: rgba(255, 255, 255, 0.55);
+  color: var(--psm-alt-dark);
+}
+
+.psm-sell-window .psm-sell-search input {
+  flex: 1 1 auto;
+  height: 28px;
+  border: none;
+  background: transparent;
+  box-shadow: none;
+  font-family: var(--psm-body);
+  font-size: 14px;
+}
+
+.psm-sell-window .psm-sell-scroll {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: 480px;
+  overflow-y: auto;
+  padding-right: 4px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--psm-alt) transparent;
+}
+
+.psm-sell-window .psm-item[hidden] {
+  display: none;
+}
+
+.psm-sell-window .psm-sell-ico {
+  width: 24px;
+  height: 24px;
+  flex: 0 0 auto;
+  border: 1px solid var(--psm-alt);
+}
+
+.psm-sell-window .psm-sell-col--qty { width: 40px; text-align: center; flex: 0 0 auto; }
+.psm-sell-window .psm-sell-col--lvl { width: 34px; text-align: center; flex: 0 0 auto; }
+.psm-sell-window .psm-sell-col--val { width: 70px; text-align: right; flex: 0 0 auto; }
+.psm-sell-window .psm-sell-col--act { width: 30px; display: flex; justify-content: flex-end; flex: 0 0 auto; }
+.psm-sell-window .psm-sell-col--pay {
+  width: 100px;
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+  text-align: right;
+}
+
+.psm-sell-window .psm-sell-equipped {
+  color: var(--psm-gold);
+  font-size: 11px;
+}
+
+.psm-sell-window .psm-sell-tag {
+  padding: 1px 5px;
+  border: 1px solid var(--psm-alt);
+  color: var(--psm-alt-dark);
+  font-size: 10px;
+  white-space: nowrap;
+}
+
+.psm-sell-window .psm-sell-row--in {
+  opacity: 0.5;
+}
+
+.psm-sell-window button.psm-sell-add {
+  width: 26px;
+  min-width: 0;
+  height: 24px;
+  flex: 0 0 auto;
+  margin: 0;
+  padding: 0;
+  border: 1px solid var(--psm-primary);
+  border-radius: 2px;
+  background: transparent;
+  color: var(--psm-primary);
+  cursor: pointer;
+}
+
+.psm-sell-window button.psm-sell-add--in {
+  border-color: var(--psm-alt);
+  color: var(--psm-alt-dark);
+}
+
+.psm-sell-window .psm-sell-blocked {
+  color: var(--psm-alt-dark);
+}
+
+/* Prawa kolumna: propozycja / decyzja */
+.psm-sell-window .psm-sell-offer {
+  gap: 10px;
+}
+
+.psm-sell-window .psm-offer-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.psm-sell-window .psm-offer-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 34px;
+  padding: 3px 6px;
+  border: 1px solid rgba(233, 215, 161, 0.25);
+  background: rgba(0, 0, 0, 0.25);
+  color: var(--psm-text-light);
+  font-size: 14px;
+}
+
+.psm-sell-window .psm-offer-item__ico {
+  width: 22px;
+  height: 22px;
+  flex: 0 0 auto;
+  border: 1px solid rgba(233, 215, 161, 0.35);
+}
+
+.psm-sell-window .psm-offer-item__name {
+  flex: 1 1 auto;
+  min-width: 0;
+  font-family: var(--psm-serif);
+}
+
+.psm-sell-window .psm-offer-item__val {
+  flex: 0 0 auto;
+  min-width: 58px;
+  text-align: right;
+  font-family: var(--psm-serif);
+}
+
+.psm-sell-window button.psm-offer-item__rm {
+  width: 18px;
+  min-width: 0;
+  flex: 0 0 auto;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--psm-tertiary);
+  opacity: 0.7;
+  cursor: pointer;
+}
+
+.psm-sell-window .psm-offer-item--removed {
+  border-style: dashed;
+}
+
+.psm-sell-window .psm-offer-item--removed .psm-offer-item__name {
+  text-decoration: line-through;
+  opacity: 0.55;
+}
+
+.psm-sell-window .psm-offer-item--sold .psm-offer-item__name::before {
+  content: "✓ ";
+  color: #8fe08f;
+}
+
+.psm-sell-window .psm-mini-stepper {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  flex: 0 0 auto;
+}
+
+.psm-sell-window .psm-mini-stepper button {
+  width: 22px;
+  min-width: 0;
+  height: 22px;
+  margin: 0;
+  padding: 0;
+  border: 1px solid var(--psm-gold);
+  border-radius: 2px;
+  background: transparent;
+  color: var(--psm-tertiary);
+  font-size: 9px;
+  cursor: pointer;
+}
+
+.psm-sell-window .psm-mini-stepper button:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.psm-sell-window .psm-mini-stepper span {
+  width: 30px;
+  height: 22px;
+  display: grid;
+  place-items: center;
+  border: 1px solid #956d58;
+  background: rgba(0, 0, 0, 0.35);
+  font-family: var(--psm-serif);
+}
+
+.psm-sell-window .psm-sell-empty {
+  margin: 0;
+  padding: 10px;
+  border: 1px dashed rgba(233, 215, 161, 0.4);
+  color: var(--psm-tertiary-muted);
+  font-style: italic;
+  font-size: 13px;
+  text-align: center;
+}
+
+.psm-sell-window .psm-offer-sum {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(233, 215, 161, 0.35);
+}
+
+.psm-sell-window .psm-sum-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  color: var(--psm-text-light);
+}
+
+.psm-sell-window .psm-sum-row .psm-micro {
+  color: var(--psm-tertiary);
+}
+
+.psm-sell-window .psm-sum-row__v {
+  font: 16px var(--psm-serif);
+}
+
+.psm-sell-window .psm-sum-row__v--big {
+  font-size: 22px;
+}
+
+.psm-sell-window .psm-hint {
+  color: var(--psm-tertiary-muted);
+  font-size: 12px;
+  font-style: italic;
+}
+
+.psm-sell-window .psm-btn--full {
+  width: 100%;
+  min-height: 38px;
+  font-size: 15px;
+}
+
+.psm-sell-window .psm-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.psm-sell-window .psm-sale-tag {
+  padding: 1px 6px;
+  border: 1px solid var(--psm-alt);
+  border-radius: 8px;
+  color: var(--psm-alt-dark);
+  font: 600 10px var(--psm-condensed);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.psm-sell-window .psm-sale-tag--full {
+  border-color: #8fe08f;
+  background: #8fe08f;
+  color: #123b12;
+}
+
+.psm-sell-window .psm-sell-status {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border: 1px solid var(--psm-gold);
+  background: rgba(0, 0, 0, 0.3);
+  color: var(--psm-text-light);
+  font-size: 14px;
+}
+
+.psm-sell-window .psm-sell-status i {
+  color: var(--psm-tertiary);
+  font-size: 18px;
+}
+
+.psm-sell-window .psm-sell-status--ok { border-color: #6fbf73; }
+.psm-sell-window .psm-sell-status--ok i { color: #8fe08f; }
+.psm-sell-window .psm-sell-status--no { border-color: #ff9a85; }
+.psm-sell-window .psm-sell-status--no i { color: #ff9a85; }
+
+.psm-sell-window .psm-gm-tag {
+  padding: 1px 6px;
+  border-radius: 8px;
+  background: #ff9a85;
+  color: #3a0000;
+  font: 600 10px var(--psm-condensed);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.psm-sell-window .psm-sell-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.psm-sell-window .psm-sell-actions .psm-btn {
+  width: 100%;
+  min-width: 0;
+  padding: 0 6px;
+  font-size: 13px;
+}
+
+.psm-sell-window .psm-sell-btn--reject {
+  border: 1px solid #ff9a85;
+  background: transparent;
+  color: #ffc9b8;
+}
+
+.psm-sell-window .psm-sell-btn--accept {
+  border: 1px solid var(--psm-tertiary);
+  background: var(--psm-tertiary);
+  color: var(--psm-primary-dark);
+}
+
+/* MG: lista propozycji */
+.psm-sell-window button.psm-sell-check {
+  position: relative;
+  width: 18px;
+  min-width: 0;
+  height: 18px;
+  flex: 0 0 auto;
+  margin: 0;
+  padding: 0;
+  border: 1px solid var(--psm-gold);
+  border-radius: 2px;
+  background: #fff;
+  cursor: pointer;
+}
+
+.psm-sell-window button.psm-sell-check--on::after {
+  content: "";
+  position: absolute;
+  left: 5px;
+  top: 1px;
+  width: 5px;
+  height: 10px;
+  border: solid var(--psm-primary);
+  border-width: 0 2.5px 2.5px 0;
+  transform: rotate(45deg);
+}
+
+.psm-sell-window .psm-sell-row--off .psm-item__toggle,
+.psm-sell-window .psm-sell-row--off .psm-sell-col--qty,
+.psm-sell-window .psm-sell-row--off .psm-sell-col--val {
+  text-decoration: line-through;
+  opacity: 0.5;
+}
+
+.psm-sell-window .psm-sell-summary {
+  padding: 8px 10px 10px 40px;
+  border-left: 3px solid var(--psm-gold);
+  background: rgba(255, 255, 255, 0.45);
+  font-size: 13px;
+  line-height: 1.5;
+  list-style: none;
+}
+
+.psm-sell-window .psm-sell-summary p {
+  margin: 4px 0 0;
+}
+
+.psm-sell-window .psm-sell-traits {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-bottom: 4px;
+}
+
+.psm-sell-window .psm-sell-traits span {
+  padding: 1px 6px;
+  background: var(--psm-alt-dark);
+  color: #fff;
+  font: 600 10px var(--psm-condensed);
+  text-transform: uppercase;
+}
+
+.psm-sell-window .psm-sell-traits .psm-rarity-tag {
+  background: #98513d;
+}
+
+.psm-sell-window .psm-sell-review-note {
+  padding: 6px 8px;
+}
+
+.psm-sell-window .psm-sell-purse-line {
+  color: var(--psm-text-light);
+  font-size: 13px;
+}
+
+.psm-sell-window .psm-sell-purse-line b {
+  font-family: var(--psm-serif);
+  font-weight: 400;
+  color: #fff;
+}
+
+.psm-sell-window .psm-sell-purse-line--bad b,
+.psm-sell-window .psm-sell-warning {
+  color: #ff9a85;
+}
+
+.psm-sell-window .psm-sell-warning {
+  font-size: 13px;
+  font-style: italic;
+}
+
+
+.psm-sell-window .psm-sum-row__v {
+  white-space: nowrap;
+}
+
+.psm-sell-window .psm-sell-search input:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+/* Lista propozycji sprzedaży i lista MG: przewijane, okno nie rośnie bez końca */
+.psm-sell-window .psm-sell-offer .psm-offer-list {
+  max-height: 260px;
+  overflow-y: auto;
+  padding-right: 4px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--psm-tertiary-muted) transparent;
+}
+
+.psm-sell-window .psm-sell-review-list > .psm-items {
+  max-height: 380px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--psm-alt) transparent;
+}
+
+/* Kategoria „Odkup” */
+.psm-sheet .psm-category--buyback > .psm-category__header {
+  background: var(--psm-alt-dark);
+}
+
+/* Listy w oknach sprzedaży: te same wiersze co na karcie sklepu (.psm-sheet) */
+.psm-sell-window .psm-sheet .psm-category__meta {
+  flex: 1 1 auto;
+}
+
+.psm-sell-window .psm-sell-col--act {
+  width: 30px;
+  flex: 0 0 auto;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.psm-sell-window .psm-sell-col--check {
+  width: 20px;
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Pole wyboru w wierszu propozycji (MG): stały rozmiar, biały środek, sam ptaszek */
+.psm-sell-window .psm-row-check {
+  position: relative;
+  cursor: pointer;
+}
+
+.psm-sell-window .psm-row-check__input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.psm-sell-window .psm-row-check__box {
+  position: relative;
+  display: block;
+  width: 18px;
+  height: 18px;
+  flex: 0 0 18px;
+  box-sizing: border-box;
+  border: 1px solid var(--psm-gold);
+  border-radius: 2px;
+  background: #fff;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.psm-sell-window .psm-row-check__input:checked + .psm-row-check__box::after {
+  content: "";
+  position: absolute;
+  left: 5px;
+  top: 1px;
+  width: 5px;
+  height: 10px;
+  border: solid var(--psm-primary);
+  border-width: 0 2.5px 2.5px 0;
+  transform: rotate(45deg);
+}
+
+.psm-sell-window .psm-row-check__input:focus-visible + .psm-row-check__box {
+  outline: 2px solid var(--psm-primary);
+  outline-offset: 2px;
+}
+
+.psm-sell-window .psm-row-check__input:disabled + .psm-row-check__box {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.psm-sell-window .psm-sell-row--off .psm-item__toggle,
+.psm-sell-window .psm-sell-row--off .psm-col--qty,
+.psm-sell-window .psm-sell-row--off .psm-col--price,
+.psm-sell-window .psm-sell-row--off .psm-item__img {
+  text-decoration: line-through;
+  opacity: 0.5;
+}
+
+.psm-sell-window .psm-sheet .psm-sell-col--pay {
+  width: 100px;
+}
+
+/* Nazwa zajmuje resztę miejsca, ale nie łamie wiersza (kolumny zostają w linii). */
+.psm-sell-window .psm-sheet .psm-item__name {
+  flex: 1 1 0;
+}
+
+.psm-sell-window .psm-sheet .psm-item__name > * {
+  flex: 0 0 auto;
+}
+
+.psm-sell-window .psm-sheet .psm-item__name > .psm-item__toggle {
+  flex: 0 1 auto;
+}
+
+.psm-sell-window .psm-sheet .psm-item__name > .psm-item__toggle {
+  min-width: 60px;
+}
+
+.psm-sell-window .psm-sheet .psm-item__name > .psm-rarity,
+.psm-sell-window .psm-sheet .psm-item__name > .psm-sell-tag {
+  flex: 0 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.psm-sell-window .psm-sell-grid--review {
+  grid-template-columns: minmax(0, 1.9fr) minmax(0, 1fr);
+}
+
+.psm-sell-review-window .psm-sheet .psm-col--price {
+  width: 70px;
+}
+
+.psm-sell-review-window .psm-sheet .psm-col--level {
+  width: 34px;
+}
+
+.psm-sell-review-window .psm-sheet .psm-col--qty {
+  width: 40px;
+}
+
+.psm-sell-review-window .psm-sheet .psm-sell-col--pay {
+  width: 92px;
+}
+
+/* ---------- Okna sprzedaży: zawartość rośnie razem z oknem ---------- */
+.psm-sell-window .window-content {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.psm-sell-window .window-content > .psm-dialog,
+.psm-sell-window .window-content > form > .psm-dialog {
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.psm-sell-window .window-content > form {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.psm-sell-window .psm-sell-head {
+  flex: 0 0 auto;
+}
+
+.psm-sell-window .psm-sell-grid {
+  flex: 1 1 auto;
+  min-height: 0;
+  grid-template-rows: minmax(0, 1fr);
+  align-items: stretch;
+}
+
+/* Lewa kolumna: lista ekwipunku wypełnia wysokość i przewija się */
+.psm-sell-window .psm-sell-inv {
+  min-height: 0;
+}
+
+.psm-sell-window .psm-sell-scroll {
+  flex: 1 1 auto;
+  min-height: 120px;
+  max-height: none;
+}
+
+/* Prawa kolumna: lista propozycji rośnie, podsumowanie i przyciski zostają na dole */
+.psm-sell-window .psm-sell-offer.psm-gm {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.psm-sell-window .psm-sell-offer .psm-offer-list {
+  flex: 1 1 auto;
+  min-height: 60px;
+  max-height: none;
+}
+
+.psm-sell-window .psm-sell-offer > :not(.psm-offer-list) {
+  flex: 0 0 auto;
+}
+
+/* Okno MG: lista propozycji wypełnia wysokość */
+.psm-sell-window .psm-sell-review-list {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.psm-sell-window .psm-sell-review-list > .psm-category {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.psm-sell-window .psm-sell-review-list > .psm-category > .psm-items {
+  flex: 1 1 auto;
+  min-height: 0;
+  max-height: none;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--psm-alt) transparent;
+}
+
+.psm-sell-window .psm-sell-review-list > .psm-sell-review-note {
+  flex: 0 0 auto;
+}
+
+.psm-sell-window .psm-sum-row__v--bad {
+  color: #ff9a85;
+}
+
+/* ================= Spójność okien sprzedaży z resztą modułu =================
+ * Te same role kolorów i czcionek co na karcie sklepu i w oknie zakupu:
+ * kwoty serif 16/20 px, etykiety condensed (psm-micro), tagi kwadratowe,
+ * braki/błędy w odcieniu #ff9a85 / #ffc9b8, bez dodatkowych kolorów. */
+.psm-sell-window .psm-sum-row__v {
+  font-family: var(--psm-serif);
+  font-size: 16px;
+  color: var(--psm-text-light);
+}
+
+.psm-sell-window .psm-sum-row__v--big {
+  font-size: 20px;
+}
+
+.psm-sell-window .psm-sum-row__v--bad {
+  color: #ff9a85;
+}
+
+.psm-sell-window .psm-offer-item {
+  font-size: 15px;
+}
+
+.psm-sell-window .psm-offer-item__val {
+  font-size: 15px;
+}
+
+/* Tagi: kwadratowe, jak „Wyprzedane” i rzadkość na karcie sklepu */
+.psm-sell-window .psm-sale-tag,
+.psm-sell-window .psm-gm-tag,
+.psm-sell-window .psm-sell-tag {
+  padding: 1px 5px;
+  border-radius: 0;
+  font-family: var(--psm-condensed);
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.psm-sell-window .psm-sale-tag {
+  border: 1px solid var(--psm-alt);
+  background: transparent;
+  color: var(--psm-alt-dark);
+}
+
+.psm-sell-window .psm-sell-offer .psm-sale-tag {
+  border-color: rgba(233, 215, 161, 0.5);
+  color: var(--psm-tertiary);
+}
+
+.psm-sell-window .psm-sale-tag--full,
+.psm-sell-window .psm-sell-offer .psm-sale-tag--full {
+  border: 1px solid var(--psm-gold);
+  background: var(--psm-tertiary);
+  color: var(--psm-primary-dark);
+}
+
+.psm-sell-window .psm-gm-tag {
+  border: 1px solid #ff9a85;
+  background: transparent;
+  color: #ffc9b8;
+}
+
+/* Statusy: złota ramka (jak pola w panelu), błąd w kolorze braków */
+.psm-sell-window .psm-sell-status--ok {
+  border-color: var(--psm-gold);
+}
+
+.psm-sell-window .psm-sell-status--ok i {
+  color: var(--psm-tertiary);
+}
+
+.psm-sell-window .psm-sell-status--no {
+  border-color: #ff9a85;
+}
+
+.psm-sell-window .psm-sell-status--no i {
+  color: #ff9a85;
+}
+
+.psm-sell-window .psm-offer-item--sold .psm-offer-item__name::before {
+  color: var(--psm-tertiary);
+}
+
+/* Ostrzeżenia jak w oknie zakupu */
+.psm-sell-window .psm-sell-warning {
+  color: #ffc9b8;
+  font-size: 13px;
+  font-style: italic;
+}
+
+.psm-sell-window .psm-sell-purse-line--bad b {
+  color: #ff9a85;
+}
+
+/* Wyszukiwarka: ten sam wygląd co w filtrach sklepu */
+.psm-sell-window .psm-sell-inv > .psm-search {
+  flex: 0 0 auto;
+}
+
+/* Przyciski w panelu: główna akcja „light”, druga „ghost” (jak w panelu MG sklepu) */
+.psm-sell-window .psm-sell-actions .psm-btn,
+.psm-sell-window .psm-btn--full {
+  font-family: var(--psm-condensed);
+}
+
+.psm-sell-window .psm-sell-head__name {
+  font-size: 20px;
+}
+
+.psm-sell-window .psm-sell-head__money {
+  font-size: 16px;
+}
+
+/* Wiersze propozycji: ta sama czcionka co nazwy i ceny w wierszach sklepu */
+.psm-sell-window .psm-offer-item {
+  font-family: var(--psm-body);
+  font-size: 14px;
+}
+
+.psm-sell-window .psm-offer-item__name {
+  font-family: var(--psm-body);
+  font-weight: 600;
+}
+
+.psm-sell-window .psm-offer-item__val {
+  font-family: var(--psm-body);
+  font-size: 14px;
+}
+
+.psm-sell-window .psm-mini-stepper span {
+  font-family: var(--psm-serif);
+  font-size: 15px;
+}
+
+.psm-sell-window .psm-search input:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+/* Wiersz przedmiotu ma stałą wysokość pierwszej linii (32 px), także po rozwinięciu
+ * opisu: wtedy elementy wiersza nie podskakują względem nagłówka kategorii. */
+.psm-sheet .psm-item {
+  align-content: flex-start;
+}
+
+.psm-sheet .psm-item > .psm-item__name {
+  min-height: 32px;
+}
+
+/* Nazwa przedmiotu (przycisk rozwijania): bez ramki fokusu z okien Foundry,
+ * jak na karcie sklepu; z klawiatury fokus widać jak najechanie (kolor + podkreślenie). */
+.pf2e-shop .psm-item__toggle,
+.pf2e-shop .psm-item__toggle:focus,
+.pf2e-shop .psm-item__toggle:focus-visible,
+.pf2e-shop .psm-item__toggle:active {
+  outline: none;
+  box-shadow: none;
+  border: none;
+  background: none;
+}
+
+/* Stała wysokość list w oknach sprzedaży: treść okna zawsze wypełnia okno,
+ * a lista bierze wysokość z okna (nie z zawartości), więc rozwinięcie opisu
+ * nie zmienia rozmiaru jasnego tła, tylko dodaje przewijanie. */
+.psm-sell-window > .window-content {
+  flex: 1 1 auto;
+}
+
+.psm-sell-window .psm-sell-review-list > .psm-category > .psm-items,
+.psm-sell-window .psm-sell-scroll {
+  flex: 1 1 0;
+}
+
+.psm-sell-window .window-content > * {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.psm-sell-window .window-content .psm-dialog {
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+/* Widok gracza: opis sklepu kończy się równo z dolną krawędzią przycisku
+ * „Sprzedaj przedmioty” pod artem. Wysokość wiersza wyznacza kolumna z artem
+ * (contain: size — prawa kolumna nie powiększa wiersza), opis wypełnia resztę,
+ * a dłuższy tekst przewija się w środku. */
+.psm-sheet .psm-top--player {
+  align-items: stretch;
+}
+
+.psm-sheet .psm-top--player > .psm-top-main {
+  contain: size;
+  min-height: 0;
+}
+
+.psm-sheet .psm-top--player .psm-description {
+  flex: 1 1 auto;
+  min-height: 0;
+  max-height: none;
+}
+
+/* Przycisk pod artem w jednej linii („Sprzedaj przedmioty”, „Opis sklepu”) */
+.psm-sheet .psm-art .psm-description-btn {
+  padding: 0 8px;
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+/* Tag „Pełna cena” przy skarbach (sprzedaż za 100% wartości) */
+.pf2e-shop .psm-full-price {
+  flex: 0 0 auto;
+  padding: 1px 5px;
+  border: 1px solid #3f7a45;
+  background: #4f8f56;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* Podsumowanie propozycji: kasa i wartość mniejsze, „Dostaniesz” na końcu i większe */
+.psm-sell-window .psm-sum-row--small .psm-sum-row__v {
+  font-size: 14px;
+}
+
+.psm-sell-window .psm-sum-row--small .psm-micro {
+  font-size: 10px;
+}
+
+.psm-sell-window .psm-sum-row--main {
+  margin-top: 2px;
+}
+
+.psm-sell-window .psm-sum-row--main .psm-micro {
+  font-size: 12px;
+}
+
+.psm-sell-window .psm-sum-row--main .psm-sum-row__v--big {
+  font-size: 22px;
+}
+
+/* Podpowiedź pod listą przedmiotów (sklep i okna sprzedaży) */
+.pf2e-shop .psm-list-hint {
+  margin: 4px 2px 0;
+  font-size: 12px;
+  font-style: italic;
+  color: var(--psm-alt-dark);
+}
+
+.psm-sell-window .psm-sell-inv > .psm-list-hint {
+  flex: 0 0 auto;
+}
+
+/* Zakres „od–do” liczby przedmiotów w ustawieniach kategorii */
+.psm-category-window .psm-count-range {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.psm-category-window .psm-count-range label {
+  color: var(--psm-tertiary);
+}
+
+.psm-category-window .psm-count-input.psm-input--bad {
+  border-color: #ff9a85;
+  color: #ffc9b8;
+}
+
+.psm-category-window .psm-count-error {
+  color: #ffc9b8;
+  font-size: 13px;
+  font-style: italic;
+}
+
+.psm-category-window .psm-count-error[hidden] {
+  display: none;
+}
+
+.psm-category-window .psm-dialog__footer .psm-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Zakres liczby przedmiotów w oknie losowania: nigdy nie jest ucinany */
+.psm-randomize-window .psm-randomize__range {
+  flex: 0 0 auto;
+  min-width: 52px;
+  text-align: right;
+  color: var(--psm-alt-dark);
+}
+
+/* Kolumna z artem ma u MG i u gracza tę samą wysokość: art + przycisk pod nim.
+ * Wysokość wiersza wyznacza kolumna z artem (contain: size w prawej kolumnie),
+ * a panel „Ustawienia sklepu” (MG) albo opis sklepu (gracz) wypełnia resztę,
+ * kończąc się równo z dolną krawędzią przycisku pod artem. */
+.psm-sheet .psm-top {
+  align-items: stretch;
+}
+
+.psm-sheet .psm-top > .psm-top-main {
+  contain: size;
+  min-height: 0;
+}
+
+.psm-sheet .psm-top:not(.psm-top--player) > .psm-top-main > .psm-gm {
+  flex: 1 1 auto;
+  min-height: 0;
+  gap: 8px;
+  padding-top: 10px;
+  padding-bottom: 12px;
+}
+
+/* Przyciski panelu MG na dole panelu */
+.psm-sheet .psm-top:not(.psm-top--player) .psm-gm__buttons {
+  margin-top: auto;
+}
+
+.psm-sheet .psm-top:not(.psm-top--player) .psm-gm__buttons .psm-btn {
+  min-height: 34px;
+}
+
+/* Art u gracza: kliknięcie pokazuje go w powiększeniu */
+.psm-sheet .psm-portrait img[data-shop-action="view-art"] {
+  cursor: zoom-in;
+}
+
+/* Propozycja sprzedaży (MG): sklep, którego dotyczy propozycja, po prawej
+ * stronie nagłówka, w lustrze do sprzedającego po lewej. */
+/* Strzałka dokładnie na środku: sprzedający i sklep mają po tyle samo miejsca */
+.psm-sell-review-window .psm-sell-head {
+  display: grid;
+  grid-template-columns: 64px minmax(0, 1fr) auto minmax(0, 1fr) 64px;
+}
+
+.psm-sell-review-window .psm-sell-head__arrow {
+  justify-self: center;
+  padding: 0 6px;
+  color: var(--psm-tertiary);
+  font-size: 22px;
+  opacity: 0.85;
+}
+
+.psm-sell-review-window .psm-sell-head__shop {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 3px;
+  min-width: 0;
+  text-align: right;
+}
+
+.psm-sell-review-window .psm-sell-head__shop > .psm-micro {
+  color: var(--psm-tertiary);
+}
+
+.pf2e-shop.psm-sell-review-window .psm-sell-head__shop-name {
+  width: auto;
+  max-width: 100%;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: none;
+  box-shadow: none;
+  color: var(--psm-text-light);
+  font: 600 20px/1.1 var(--psm-serif);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+}
+
+.pf2e-shop.psm-sell-review-window .psm-sell-head__shop-name:hover,
+.pf2e-shop.psm-sell-review-window .psm-sell-head__shop-name:focus-visible {
+  text-decoration: underline;
+  text-decoration-color: var(--psm-gold);
+  text-underline-offset: 3px;
+  outline: none;
+}
+
+.psm-sell-review-window .psm-sell-head__purse {
+  color: var(--psm-tertiary);
+}
+
+.psm-sell-review-window .psm-sell-head__purse .psm-sell-head__money {
+  margin-left: 4px;
+  color: var(--psm-text-light);
+  font-size: 15px;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+/* ---------- Kilka tabel losowych w kategorii ---------- */
+
+/* Lista slotów: przy wielu tabelach przewija się, okno nie rośnie bez końca */
+.psm-category-window .psm-slots {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 360px;
+  overflow-y: auto;
+  scrollbar-gutter: stable;
+  margin-right: -6px;
+  padding-right: 6px;
+}
+
+.psm-category-window .psm-slot {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 8px 10px 10px;
+  border: 1px solid rgba(169, 143, 57, 0.45);
+  background: rgba(0, 0, 0, 0.18);
+}
+
+.psm-category-window .psm-slot__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 22px;
+}
+
+.psm-category-window .psm-slot__number {
+  color: var(--psm-tertiary);
+}
+
+.pf2e-shop .psm-slot__remove {
+  width: 26px;
+  height: 22px;
+  color: var(--psm-tertiary);
+}
+
+.pf2e-shop .psm-slot__remove:hover,
+.pf2e-shop .psm-slot__remove:focus-visible {
+  color: #ffc9b8;
+}
+
+/* „+ Dodaj kolejną tabelę”: przycisk ghost z przerywaną ramką, na całą szerokość */
+.pf2e-shop .psm-btn.psm-slot-add {
+  flex: 0 0 auto;
+  width: 100%;
+  min-height: 34px;
+  border-style: dashed;
+  justify-content: center;
+}
+
+/* Pozycje kilku tabel: nagłówek każdej tabeli w liście pozycji */
+.psm-category-window .psm-entries .psm-entries__group {
+  background: rgba(120, 100, 82, 0.2);
+  border-left: none;
+}
+
+.psm-category-window .psm-entries__group .psm-item__name {
+  gap: 6px;
+  font-family: var(--psm-serif);
+  font-weight: 600;
+  color: var(--psm-alt-dark);
+}
+
+.psm-category-window .psm-entries__range {
+  margin-left: auto;
+  padding-right: 8px;
+  color: var(--psm-alt-dark);
+}
+
+.psm-category-window .psm-entries {
+  max-height: 300px;
+}
+
+/* „+” przy tagach sklepu: plus rysowany w CSS, dokładnie na środku kółka.
+ * Ikona z czcionki przesuwała się o piksel-dwa (style przycisków i ikon Foundry). */
+.psm-sheet .psm-shop-tag-add {
+  position: relative;
+  box-sizing: border-box;
+  min-width: 18px;
+  min-height: 18px;
+  max-height: 18px;
+  gap: 0;
+  font-size: 0;
+}
+
+.psm-sheet .psm-shop-tag-add > i {
+  display: none;
+}
+
+.psm-sheet .psm-shop-tag-add::before,
+.psm-sheet .psm-shop-tag-add::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 8px;
+  height: 2px;
+  background: currentColor;
+  transform: translate(-50%, -50%);
+}
+
+.psm-sheet .psm-shop-tag-add::after {
+  width: 2px;
+  height: 8px;
+}
+
+/* ---------- Przełączniki kategorii w jednej linii (jak tagi sklepu) ---------- */
+
+.psm-sheet .psm-chips {
+  position: relative;
+  flex-wrap: nowrap;
+}
+
+.psm-sheet .psm-chips > .psm-micro {
+  flex: 0 0 auto;
+}
+
+.psm-sheet .psm-chips__list {
+  flex: 0 1 auto;
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.psm-sheet .psm-chips__list > .psm-chip,
+.psm-sheet .psm-chips__popover-list > .psm-chip {
+  flex: 0 0 auto;
+  white-space: nowrap;
+}
+
+.psm-sheet .psm-chip[hidden] {
+  display: none;
+}
+
+/* „+N”: ta sama pigułka co przełącznik, z obramowaniem w kolorze nagłówków */
+.psm-sheet .psm-chips button.psm-chips__more {
+  flex: 0 0 auto;
+  width: auto;
+  min-width: 0;
+  max-width: max-content;
+  min-height: 28px;
+  margin: 0;
+  padding: 0 11px;
+  border: 1px solid var(--psm-alt-dark);
+  border-radius: 14px;
+  background: var(--psm-alt);
+  color: var(--psm-text-light);
+  font-family: var(--psm-condensed);
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.psm-sheet .psm-chips__more[hidden] {
+  display: none;
+}
+
+.psm-sheet .psm-chips button.psm-chips__more:hover {
+  filter: brightness(1.12);
+}
+
+.psm-sheet .psm-chips button.psm-chips__more[aria-expanded="true"] {
+  background: transparent;
+  color: var(--psm-alt-dark);
+}
+
+/* Rozwinięta lista wszystkich kategorii: pergamin, ramka w kolorze nagłówków */
+.psm-sheet .psm-chips__popover {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: max-content;
+  max-width: 100%;
+  margin-top: 6px;
+  padding: 10px 12px;
+  border: 1px solid var(--psm-alt);
+  background: #f8f4f1;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+}
+
+.psm-sheet .psm-chips__popover[hidden] {
+  display: none;
+}
+
+.psm-sheet .psm-chips__popover-title {
+  color: var(--psm-alt-dark);
+}
+
+.psm-sheet .psm-chips__popover-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+/* „Resetuj filtry” wyśrodkowany w pionie względem ramek poziomu i ceny */
+.psm-sheet .psm-filters__row--ranges {
+  align-items: center;
+}
+
+.psm-sheet .psm-filters__row--ranges > .psm-filters__reset {
+  align-self: center;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+/* Przełącznik kategorii: długa nazwa skracana wielokropkiem, liczba zawsze widoczna */
+.psm-sheet .psm-chip {
+  display: inline-flex;
+  align-items: center;
+  max-width: 220px;
+}
+
+.psm-sheet .psm-chip__name {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.psm-sheet .psm-chip__count {
+  flex: 0 0 auto;
+  white-space: nowrap;
+}
+
+.psm-sheet .psm-chip__hidden-icon {
+  flex: 0 0 auto;
+}
+
+.psm-sheet .psm-chip[aria-pressed="false"] .psm-chip__hidden-icon {
+  display: inline-block;
+}
+
+/* Propozycja sprzedaży (MG): ile sztuk sklepikarz przyjmuje (−/+ i „z N”) */
+.psm-sell-review-window .psm-sheet .psm-col--qty.psm-review-qty,
+.psm-sell-review-window .psm-sheet .psm-category__header .psm-col--qty {
+  width: 92px;
+}
+
+.psm-sell-review-window .psm-review-qty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+}
+
+.psm-sell-review-window .psm-review-qty__of {
+  color: var(--psm-alt-dark);
+  font-size: 10px;
+  line-height: 1;
+}
+
+/* Wersja kroków ilości na pergaminie (na czerwonym panelu jest jasna) */
+.psm-sell-window .psm-mini-stepper--light button {
+  border-color: var(--psm-alt);
+  color: var(--psm-alt-dark);
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.psm-sell-window .psm-mini-stepper--light span {
+  border-color: var(--psm-alt);
+  background: #fff;
+  color: var(--psm-text);
+  font-family: var(--psm-body);
+}
+
+/* Odznaczony wiersz: kroki ilości nie są przekreślone, tylko przygaszone */
+.psm-sell-window .psm-sell-row--off .psm-col--qty.psm-review-qty {
+  text-decoration: none;
+}
+
+.psm-sell-window .psm-sell-row--off .psm-sell-col--pay {
+  text-decoration: line-through;
+  opacity: 0.5;
+}
+
+/* =================== Listy towaru (design, 0.26.0) =================== */
+
+/* Biblioteka: czerwony panel z opisem i akcjami, lista zapisanych list */
+.psm-lists-window .psm-lists__intro .psm-lists__lead {
+  margin: 0;
+  color: var(--psm-text-light);
+  font-family: var(--psm-body);
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.psm-lists-window .psm-lists__actions {
+  display: flex;
+  gap: 8px;
+}
+
+.psm-lists-window .psm-lists__actions .psm-btn {
+  flex: 1 1 0;
+  min-height: 34px;
+}
+
+/* Wiersz zapisanej listy: ikona, nazwa z opisem i przyciski wyśrodkowane w pionie */
+.psm-lists-window .psm-lists__library .psm-item {
+  min-height: 52px;
+  align-items: center;
+}
+
+.psm-lists-window .psm-lists__library .psm-lists__list-name {
+  justify-content: center;
+  align-self: center;
+}
+
+.psm-lists-window .psm-lists__library .psm-lists__col-tools {
+  align-items: center;
+  align-self: center;
+}
+
+/* Brak zapisanych list: zachęta na środku pola */
+.psm-lists-window .psm-lists__library .psm-lists__none {
+  min-height: 180px;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  text-align: center;
+  background: transparent;
+  border-left-color: transparent;
+  color: var(--psm-alt-dark);
+  font-family: var(--psm-body);
+  font-size: 15px;
+  font-style: italic;
+}
+
+.psm-lists-window .psm-lists__list-ico {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--psm-gold);
+  background: var(--psm-primary);
+  color: var(--psm-tertiary);
+}
+
+.psm-lists-window .psm-lists__list-name {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+}
+
+.psm-lists-window .psm-lists__list-title {
+  font-family: var(--psm-serif);
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.psm-lists-window .psm-lists__list-meta {
+  color: var(--psm-alt-dark);
+}
+
+.psm-lists-window .psm-lists__col-tools {
+  width: 132px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 2px;
+}
+
+/* Edytor: pasek z powrotem i nazwą, dwie kolumny */
+.psm-lists-window .psm-lists__bar {
+  display: flex;
+  align-items: flex-end;
+  gap: 14px;
+}
+
+.psm-lists-window .psm-lists__back {
+  flex: 0 0 auto;
+  min-height: 36px;
+}
+
+.psm-lists-window .psm-lists__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+  gap: 16px;
+  align-items: stretch;
+  min-height: 0;
+}
+
+.psm-lists-window .psm-lists__browser,
+.psm-lists-window .psm-lists__entries {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+}
+
+.psm-lists-window .psm-lists__browser-filters {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 10px;
+  border: 1px solid var(--psm-alt);
+  background: rgba(255, 255, 255, 0.35);
+}
+
+.psm-lists-window .psm-lists__row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.psm-lists-window .psm-lists__source {
+  flex: 0 0 auto;
+  max-width: 180px;
+}
+
+.psm-lists-window .psm-lists__search {
+  flex: 1 1 160px;
+  min-width: 0;
+}
+
+.psm-lists-window .psm-lists__level input {
+  width: 40px;
+  height: 28px;
+}
+
+.psm-lists-window .psm-lists__rarity {
+  display: flex;
+  gap: 4px;
+  margin-left: auto;
+}
+
+.pf2e-shop .psm-chip.psm-chip--small {
+  min-height: 24px;
+  padding: 0 8px;
+  font-size: 11px;
+}
+
+.psm-lists-window .psm-lists__results .psm-items,
+.psm-lists-window .psm-lists__entries .psm-items {
+  max-height: 340px;
+  overflow-y: auto;
+  scrollbar-gutter: stable;
+}
+
+.psm-lists-window .psm-lists__col-add {
+  width: 36px;
+  display: flex;
+  justify-content: center;
+}
+
+.psm-lists-window button.psm-sell-add {
+  width: 26px;
+  min-width: 0;
+  height: 24px;
+  margin: 0;
+  padding: 0;
+  border: 1px solid var(--psm-primary);
+  border-radius: 2px;
+  background: transparent;
+  color: var(--psm-primary);
+  cursor: pointer;
+}
+
+.psm-lists-window button.psm-sell-add--in {
+  border-color: var(--psm-alt);
+  color: var(--psm-alt-dark);
+}
+
+.psm-lists-window .psm-lists__result--in .psm-item__name {
+  opacity: 0.6;
+}
+
+/* Pozycje listy: waga i szansa wyśrodkowane w swoich kolumnach (nagłówek i wartości) */
+.psm-lists-window .psm-lists__entries .psm-col--weight,
+.psm-lists-window .psm-lists__entries .psm-col--chance {
+  width: 64px;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}
+
+
+.psm-lists-window .psm-lists__drop {
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  text-align: center;
+  min-height: 40px;
+  border: none;
+  background: transparent;
+  color: var(--psm-alt-dark);
+  font-size: 13px;
+  font-style: italic;
+}
+
+/* Ustawienia kategorii (szkic): wybór listy towaru w slocie */
+.psm-category-window .psm-list-pick {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border: 1px solid var(--psm-gold);
+  background: rgba(0, 0, 0, 0.25);
+  color: var(--psm-tertiary);
+}
+
+.psm-category-window .psm-list-pick__select {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.psm-lists-window .psm-lists__lib {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.psm-category-window .psm-list-pick__select {
+  height: 30px;
+  padding: 0 6px;
+  border: 1px solid var(--psm-gold);
+  background: rgba(0, 0, 0, 0.35);
+  color: var(--psm-text-light);
+  font-family: var(--psm-body);
+  font-size: 14px;
+}
+
+.psm-lists-window .psm-lists__bar > .psm-field {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.psm-lists-window .psm-lists__bar .psm-name-input {
+  width: 100%;
+}
+
+/* Pusta lista: duże pole do upuszczenia przedmiotów */
+/* Pozycje listy mają stałą wysokość: lista nie maleje po usunięciu pozycji, a pole
+ * „przeciągnij tu przedmioty” wypełnia wolne miejsce pod pozycjami (napis na środku). */
+.psm-lists-window .psm-lists__entries .psm-items {
+  display: flex;
+  flex-direction: column;
+  height: 340px;
+}
+
+.psm-lists-window .psm-lists__entries .psm-items > li {
+  flex: 0 0 auto;
+}
+
+.psm-lists-window .psm-lists__entries .psm-items > .psm-lists__drop {
+  flex: 1 0 40px;
+  font-size: 14px;
+}
+
+/* Przeglądarka przedmiotów w listach towaru: źródło, wspólny pasek filtrów, grupy typów */
+.psm-lists-window .psm-lists__source-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.psm-lists-window .psm-lists__source-row .psm-lists__source {
+  max-width: 220px;
+}
+
+.psm-lists-window .psm-lists__source-count {
+  margin-left: auto;
+  color: var(--psm-alt-dark);
+}
+
+.psm-lists-window .psm-lists__results {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Przewija się sama lista wyników, nagłówek i ramka sięgają do prawej krawędzi,
+ * równo z wyszukiwaniem i filtrami. */
+.psm-lists-window .psm-lists__results .psm-items {
+  max-height: 430px;
+  overflow-y: auto;
+  scrollbar-gutter: stable;
+}
+
+/* Przeglądarka szersza, żeby pasek filtrów mieścił się w tych samych liniach co na karcie sklepu */
+.psm-lists-window .psm-lists__grid {
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+}
+
+/* Przeglądarka list towaru: wiersz „Pokaż kolejne / Pokaż wszystkie” na dole listy */
+.psm-lists-window .psm-lists__more {
+  justify-content: center;
+  gap: 10px;
+  padding: 10px;
+  background: transparent;
+  border-left-color: transparent;
+}
+
+.psm-lists-window .psm-lists__more .psm-btn {
+  flex: 0 0 auto;
+  width: auto;
+  min-height: 30px;
+  padding: 0 14px;
+}
+
+/* Nagłówek list w edytorze rezerwuje to samo miejsce na pasek przewijania co lista
+ * pod nim, więc kolumny „Poz.”, „Cena”, „Waga” stoją nad swoimi wartościami. */
+.psm-lists-window .psm-lists__results > .psm-category__header,
+.psm-lists-window .psm-lists__entries .psm-category__header {
+  overflow-y: hidden;
+  scrollbar-gutter: stable;
+}
+
+/* ---------- Rozwinięty opis przedmiotu: jeden wygląd we wszystkich oknach ----------
+ * Rzuty (np. „10d6 fire”), linki do przedmiotów i testy w opisie mają w każdym oknie
+ * modułu ten sam wygląd, niezależnie od motywu Foundry i od tego, czy okno jest kartą
+ * PF2e (sklep), czy oknem modułu (sprzedaż, listy towaru). */
+.pf2e-shop .item-summary a.inline-roll,
+.pf2e-shop .item-summary a.content-link,
+.pf2e-shop .item-summary a.inline-check,
+.pf2e-shop .item-summary a.effect-area,
+.pf2e-shop .item-summary span.inline-check {
+  padding: 0 4px;
+  border: 1px solid var(--psm-alt);
+  border-radius: 2px;
+  background: rgba(120, 100, 82, 0.12);
+  color: var(--psm-text);
+  text-shadow: none;
+  white-space: nowrap;
+}
+
+.pf2e-shop .item-summary a.inline-roll i,
+.pf2e-shop .item-summary a.content-link i,
+.pf2e-shop .item-summary a.inline-check i,
+.pf2e-shop .item-summary a.effect-area i {
+  color: var(--psm-alt-dark);
+}
+
+.pf2e-shop .item-summary a.inline-roll:hover,
+.pf2e-shop .item-summary a.content-link:hover,
+.pf2e-shop .item-summary a.inline-check:hover {
+  background: rgba(120, 100, 82, 0.22);
+  text-shadow: none;
+}
+
+.pf2e-shop .item-summary {
+  color: var(--psm-text);
+}
+
+/* Kolory PF2e dla elementów opisu (DC widoczne tylko dla MG, rzuty szeptane itd.):
+ * zawsze wartości jasnego motywu, jak na karcie sklepu. Bez tego okna modułu
+ * (ApplicationV2) przy ciemnym motywie Foundry dostawały ciemne tło, np. czarne „DC 37”.
+ * Okna mają też klasy „themed theme-light”; podwojony selektor wygrywa z regułą PF2e
+ * „body.theme-dark .application:not(.themed)”, gdyby klasy motywu zostały nadpisane. */
+.pf2e-shop,
+.application.pf2e-shop.pf2e-shop.pf2e-shop {
+  --visibility-gm-bg: #e8e8ef;
+  --visibility-owner-bg: #ddebe1;
+  --color-blind-roll-background: #f5eaf5;
+  --color-blind-roll-border: #720073;
+  --color-whisper-roll-background: #e8e8ef;
+  --color-whisper-roll-border: #545469;
+}
+
+.pf2e-shop .item-summary [data-visibility="gm"] {
+  color: var(--psm-text);
+}
+
+/* Edytor listy: prawa kolumna — ustawienia listy u góry, pozycje listy pod nimi */
+.psm-lists-window .psm-lists__side {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+}
+
+.psm-lists-window .psm-lists__settings .psm-field > .psm-micro {
+  color: var(--psm-tertiary);
+}
+
+.psm-lists-window .psm-lists__settings .psm-list-pick__select {
+  flex: 0 0 auto;
+  width: 240px;
+}
+
+.psm-lists-window .psm-lists__settings-hint {
+  margin: 0;
+  color: var(--psm-tertiary);
+  font-family: var(--psm-body);
+  font-size: 12px;
+  font-style: italic;
+  opacity: 0.85;
+}
+
+/* Pozycje listy towaru jako cel upuszczania przedmiotów */
+.psm-lists-window [data-entries-drop].psm-drop-target {
+  outline: 2px solid var(--psm-primary);
+  outline-offset: 2px;
+}
+
+/* Nagłówek pozycji listy: pusta kolumna nad koszem tej samej szerokości co kosz w wierszu */
+.psm-lists-window .psm-lists__entries .psm-category__header .psm-col--action {
+  width: 30px;
+}
+
+.pf2e-shop .psm-check[hidden] {
+  display: none;
+}
+
+/* Przedmioty gwarantowane: lista pod pozycjami, niższa (stała wysokość jak pozycje) */
+.psm-lists-window .psm-lists__guaranteed[hidden] {
+  display: none;
+}
+
+.psm-lists-window .psm-lists__guaranteed .psm-items {
+  height: 180px;
+}
+
+.psm-lists-window .psm-lists__guaranteed .psm-category__header h3 i {
+  font-size: 0.8em;
+  margin-right: 4px;
+}
+
+.psm-lists-window .psm-lists__entries .psm-col--qty {
+  width: 64px;
+  display: flex;
+  justify-content: center;
+}
+
+/* Przeglądarka: pinezka „dodaj jako gwarantowany” obok „+”, tylko gdy lista ma gwarantowane */
+.psm-lists-window .psm-lists:not(.psm-lists--guaranteed) .psm-lists__pin {
+  display: none;
+}
+
+.psm-lists-window .psm-lists--guaranteed .psm-lists__col-add {
+  width: 64px;
+  gap: 4px;
+}
+
+/* Przedmiot jest już gwarantowany: pinezka wciśnięta (wypełniona) */
+.psm-lists-window button.psm-lists__pin.psm-sell-add--in {
+  border-color: var(--psm-primary);
+  background: var(--psm-primary);
+  color: #fff;
+}
+
+/* ---------- Edytor listy: kolumny wypełniają okno do dołu ----------
+ * Okno edytora ma stałą wysokość (zmienną przy zmianie rozmiaru okna). Lista przedmiotów
+ * po lewej i pozycje po prawej sięgają do dołu i kończą się na tej samej wysokości;
+ * po włączeniu gwarantowanych pozycje losowane zajmują 2/3, a gwarantowane 1/3. */
+.psm-lists-window .window-content:has(> .psm-lists--editor) {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.psm-lists-window .psm-lists--editor {
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.psm-lists-window .psm-lists--editor .psm-lists__grid {
+  flex: 1 1 auto;
+  min-height: 0;
+  align-items: stretch;
+}
+
+.psm-lists-window .psm-lists--editor .psm-lists__browser,
+.psm-lists-window .psm-lists--editor .psm-lists__side,
+.psm-lists-window .psm-lists--editor .psm-lists__entries {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.psm-lists-window .psm-lists--editor .psm-lists__browser > .psm-lists__results,
+.psm-lists-window .psm-lists--editor .psm-lists__entries > .psm-category {
+  flex: 1 1 0;
+  /* nagłówek + co najmniej dwa wiersze, nawet w bardzo niskim oknie (wtedy przewija się okno) */
+  min-height: 112px;
+  display: flex;
+  flex-direction: column;
+}
+
+.psm-lists-window .psm-lists--editor .psm-lists__results > .psm-items,
+.psm-lists-window .psm-lists--editor .psm-lists__entries > .psm-category > .psm-items {
+  flex: 1 1 0;
+  min-height: 80px;
+  height: auto;
+  max-height: none;
+  overflow-y: auto;
+}
+
+/* Przedmioty gwarantowane: wysokość = 30% wysokości kolumny, a ta zależy tylko od rozmiaru okna.
+ * Nowa opcja w ustawieniach listy nie zmienia gwarantowanych (zabiera miejsce tylko pozycjom
+ * losowanym), a ręczna zmiana rozmiaru okna skaluje obie listy. */
+.psm-lists-window .psm-lists--editor .psm-lists__side > .psm-lists__entries {
+  flex: 1 1 0;
+}
+
+.psm-lists-window .psm-lists--editor .psm-lists__side > .psm-lists__guaranteed {
+  flex: 0 0 30%;
+}
+
+.psm-lists-window .psm-lists--editor .psm-lists__side > .psm-lists__guaranteed[hidden] {
+  display: none;
+}
+
+/* Podpisy pod kolumnami: osobny wiersz w tej samej siatce co kolumny, więc dolna krawędź listy
+ * przedmiotów po lewej jest równo z dolną krawędzią najniższej listy po prawej. */
+.psm-lists-window .psm-lists--editor .psm-lists__notes {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+  gap: 16px;
+  margin-top: -6px;
+}
+
+.psm-lists-window .psm-lists--editor .psm-lists__notes .psm-note {
+  margin: 0;
+}
+
+.psm-lists-window .psm-lists:not(.psm-lists--guaranteed) .psm-lists__guaranteed-note {
+  display: none;
+}
+
+/* Najmniejsza wysokość części z listami zależna od ekranu: okno edytora jest duże na każdym
+ * monitorze, nawet gdy Foundry nie przyjmie ustawionej wysokości. Reszta okna (pasek nazwy,
+ * podpisy, stopka, nagłówek) to ok. 260 px, więc „100vh − 340px” zostawia zapas na Full HD.
+ * Przy ręcznym powiększeniu okna listy rosną dalej (flex), a przy zbyt małym oknie treść się przewija. */
+.psm-lists-window .psm-lists--editor .psm-lists__grid {
+  min-height: clamp(360px, calc(100vh - 340px), 1040px);
+}
+
+/* Limit wylosowań: kolumna przy pozycjach listy, tylko gdy lista ma włączoną opcję */
+.psm-lists-window .psm-lists__entries .psm-col--limit {
+  width: 64px;
+  display: flex;
+  justify-content: center;
+}
+
+.psm-lists-window .psm-lists:not(.psm-lists--limit) .psm-col--limit,
+.psm-lists-window .psm-lists:not(.psm-lists--limit) .psm-lists__limit-note {
+  display: none;
+}
+
+/* Biblioteka list: najwyżej --psm-lib-rows widocznych list (preset ekranu), dalej przewijanie */
+.psm-lists-window .psm-lists__library > .psm-items {
+  max-height: calc(var(--psm-lib-rows, 6) * 60px);
+  overflow-y: auto;
+  scrollbar-gutter: stable;
+}
+
+.psm-lists-window .psm-lists__library > .psm-category__header {
+  overflow-y: hidden;
+  scrollbar-gutter: stable;
+}
+
+/* Tryb „Według poziomu postaci”: bez pól wag (szanse liczy funkcja), z kolumną poziomu i poziomem drużyny */
+.psm-lists-window .psm-lists__entries .psm-col--level {
+  width: 48px;
+  display: flex;
+  justify-content: center;
+}
+
+.psm-lists-window .psm-lists:not(.psm-lists--level) .psm-lists__entries .psm-col--level,
+.psm-lists-window .psm-lists--level .psm-lists__entries:not(.psm-lists__guaranteed) .psm-col--weight,
+.psm-lists-window .psm-lists:not(.psm-lists--level) .psm-lists__party,
+.psm-lists-window .psm-lists:not(.psm-lists--level) .psm-lists__level-note,
+.psm-lists-window .psm-lists--level .psm-lists__manual-note {
+  display: none;
+}
+
+.psm-lists-window .psm-lists__guaranteed .psm-col--level {
+  display: none;
+}
+
+/* Poziom drużyny w nagłówku „Ustawień listy”, po prawej (tylko w trybie według poziomu postaci) */
+.psm-lists-window .psm-lists__party {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: auto;
+  color: var(--psm-tertiary);
+  white-space: nowrap;
+}
+
+/* Biblioteka list: tryb losowania jako tag obok nazwy (ten sam czerwony tag dla obu trybów) */
+.psm-lists-window .psm-lists__list-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.psm-lists-window .psm-lists__list-head .psm-lists__list-title {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.psm-lists-window .psm-lists__mode {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 1px 6px;
+  border: 1px solid var(--psm-primary);
+  background: var(--psm-primary);
+  color: var(--psm-tertiary);
+}
+
+/* Pozycja z importu bez przedmiotu w tym świecie */
+.psm-lists-window .psm-lists__missing {
+  border-color: #b4532a;
+  color: #b4532a;
+}
+
+/* Ustawienia przedmiotu: cena własna tylko w gp, sp i cp (bez platyny) */
+.psm-item-window .psm-price-editor {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+/* Pozycje listy: długa nazwa skrócona wielokropkiem; po rozwinięciu opisu pełna nazwa w kilku
+ * liniach. Kolumny (poziom, waga, limit, szansa, kosz) mają stałe szerokości, więc nie przesuwają się. */
+.psm-lists-window .psm-lists__entries .psm-item__name {
+  flex: 1 1 0;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.psm-lists-window .psm-lists__entries .psm-item__name > .psm-item__toggle,
+.psm-lists-window .psm-lists__entries .psm-item__name > span:first-child {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: left;
+}
+
+.psm-lists-window .psm-lists__entries .psm-item:has(> .item-summary:not([hidden])) .psm-item__name > .psm-item__toggle {
+  white-space: normal;
+  overflow: visible;
+}
+
+.psm-lists-window .psm-lists__entries .psm-item > .psm-col {
+  flex: 0 0 auto;
+}
+
+/* Biblioteka list: nazwa i opis wiersza na środku w pionie (równy odstęp od góry i od dołu);
+ * wiersz ma wysokość mieszczącą nazwę z opisem, więc treść nie dosuwa się do góry. */
+.psm-lists-window .psm-lists__library .psm-item {
+  min-height: 60px;
+  height: 60px;
+  padding-top: 0;
+  padding-bottom: 0;
+  box-sizing: border-box;
+  /* wiersze .psm-item zawijają się (miejsce na opis), więc w pionie centruje align-content */
+  align-content: center;
+}
+
+.psm-lists-window .psm-lists__library .psm-lists__list-name {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 3px;
+  line-height: 1.2;
+}
+
+.psm-lists-window .psm-lists__library .psm-lists__list-title {
+  line-height: 1.2;
+}
+
+/* Podpowiedzi modułu (apps/tooltip.js): przy kursorze, wygląd jak podpowiedzi Foundry */
+.psm-tooltip {
+  position: fixed;
+  z-index: 100000;
+  max-width: 320px;
+  padding: 6px 9px;
+  border: 1px solid #000;
+  border-radius: 4px;
+  background: rgba(16, 12, 10, 0.94);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+  color: #f0e6d6;
+  font-family: Gelasio, Georgia, serif;
+  font-size: 13px;
+  line-height: 1.35;
+  pointer-events: none;
+}
+
+.psm-tooltip[hidden] {
+  display: none;
+}
+
+/* Podgląd pozycji w ustawieniach kategorii: nagłówek rezerwuje miejsce na pasek przewijania
+ * listy pod nim, więc kolumny „Poz.” i „Szansa” stoją nad swoimi wartościami. */
+.psm-category-window section.psm-category:has(> .psm-entries) > .psm-category__header {
+  overflow-y: hidden;
+  scrollbar-gutter: stable;
+}
+
+/* Ustawienia listy: etykiety sekcji, karty trybu, opcje w dwóch kolumnach */
+.psm-lists-window .psm-lists__settings {
+  gap: 8px;
+}
+
+.psm-lists-window .psm-lists__settings-label {
+  color: var(--psm-tertiary);
+  opacity: 0.85;
+}
+
+.psm-lists-window .psm-lists__settings .psm-mode-card {
+  padding: 8px 10px;
+}
+
+.psm-lists-window .psm-lists__options {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px 16px;
+  padding: 2px 0 2px;
+}
+
+.psm-lists-window .psm-lists__options .psm-check {
+  color: var(--psm-text-light);
+}
+
+/* Wydajność przeglądarki przedmiotów: przy tysiącach wierszy („Pokaż wszystkie”) przeglądarka
+ * pomija układ i rysowanie wierszy poza ekranem. Rozwijanie opisu przelicza wtedy tylko
+ * widoczne wiersze (w pomiarze na 6000 wierszy: z ok. 64 ms do ok. 8 ms na klatkę animacji).
+ * `auto 40px`: zanim wiersz zostanie narysowany, zajmuje wysokość zwykłego wiersza. */
+.psm-lists-window [data-browser-list] > li {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 40px;
+}
+
+/* Oznaczenia w polu wyszukiwania (0.44.0, sheets/search-chips.js): trait:x i rarity:x jako
+ * oznaczenia w stylu tagów PF2e. Pole rośnie w pionie, gdy oznaczeń jest więcej niż mieści linia. */
+.psm-sheet .psm-search {
+  height: auto;
+  min-height: 30px;
+  flex-wrap: wrap;
+  row-gap: 3px;
+  padding: 2px 8px;
+  cursor: text;
+}
+
+.psm-sheet .psm-search input {
+  flex: 1 1 80px;
+  min-width: 80px;
+  height: 24px;
+}
+
+.psm-sheet .psm-search__chips {
+  display: contents;
+}
+
+.psm-sheet .psm-qtag {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  max-width: 100%;
+  height: 22px;
+  font-family: var(--psm-condensed);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  line-height: 1;
+  cursor: pointer;
+  user-select: none;
+  outline: none;
+}
+
+.psm-sheet .psm-qtag:focus-visible {
+  box-shadow: 0 0 0 2px var(--psm-primary);
+}
+
+/* Część oznaczenia: cecha jak tag PF2e (bordo, złota ramka), rzadkość w kolorze rzadkości. */
+.psm-sheet .psm-qtag__part {
+  display: inline-flex;
+  align-items: center;
+  height: 20px;
+  padding: 0 6px;
+  border: 1px solid #d9c484;
+  background: var(--psm-primary);
+  color: #fff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.psm-sheet .psm-qtag__part--rarity {
+  background: var(--psm-qtag-color, var(--psm-alt));
+}
+
+/* Pozostałe klucze (type, weapon-category, weapon-group, armor-category, consumable-category,
+ * ammunition-type): wspólny prosty styl, bez tła. */
+.psm-sheet .psm-qtag__part--plain {
+  background: transparent;
+  color: var(--psm-text);
+  border: 1px solid var(--psm-alt);
+}
+
+/* Wartość nieznana systemowi PF2e (literówka?): wyblakła, z przerywaną ramką. */
+.psm-sheet .psm-qtag__part--unknown {
+  background: transparent;
+  color: var(--psm-primary);
+  border: 1px dashed var(--psm-primary);
+}
+
+/* Operator NOT (!): oznaczenie wygląda tak samo, a część z napisem jest przekreślona na środku
+ * czarną kreską przez całą szerokość (bez przycisku ×). Kreska 2 px: widoczna, ale napis
+ * nadal da się przeczytać. */
+.psm-sheet .psm-qtag--not .psm-qtag__part {
+  position: relative;
+}
+
+.psm-sheet .psm-qtag--not .psm-qtag__part::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 2px;
+  transform: translateY(-50%);
+  background: #000;
+  pointer-events: none;
+}
+
+.psm-sheet .psm-search input {
+  text-overflow: ellipsis; /* długie zdanie-podpowiedź w wąskim polu kończy się „…”, a nie urywa w pół słowa */
+}
+
+/* Zdanie-podpowiedź w polu (placeholder) jest widoczne tylko przy pustym wyszukiwaniu —
+ * gdy w polu są już oznaczenia, wpis nie może wyglądać jak ich ciąg dalszy. */
+.psm-sheet .psm-search:has(.psm-qtag) input::placeholder {
+  color: transparent;
+}
+
+/* Grupa „lub”: części w jednej ramce, rozdzielone „|”. */
+.psm-sheet .psm-qtag--or {
+  padding: 0 2px;
+  border: 1px dashed var(--psm-alt);
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.psm-sheet .psm-qtag__or {
+  color: var(--psm-alt-dark);
+  font-size: 12px;
+}
+
+/* × usuwa oznaczenie — wyraźne po najechaniu albo w fokusie (miejsce zawsze zarezerwowane,
+ * żeby oznaczenia nie przeskakiwały). */
+.psm-sheet .psm-qtag__remove {
+  display: inline-flex;
+  opacity: 0.35;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  min-height: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--psm-alt-dark);
+  font-size: 11px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.psm-sheet .psm-qtag:hover .psm-qtag__remove,
+.psm-sheet .psm-qtag:focus-within .psm-qtag__remove {
+  opacity: 1;
+}
+
+.psm-sheet .psm-qtag__remove:hover {
+  color: var(--psm-primary);
+}
+
+/* Okno zakupu: typ amunicji — styl sortowania, szerokość jak lista postaci. */
+.psm-purchase-window .psm-ammo-select {
+  max-width: 220px;
+}
+
+/* Pomoc do składni wyszukiwania (0.47.0): ikona na lewo od pola, na razie tylko widok
+ * (nieaktywna — strona pomocy jeszcze nie istnieje). */
+.psm-sheet .psm-search-row {
+  display: flex;
+  align-items: stretch;
+  gap: 6px;
+}
+
+.psm-sheet .psm-search-row > .psm-search {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.psm-sheet .psm-search-help {
+  flex: 0 0 30px;
+  width: 30px;
+  min-height: 30px;
+  height: auto;
+  margin: 0;
+  padding: 0;
+  border: 1px solid var(--psm-alt);
+  background: rgba(28, 28, 28, 0.06);
+  color: var(--psm-alt-dark);
+  font-size: 15px;
+  line-height: 1;
+}
+
+.psm-sheet .psm-search-help {
+  cursor: pointer;
+}
+
+.psm-sheet .psm-search-help:hover {
+  border-color: var(--psm-primary);
+  color: var(--psm-primary);
+}
+
+/* Przełącznik źródła przeglądarki list towaru: „Lista przedmiotów” / „Lista zaklęć”. */
+.psm-sheet .psm-source__buttons {
+  display: flex;
+  height: 30px;
+}
+
+.psm-sheet .psm-source__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 30px;
+  margin: 0;
+  padding: 0 10px;
+  border: 1px solid var(--psm-alt);
+  border-radius: 0;
+  background: rgba(248, 244, 241, 0.7);
+  color: var(--psm-alt-dark);
+  font-family: var(--psm-condensed);
+  font-size: 13px;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.psm-sheet .psm-source__btn + .psm-source__btn {
+  border-left: none;
+}
+
+.psm-sheet .psm-source__btn[aria-pressed="true"] {
+  border-color: var(--psm-primary-dark);
+  background: var(--psm-primary);
+  color: var(--psm-text-light);
+}
+
+/* Zakres ceny nieużywany przy zaklęciach. */
+.psm-sheet .psm-range--off {
+  opacity: 0.45;
+}
+
+/* Przyciski dodawania przy zaklęciach — na razie nieaktywne (podpowiedź „wkrótce”). */
+.psm-lists-window button.psm-sell-add[aria-disabled="true"] {
+  opacity: 0.35;
+  cursor: help;
+}
+
+/* Panel „Lista zaklęć” (0.48.0): między filtrami a listą wyników, w jednym wierszu —
+ * forma (Zwój / Różdżka) po lewej, ustawienia wybranej formy obok. */
+.psm-sheet .psm-spell-panel {
+  display: flex;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+  margin: 0 0 8px;
+  padding: 8px 10px;
+  border: 1px solid var(--psm-alt);
+  background: rgba(120, 100, 82, 0.1);
+}
+
+.psm-sheet .psm-spell-panel[hidden],
+.psm-sheet .psm-spell-panel__options[hidden] {
+  display: none;
+}
+
+.psm-sheet .psm-spell-panel__options {
+  display: flex;
+  align-items: flex-end;
+  flex: 1 1 auto;
+  gap: 12px;
+  min-width: 0;
+}
+
+.psm-sheet .psm-spell-panel__field {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  color: var(--psm-alt-dark);
+}
+
+.psm-sheet .psm-spell-panel__field .psm-sort {
+  min-width: 110px;
+}
+
+.psm-sheet .psm-spell-panel__hint {
+  flex: 1 1 160px;
+  align-self: center;
+  color: var(--psm-alt-dark);
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 12px;
+}
+
+.psm-sheet .psm-source__btn[aria-disabled="true"] {
+  opacity: 0.5;
+  cursor: help;
+}
+
+/* Lista zaklęć: bez kolumny ceny (zostaje ranga i przyciski dodawania). */
+.psm-lists-window .psm-lists__browser--spells .psm-col--price {
+  display: none;
+}
+
+/* Cena zwoju wybranej rangi — po prawej stronie panelu „Zaklęcie jako”. */
+.psm-sheet .psm-spell-panel__price {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 3px;
+  margin-left: auto;
+  color: var(--psm-alt-dark);
+  white-space: nowrap;
+}
+
+.psm-sheet .psm-spell-panel__price .psm-price-value {
+  color: var(--psm-text);
+  font-family: var(--psm-serif);
+  font-size: 16px;
+  line-height: 30px;
+}
+
+/* „Ranga bazowa” w jednej linii: kolumna szersza (miejsce po ukrytej cenie). */
+.psm-lists-window .psm-lists__browser--spells .psm-col--level {
+  flex-basis: 90px;
+  width: 90px;
+  white-space: nowrap;
+}
+
+/* Koszt rzucenia zaklęcia obok nazwy w przeglądarce list (symbole akcji PF2e). */
+.psm-lists-window .psm-spell-cost {
+  display: inline-flex;
+  align-items: center;
+  flex: 0 0 auto;
+  gap: 1px;
+  margin-left: 6px;
+  color: var(--psm-text);
+  white-space: nowrap;
+}
+
+.psm-lists-window .psm-spell-cost .action-glyph {
+  font-size: 15px;
+  line-height: 1;
+}
+
+.psm-lists-window .psm-spell-cost.psm-micro {
+  color: var(--psm-alt-dark);
+  text-transform: none;
+}
+
+/* ===== Syntax Guide (0.51.0, apps/syntax-guide.js) ===== */
+.psm-guide-window .window-content {
+  padding: 0;
+  overflow: hidden;
+  background: #f8f4f1 var(--psm-bg) center / cover;
+}
+
+.psm-guide-window .psm-guide {
+  height: 100%;
+  overflow-y: auto;
+  padding: 14px 16px 10px;
+  color: var(--psm-text);
+}
+
+.psm-guide-window .psm-guide__alert {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin: 0 0 10px;
+  padding: 8px 12px;
+  border: 1px solid var(--psm-primary);
+  border-left-width: 4px;
+  background: rgba(94, 0, 0, 0.07);
+  font-family: var(--psm-body);
+  font-size: 13.5px;
+}
+
+.psm-guide-window .psm-guide__alert > i {
+  margin-top: 2px;
+  color: var(--psm-primary);
+  font-size: 16px;
+}
+
+.psm-guide-window .psm-guide__alert b {
+  display: block;
+  color: var(--psm-primary);
+  font-family: var(--psm-condensed);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+/* „Creator info” pod opisem podkategorii: ten sam układ co ostrzeżenie, przerywana ramka. */
+.psm-guide-window .psm-guide__note {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin: 8px 0 0;
+  padding: 6px 10px;
+  border: 1px dashed var(--psm-alt);
+  border-radius: 3px;
+  color: var(--psm-alt-dark);
+  font-size: 13px;
+}
+
+.psm-guide-window .psm-guide__note > i {
+  margin-top: 2px;
+  color: var(--psm-alt);
+  font-size: 14px;
+}
+
+.psm-guide-window .psm-guide__note b {
+  display: block;
+  font-family: var(--psm-condensed);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.psm-guide-window .psm-guide__tabs {
+  height: auto;
+  flex-wrap: nowrap;
+  margin-bottom: 14px;
+}
+
+.psm-guide-window .psm-guide__tabs .psm-source__btn {
+  flex: 1 1 auto;
+  justify-content: center;
+  gap: 5px;
+  padding: 0 7px;
+  font-size: 12.5px;
+}
+
+.psm-guide-window .psm-guide__section {
+  margin-bottom: 14px;
+  border: 1px solid var(--psm-alt);
+  background: rgba(255, 255, 255, 0.35);
+}
+
+.psm-guide-window .psm-guide__section > .psm-category__header h3 {
+  margin: 0;
+  color: var(--psm-text-light);
+  font-family: var(--psm-serif);
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.psm-guide-window .psm-guide__body {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 18px;
+  padding: 10px 12px 12px;
+}
+
+.psm-guide-window .psm-guide__text {
+  font-family: var(--psm-body);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.psm-guide-window .psm-guide__text p {
+  margin: 0 0 8px;
+}
+
+.psm-guide-window .psm-guide code {
+  padding: 0 4px;
+  border: 1px solid rgba(120, 100, 82, 0.35);
+  background: rgba(120, 100, 82, 0.14);
+  font-family: "Roboto Mono", Consolas, monospace;
+  font-size: 12.5px;
+}
+
+.psm-guide-window .psm-guide__examples {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-left: 12px;
+  border-left: 2px solid var(--psm-primary);
+}
+
+.psm-guide-window .psm-guide__examples > .psm-micro {
+  color: var(--psm-alt-dark);
+}
+
+.psm-guide-window .psm-guide__example {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 5px 7px;
+}
+
+.psm-guide-window .psm-guide__example code {
+  align-self: flex-start;
+  color: var(--psm-primary);
+  font-weight: 700;
+}
+
+.psm-guide-window .psm-guide__example span {
+  color: var(--psm-alt-dark);
+  font-family: var(--psm-body);
+  font-size: 12.5px;
+}
+
+.psm-guide-window .psm-guide__all {
+  border-top: 1px dashed var(--psm-alt);
+}
+
+.psm-guide-window .psm-guide__all > summary {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  color: var(--psm-alt-dark);
+  font-family: var(--psm-condensed);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  list-style: none;
+  cursor: pointer;
+}
+
+.psm-guide-window .psm-guide__all > summary::-webkit-details-marker {
+  display: none;
+}
+
+.psm-guide-window .psm-guide__all > summary:hover {
+  background: rgba(255, 255, 255, 0.5);
+  color: var(--psm-primary);
+}
+
+.psm-guide-window .psm-guide__all > summary > i {
+  transition: transform 0.15s;
+}
+
+.psm-guide-window .psm-guide__all[open] > summary > i {
+  transform: rotate(90deg);
+}
+
+.psm-guide-window .psm-guide__count {
+  margin-left: auto;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.psm-guide-window .psm-guide__values {
+  display: grid;
+  grid-template-columns: repeat(var(--psm-guide-cols, 1), minmax(0, 1fr));
+  column-gap: 12px; /* = GAP w guide-values.js */
+  padding: 4px 12px 12px;
+}
+
+/* Kolumna: wartości od góry, każda wyśrodkowana (tekst, pod nim oznaczenie). */
+.psm-guide-window .psm-guide__col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.psm-guide-window .psm-guide__value {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  padding: 4px 0;
+  white-space: nowrap;
+}
+
+/* Wartość: sam tekst do wpisania (bez ramki), oznaczenie pod nim. */
+.psm-guide-window .psm-guide__value > code {
+  padding: 0;
+  border: none;
+  background: none;
+  font-size: 12px;
+  line-height: 1.2;
+}
+
+/* Niewidoczny pomiar najszerszej wartości (guide-values.js). */
+.psm-guide-window .psm-guide__probe {
+  position: absolute;
+  visibility: hidden;
+  width: max-content;
+  pointer-events: none;
+}
+
+.psm-guide-window .psm-qtag--preview {
+  cursor: default;
+}
+
+.psm-guide-window .psm-guide__credit {
+  margin-top: 6px;
+  padding-top: 8px;
+  border-top: 1px solid var(--psm-alt);
+  color: var(--psm-alt-dark);
+  font-family: var(--psm-condensed);
+  font-size: 12px;
+  text-align: center;
+}
+
+.psm-guide-window .psm-guide__credit a {
+  color: var(--psm-primary);
+  text-decoration: underline;
+}
+
+/* Syntax Guide: opis tematu nad podkategoriami i podkategoria bez przykładów (pełna szerokość). */
+.psm-guide-window .psm-guide__lead {
+  margin: 0 0 14px;
+  padding: 10px 14px;
+  border: 1px solid var(--psm-alt);
+  background: rgba(255, 255, 255, 0.35);
+  font-family: var(--psm-body);
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.psm-guide-window .psm-guide__lead p {
+  margin: 0 0 8px;
+}
+
+.psm-guide-window .psm-guide__lead p:last-child {
+  margin-bottom: 0;
+}
+
+.psm-guide-window .psm-guide__body--full {
+  grid-template-columns: 1fr;
+}
+
+.psm-guide-window .psm-guide__text ul {
+  margin: 4px 0 8px;
+  padding-left: 20px;
+}
+
+.psm-guide-window .psm-guide__text li {
+  margin-bottom: 6px;
+}
+
+/* Przykładowe oznaczenia w tekście przewodnika. */
+.psm-guide-window [data-guide-tag] {
+  display: inline-flex;
+  vertical-align: middle;
+  margin: 0 2px;
+}
+
+.psm-guide-window .psm-guide__tags {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  vertical-align: middle;
+}

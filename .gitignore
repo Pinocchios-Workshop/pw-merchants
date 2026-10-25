@@ -1,0 +1,17 @@
+# Build output
+dist/
+
+# Dependencies (when the project moves to npm tooling)
+node_modules/
+
+# Editors and systems
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+
+# Local packages and screenshots
+*.zip
+*.png
+!docs/**/*.png

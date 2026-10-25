@@ -1,0 +1,48 @@
+{
+  "description": "Lista sprzed pól format/schema.",
+  "input": {
+    "id": "list1",
+    "name": " Mikstury ",
+    "mode": "manual",
+    "guaranteed": false,
+    "drawLimit": true,
+    "entries": [
+      {
+        "uuid": "Compendium.pf2e.equipment-srd.Item.a",
+        "name": "Healing Potion",
+        "level": 1,
+        "weight": 3,
+        "limit": 2
+      }
+    ],
+    "guaranteedEntries": [
+      {
+        "uuid": "Compendium.pf2e.equipment-srd.Item.b",
+        "name": "x"
+      }
+    ]
+  },
+  "expected": {
+    "id": "list1",
+    "name": "Mikstury",
+    "mode": "manual",
+    "guaranteed": false,
+    "drawLimit": true,
+    "entries": [
+      {
+        "uuid": "Compendium.pf2e.equipment-srd.Item.a",
+        "name": "Healing Potion",
+        "img": "icons/svg/item-bag.svg",
+        "level": 1,
+        "rarity": "common",
+        "weight": 3,
+        "limit": 2,
+        "scroll": null,
+        "wand": null
+      }
+    ],
+    "guaranteedEntries": [],
+    "format": "pw-merchant.stock-list",
+    "schema": 1
+  }
+}

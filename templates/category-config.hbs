@@ -1,0 +1,117 @@
+<div class="psm-dialog">
+  <div class="psm-field">
+    <label for="psm-cat-name" class="psm-micro">{{localize "PF2E_SHOP.CategoryConfig.Name"}}</label>
+    <input id="psm-cat-name" class="psm-name-input" type="text" name="name" value="{{name}}"
+           placeholder="{{localize "PF2E_SHOP.CategoryConfig.NamePlaceholder"}}" required autofocus />
+  </div>
+
+  <section class="psm-gm" aria-label="{{localize "PF2E_SHOP.CategoryConfig.Random"}}">
+    <header><h2>{{localize "PF2E_SHOP.CategoryConfig.Random"}}</h2></header>
+
+    {{!-- Sloty list towaru: każda lista ma własny zakres „od–do”; przy wielu slotach lista się przewija --}}
+    <div class="psm-slots" data-slot-list>
+      {{#each slots}}
+        <div class="psm-slot" data-slot="{{index}}">
+          <div class="psm-slot__head">
+            <span class="psm-slot__number psm-micro">{{localize "PF2E_SHOP.StockLists.ListNumber" n=number}}</span>
+            {{#if removable}}
+              <button type="button" class="psm-icon-btn psm-slot__remove" data-action="removeTable"
+                      aria-label="{{localize "PF2E_SHOP.StockLists.RemoveFromCategory"}}" data-psm-tooltip="{{localize "PF2E_SHOP.StockLists.RemoveFromCategory"}}">
+                <i class="fa-solid fa-trash" inert></i>
+              </button>
+            {{/if}}
+          </div>
+          {{#if table}}
+            {{!-- Starsza tabela losowa Foundry (sprzed list towaru): tylko podgląd i odłączenie --}}
+            <div class="psm-table-zone psm-table-link" data-slot="{{index}}">
+              <i class="fa-solid fa-table-list" inert></i>
+              <div class="psm-table-link__text">
+                <span class="psm-table-link__name">{{table.name}}</span>
+                <span class="psm-micro">{{localize "PF2E_SHOP.StockLists.LegacyTable"}}</span>
+              </div>
+              <button type="button" class="psm-btn psm-btn--ghost psm-micro" data-action="openTable">{{localize "PF2E_SHOP.CategoryConfig.Open"}}</button>
+              <button type="button" class="psm-btn psm-btn--ghost psm-micro" data-action="unlinkTable">{{localize "PF2E_SHOP.CategoryConfig.Unlink"}}</button>
+            </div>
+          {{else}}
+            {{!-- Wybór zapisanej listy towaru --}}
+            <div class="psm-list-pick">
+              <i class="fa-solid fa-scroll" inert></i>
+              <select class="psm-list-pick__select" data-slot="{{index}}" data-slot-list-pick
+                      aria-label="{{localize "PF2E_SHOP.StockLists.Pick"}} {{number}}" {{#if @root.noLists}}disabled{{/if}}>
+                <option value="" {{#unless listId}}selected{{/unless}}>{{#if @root.noLists}}{{localize "PF2E_SHOP.StockLists.PickNone"}}{{else}}{{localize "PF2E_SHOP.StockLists.PickPlaceholder"}}{{/if}}</option>
+                {{#each options}}<option value="{{id}}" {{#if selected}}selected{{/if}} {{#if taken}}disabled{{/if}}>{{name}}</option>{{/each}}
+              </select>
+            </div>
+            {{#if listMissing}}<span class="psm-count-error">{{localize "PF2E_SHOP.StockLists.ListMissing"}}</span>{{/if}}
+          {{/if}}
+          <div class="psm-modifier__row">
+            <span class="psm-micro">{{localize "PF2E_SHOP.CategoryConfig.Count"}}</span>
+            <div class="psm-count-range" role="group" aria-label="{{localize "PF2E_SHOP.CategoryConfig.Count"}}">
+              <label for="psm-slot-{{index}}-min" class="psm-micro">{{localize "PF2E_SHOP.Filters.From"}}</label>
+              <input id="psm-slot-{{index}}-min" class="psm-count-input" type="number" name="slot-{{index}}-min" value="{{countMin}}"
+                     min="0" step="1" inputmode="numeric" data-slot="{{index}}" data-slot-count="countMin" />
+              <label for="psm-slot-{{index}}-max" class="psm-micro">{{localize "PF2E_SHOP.Filters.To"}}</label>
+              <input id="psm-slot-{{index}}-max" class="psm-count-input" type="number" name="slot-{{index}}-max" value="{{countMax}}"
+                     min="0" step="1" inputmode="numeric" data-slot="{{index}}" data-slot-count="countMax" />
+            </div>
+          </div>
+          <span class="psm-count-error" data-slot-error="{{index}}" {{#unless error}}hidden{{/unless}}>{{#if error}}{{localize error}}{{/if}}</span>
+        </div>
+      {{/each}}
+      {{#if canAdd}}
+        <button type="button" class="psm-btn psm-btn--ghost psm-slot-add" data-action="addTable">
+          <i class="fa-solid fa-plus" inert></i> {{localize "PF2E_SHOP.StockLists.AddToCategory"}}
+        </button>
+      {{/if}}
+    </div>
+    <span class="psm-hint">{{localize "PF2E_SHOP.StockLists.CategoryListsHint"}}</span>
+  </section>
+
+  <section class="psm-category">
+    <header class="psm-category__header">
+      <h3>{{localize "PF2E_SHOP.CategoryConfig.Entries"}}</h3>
+      <span class="psm-category__meta"></span>
+      <span class="psm-col psm-col--level psm-micro">{{localize "PF2E_SHOP.Inventory.Level"}}</span>
+      <span class="psm-col psm-col--chance psm-micro">{{localize "PF2E_SHOP.CategoryConfig.Chance"}}</span>
+    </header>
+    <ul class="psm-items psm-entries">
+      {{#each groups}}
+        {{!-- Przy kilku tabelach pozycje są pogrupowane po tabelach --}}
+        {{#if @root.manyGroups}}
+          <li class="psm-item psm-entries__group">
+            <span class="psm-item__name"><i class="fa-solid {{#if isList}}fa-scroll{{else}}fa-table-list{{/if}}" inert></i> <span>{{name}}</span></span>
+            <span class="psm-entries__range psm-micro">{{localize "PF2E_SHOP.StockLists.ItemCount" count=size}}</span>
+          </li>
+        {{/if}}
+        {{#each entries}}
+          <li class="psm-item{{#if odd}} odd{{/if}}">
+            {{#if img}}<img class="psm-item__img" src="{{img}}" alt="" />{{/if}}
+            <span class="psm-item__name">
+              <span>{{name}}</span>
+              {{#unless isDocument}}<span class="psm-tag psm-micro">{{localize "PF2E_SHOP.CategoryConfig.TextResult"}}</span>{{/unless}}
+              {{#if tag}}<span class="psm-tag psm-micro">{{tag}}</span>{{/if}}
+            </span>
+            <span class="psm-col psm-col--level">{{level}}</span>
+            <span class="psm-col psm-col--chance">{{chance}}</span>
+          </li>
+        {{else}}
+          <li class="psm-item psm-item--empty">{{localize "PF2E_SHOP.CategoryConfig.TableEmpty"}}</li>
+        {{/each}}
+      {{else}}
+        <li class="psm-item psm-item--empty">{{localize "PF2E_SHOP.CategoryConfig.NoEntries"}}</li>
+      {{/each}}
+    </ul>
+    <p class="psm-note">{{localize "PF2E_SHOP.StockLists.WeightsNote"}}{{#if manyGroups}} {{localize "PF2E_SHOP.CategoryConfig.EntriesHint"}}{{/if}}</p>
+  </section>
+
+  <footer class="psm-dialog__footer">
+    {{#unless isNew}}
+      <button type="button" class="psm-btn psm-btn--danger" data-action="deleteCategory">
+        <i class="fa-solid fa-trash" inert></i> {{localize "PF2E_SHOP.CategoryConfig.Delete"}}
+      </button>
+    {{/unless}}
+    <span class="psm-spacer"></span>
+    <button type="button" class="psm-btn psm-btn--neutral" data-action="cancel">{{localize "PF2E_SHOP.CategoryConfig.Cancel"}}</button>
+    <button type="submit" class="psm-btn psm-btn--primary">{{localize "PF2E_SHOP.CategoryConfig.Save"}}</button>
+  </footer>
+</div>

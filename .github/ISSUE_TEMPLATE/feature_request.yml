@@ -1,0 +1,21 @@
+name: Feature request
+description: An idea for a new feature or an improvement.
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What would you like to do?
+      description: Describe the situation at the table and what is missing or inconvenient.
+    validations:
+      required: true
+  - type: textarea
+    id: idea
+    attributes:
+      label: Your idea
+      description: How could the module help? Screens, examples or search queries are welcome.
+  - type: dropdown
+    id: role
+    attributes:
+      label: Who is it for?
+      options: [GM, Player, Both]

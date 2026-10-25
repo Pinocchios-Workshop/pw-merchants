@@ -1,0 +1,745 @@
+{
+  "PF2E_SHOP": {
+    "Subtitle": "Merchant",
+    "Purse": "Shop purse",
+    "EditPurse": "Edit shop purse",
+    "CharacterPurse": "Character purse",
+    "Description": "Shop description",
+    "NoDescription": "The shopkeeper has no description yet.",
+    "NotImplemented": "This feature is coming soon.",
+    "Portrait": {
+      "Edit": "Click to change the shopkeeper's art",
+      "Hint": "Click to change art",
+      "View": "Click to view the shopkeeper's art",
+      "ViewHint": "Click to view art"
+    },
+    "GM": {
+      "Legend": "Merchant panel",
+      "Mode": "Mode",
+      "PriceModifier": "Price modifier",
+      "Reset": "Reset 100%",
+      "Randomize": "Replenish stock",
+      "NewCategory": "New category",
+      "StockLists": "Stock lists"
+    },
+    "Filters": {
+      "Melee": "Melee",
+      "Label": "Filters",
+      "Search": "Search",
+      "SearchPlaceholder": "Type plain words to search by name. Add key:value filters to narrow the list.",
+      "Level": "Level",
+      "From": "from",
+      "To": "to",
+      "Sort": "Sort",
+      "SortLevel": "Level → name",
+      "SortName": "Name (A–Z)",
+      "Categories": "Categories",
+      "ToggleCategory": "Click to hide or show this category",
+      "SortPriceAsc": "Price ascending",
+      "SortPriceDesc": "Price descending",
+      "Price": "Price",
+      "Reset": "Reset filters",
+      "NoMatch": "No item in this category matches the filters.",
+      "ShowAllCategories": "Show all categories",
+      "AllCategories": "All categories",
+      "SearchHint": "Search by name. Narrow down with key:value (dashes instead of spaces, e.g. trait:cold-iron): trait:x — PF2e traits; rarity:x — common, uncommon, rare, unique; type:x — ammunition, armor, consumable, container, equipment, kit, shield, treasure, weapon; weapon-category:x (e.g. martial), weapon-group:x (e.g. sword, bow), armor-category:x (e.g. light), consumable-category:x (e.g. potion), ammunition-type:x (e.g. arrows). Separate several with spaces — items must match all of them. Use | for “or” within one word: weapon-group:axe|weapon-group:sword or, shorter, weapon-group:axe|sword (don't mix both forms in one word).",
+      "ChipEdit": "double-click to edit",
+      "ChipRemove": "Remove",
+      "SearchHelp": "Syntax Guide — how to search",
+      "SortRank": "Rank → name"
+    },
+    "Category": {
+      "Other": "Other",
+      "NoList": "No linked list",
+      "Settings": "Category settings",
+      "ListMeta": "List: {table}",
+      "TableMissing": "missing table",
+      "OtherMeta": "Uncategorized items",
+      "Move": "Move category",
+      "MoveHint": "Drag to reorder (or use the ↑ ↓ keys)",
+      "Clear": "Remove all items from the category",
+      "Buyback": "Buyback",
+      "BuybackMeta": "Bought from players · 75% prices, no multiplier",
+      "ListMetaMany": "Lists: {tables}"
+    },
+    "Inventory": {
+      "Level": "Lvl",
+      "Price": "Price",
+      "Quantity": "Qty",
+      "Base": "base",
+      "Remove": "Remove",
+      "Buy": "Buy",
+      "EmptyCategory": "No items in this category.",
+      "DropHint": "Drag an item from a compendium or the list onto a category",
+      "SoldOut": "Sold out",
+      "ShowDetails": "Show details",
+      "Bulk": "Bulk",
+      "AmmoAny": "any (except magazines)",
+      "AmmoTypeLine": "Ammunition type: {type}",
+      "Stacked": "Stacked with an existing entry: {name} (+{count}).",
+      "Settings": "Item settings",
+      "CustomPrice": "Custom base price (book price: {price})",
+      "NoPlayerDrop": "You cannot give or sell items to this shop. The item stays in your inventory.",
+      "ExpandHint": "Click a name to expand the description.",
+      "UsageLine": "Usage: {usage}"
+    },
+    "CategoryConfig": {
+      "TitleNew": "New category",
+      "TitleEdit": "Category: {name}",
+      "Name": "Category name",
+      "NamePlaceholder": "e.g. Ammunition",
+      "Random": "Stock lists",
+      "Table": "Item lists (roll tables)",
+      "TableDrop": "Drag a roll table here from the sidebar or a compendium",
+      "Open": "Open",
+      "Unlink": "Unlink",
+      "Count": "Items to draw",
+      "Entries": "List entries",
+      "EntryWeight": "Weight",
+      "Chance": "Chance",
+      "NoEntries": "No list linked.",
+      "WeightsNote": "Entry weights are edited in the roll table itself.",
+      "Delete": "Delete category",
+      "Cancel": "Cancel",
+      "Save": "Save",
+      "TableSummary": "{size} entries · total weight {weight}",
+      "TableReplace": "Drag another table here to replace it.",
+      "TableMissing": "The linked table no longer exists. Drag a new roll table here.",
+      "TableEmpty": "The table has no entries.",
+      "TextResult": "text",
+      "NotATable": "Only a roll table can be dropped here.",
+      "NameRequired": "Enter a category name.",
+      "CountHint": "Each table draws its own number of items, rolled from its range (e.g. 3 to 5). Fixed number: the same value in both fields.",
+      "CountInvalid": "Enter whole numbers from 0 up (no fractions or negative numbers).",
+      "CountOrder": "“From” cannot be greater than “to”.",
+      "AddTable": "Add another roll table",
+      "RemoveTable": "Remove this roll table",
+      "TableDuplicate": "This roll table is already linked to the category.",
+      "EntriesHint": "Chances are per list.",
+      "TableNumber": "Table {n}"
+    },
+    "Error": {
+      "WrongSystem": "{module} only works with the Pathfinder 2e system.",
+      "PatchFailed": "{module}: could not attach the merchant view. See the console (F12) for details.",
+      "PricePatchFailed": "{module}: could not hook the price multiplier into PF2e items. Purchases will use base prices.",
+      "OtherVariant": "{module} is turned off because {other} is already active. Enable only one of them."
+    },
+    "Randomize": {
+      "Title": "Replenish stock",
+      "Intro": "Select the categories you want to replenish.",
+      "Categories": "Categories to replenish",
+      "Mode": "Replenish mode",
+      "Replace": "Replace",
+      "ReplaceHint": "Removes the current stock of the selected categories and adds new items.",
+      "Add": "Add",
+      "AddHint": "Keeps the current stock. An item already in the category gets a higher quantity.",
+      "Untouched": "Unchecked categories, categories without a linked table and “Other” stay unchanged.",
+      "Confirm": "Replenish",
+      "Cancel": "Cancel",
+      "NothingToDraw": "No category has a linked roll table with an item count above zero.",
+      "Done": "Stock randomized. New entries: {created}, quantities increased: {stacked}, categories: {categories}.",
+      "MissingTables": "Skipped categories with a missing table: {names}.",
+      "SelectAll": "Select or deselect all",
+      "NoneSelected": "Select at least one category to draw.",
+      "Range": "{range} items",
+      "NoParty": "No party or player characters found — lists in “Character level based” mode were drawn with equal chances.",
+      "MissingItems": "Some list items could not be found and were skipped: {items}"
+    },
+    "DeleteCategory": {
+      "Title": "Delete category",
+      "Label": "Delete this category?",
+      "Items": "Items from this category ({count}) will move to “Other”. No stock is removed.",
+      "NoItems": "The category is empty, no stock will change.",
+      "Table": "The “{table}” table will only be unlinked. The table itself is not changed.",
+      "Irreversible": "Deleting a category cannot be undone.",
+      "Cancel": "Cancel",
+      "Confirm": "Delete category",
+      "Tables": "The roll tables {tables} will only be unlinked. The tables themselves are not changed."
+    },
+    "ClearCategory": {
+      "Title": "Empty category",
+      "Label": "Remove all items from this category?",
+      "ToRemove": "To be removed",
+      "Summary": "Entries to remove: {positions}, {units} pcs in total. They will be permanently removed from the shop.",
+      "Keeps": "The category itself stays, with its roll tables. It will be empty.",
+      "Irreversible": "This cannot be undone. Removed items cannot be restored.",
+      "Cancel": "Cancel",
+      "Confirm": "Remove items",
+      "KeepsOther": "The “{name}” category stays and will be empty.",
+      "AlreadyEmpty": "This category is already empty.",
+      "Done": "Entries removed from the shop: {count}."
+    },
+    "ItemConfig": {
+      "Title": "Item: {name}",
+      "Level": "Item {level}",
+      "PriceSection": "Shop price",
+      "BookPrice": "Book price",
+      "UseCustom": "Custom base price",
+      "PerHint": "Price per {per} units, as in the book.",
+      "ShopPrice": "Shop price (multiplier {percent}%)",
+      "Note": "The shop multiplier also applies to the custom price. The custom price applies only in this shop: a bought item has its book price in the inventory.",
+      "UseBook": "Restore book price",
+      "OneCurrency": "One currency at a time: entering an amount in another coin replaces the previous one.",
+      "ShopPriceBuyback": "Shop price (buyback: 75%, no multiplier)"
+    },
+    "Name": "Shop name",
+    "NameHint": "Click to rename the shop",
+    "Tags": {
+      "Add": "Add shop tag",
+      "Remove": "Remove tag",
+      "Placeholder": "e.g. Books",
+      "ShowAll": "Show all tags",
+      "All": "All shop tags"
+    },
+    "PurseConfig": {
+      "Title": "Shop purse: {name}",
+      "Total": "Total",
+      "Note": "The purse does not use platinum. On save the amount is split into coins, e.g. 25 sp is saved as 2 gp 5 sp.",
+      "Clear": "Clear"
+    },
+    "DescriptionConfig": {
+      "Button": "Shop description",
+      "Title": "Shop description: {name}",
+      "Intro": "Players see this description on their view of the shop sheet."
+    },
+    "Purchase": {
+      "Title": "Purchase: {name}",
+      "Section": "Purchase",
+      "UnitPrice": "Price",
+      "Quantity": "Quantity",
+      "Max": "All",
+      "Stock": "in stock: {stock}",
+      "Buyer": "Buyer",
+      "Total": "Total",
+      "NotEnough": "The character does not have enough money.",
+      "NoGM": "Purchases need a GM logged in (they run automatically on the GM's side).",
+      "Done": "Bought {quantity}× {item} for {price}.",
+      "Chat": "<strong>{buyer}</strong> buys {quantity}× <strong>{item}</strong> for {price} at {shop}.",
+      "Error": {
+        "Missing": "This item is no longer in the shop.",
+        "Buyer": "You cannot buy with this character.",
+        "Quantity": "Invalid quantity.",
+        "SoldOut": "{item}: sold out.",
+        "Stock": "{item}: only {stock} in stock.",
+        "Funds": "{buyer} does not have {price}.",
+        "NoCharacter": "You have no character to buy with.",
+        "Unknown": "The purchase failed. See the GM's console."
+      },
+      "AmmoType": "Ammunition type"
+    },
+    "Sell": {
+      "Button": "Sell items",
+      "Title": "Sell: {shop}",
+      "Seller": "Seller",
+      "Level": "Level {level}",
+      "Search": "Search inventory…",
+      "Value": "Value",
+      "Equipped": "Equipped / in use",
+      "InOffer": "in offer",
+      "Add": "Add to offer",
+      "Remove": "Remove from offer",
+      "NoItems": "The character has nothing to sell.",
+      "ContainerNotEmpty": "Empty the container first.",
+      "Group": {
+        "weapon": "Weapons",
+        "armor": "Armor & shields",
+        "equipment": "Equipment",
+        "consumable": "Consumables",
+        "treasure": "Treasure",
+        "backpack": "Containers",
+        "other": "Other"
+      },
+      "Offer": "Sale offer",
+      "Positions": "positions: {count}",
+      "EmptyHint": "Add items from the list on the left (“+”).",
+      "TotalValue": "Items' value",
+      "YouGet": "You get",
+      "Rules": "The shop pays half of an item's value. Treasure sells for full value. The shopkeeper may refuse some items.",
+      "Send": "Offer to sell",
+      "KeepHint": "Items stay in your inventory until the GM decides. Closing the window withdraws the offer.",
+      "EmptyOffer": "The offer is empty.",
+      "SentTitle": "Offer sent",
+      "Waiting": "The shopkeeper is looking at the items…",
+      "ForAll": "For everything",
+      "Withdraw": "Withdraw",
+      "CounterTitle": "Counteroffer",
+      "CounterText": "The shopkeeper will buy only some.",
+      "NotWanted": "not wanted",
+      "Decline": "Decline",
+      "Accept": "Sell",
+      "DoneTitle": "Sale complete",
+      "DoneText": "Sold for {price}.",
+      "Again": "New offer",
+      "RejectedTitle": "Rejected",
+      "RejectedText": "The shopkeeper won't buy these items.",
+      "KeptAll": "Everything stayed in your inventory.",
+      "NoGM": "Selling needs a GM logged in.",
+      "NoCharacter": "You have no character to sell with.",
+      "Done": "Sold for {price}.",
+      "Chat": "<strong>{seller}</strong> sells at {shop}: {items} for {price}.",
+      "Error": {
+        "Missing": "The shop or character no longer exists.",
+        "Changed": "{item}: no longer in the inventory in this quantity. Sale stopped.",
+        "Empty": "No items selected.",
+        "ShopFunds": "The shop doesn't have {price}.",
+        "Unknown": "The sale failed. See the GM's console."
+      },
+      "ShopTooPoor": "The shop doesn't have that much money. Remove some items from the offer.",
+      "FullPrice": "Full price",
+      "PartlyWanted": "of {count} offered"
+    },
+    "SellReview": {
+      "Title": "Sale offer: {seller} → {shop}",
+      "Incoming": "{user}: {seller} offers to sell to {shop}.",
+      "Player": "player: {name}",
+      "Items": "Items",
+      "ShopPays": "Shop pays",
+      "Treasure": "treasure 100%",
+      "Keep": "Shopkeeper accepts",
+      "ListHint": "Click a name to expand the description. Use − and + to accept fewer pieces. Everything in full: “Buy”. Some unchecked or fewer pieces: “Counteroffer” (the player decides whether to sell).",
+      "Decision": "Shopkeeper's decision",
+      "Chosen": "{checked} of {count}",
+      "ForAll": "For the whole offer",
+      "ForChosen": "Shop pays for checked",
+      "After": "Shop purse after the sale:",
+      "NotEnough": "The shop purse is short.",
+      "Rules": "The price is fixed: half value, treasure at full value. Closing the window rejects the offer.",
+      "Reject": "Reject all",
+      "Buy": "Buy ({count})",
+      "Counter": "Counteroffer ({count})",
+      "WaitingPlayer": "Waiting for the player…",
+      "ItemLine": "Item {level} · Price {price}",
+      "Rejected": "Offer rejected: {seller}.",
+      "Sold": "{seller}: bought for {price}.",
+      "Declined": "{seller} declined the counteroffer.",
+      "Cancelled": "{seller} withdrew the offer.",
+      "ToShop": "Offer to the shop",
+      "OpenShop": "Open the shop sheet",
+      "OfOffered": "of {count}"
+    },
+    "StockLists": {
+      "Settings": "List settings",
+      "Title": "Stock lists",
+      "EditTitle": "Stock list: {name}",
+      "NewTitle": "New stock list",
+      "Library": "Stock lists",
+      "Count": "{count} lists",
+      "Lead": "Lists of items a shop can stock, with the chance of each item. A category draws from one or more lists. Lists are saved in the world and can be used by every shop.",
+      "New": "New list",
+      "Import": "Import list",
+      "SearchLists": "Search lists…",
+      "Saved": "Saved lists",
+      "Meta": "{entries} entries · level {levels}",
+      "Edit": "Edit",
+      "Duplicate": "Duplicate",
+      "Export": "Export",
+      "Delete": "Delete",
+      "NoLists": "No stock lists yet. Create a new list or import one.",
+      "LibraryHint": "Export saves a list as a file you can share or import in another world.",
+      "Back": "All lists",
+      "Name": "List name",
+      "NamePlaceholder": "e.g. Otari smithy weapons",
+      "Source": "Browse",
+      "Type": "Item type",
+      "Rarity": "Rarity",
+      "SearchPlaceholder": "Search items…",
+      "Results": "Items",
+      "Showing": "showing {shown} of {total}",
+      "Add": "Add to list",
+      "BrowserHint": "Items from the Pathfinder 2e compendia and the world's Items directory. Click a name to expand the description; click + to add an item, or drag it to the list.",
+      "Entries": "List entries",
+      "Quantity": "Qty",
+      "DropHint": "Drag items here from the compendium list, a compendium or the Items directory",
+      "EntriesHint": "Weight sets the chance of an entry.",
+      "Save": "Save list",
+      "Pick": "Stock list",
+      "PickPlaceholder": "Choose a stock list…",
+      "AddToCategory": "Add another stock list",
+      "ListNumber": "List {n}",
+      "WeightsNote": "Entries and weights are edited in Stock lists.",
+      "RemoveFromCategory": "Remove this list from the category",
+      "Types": "Item types",
+      "Loading": "Loading items…",
+      "NoMatch": "No item matches the filters.",
+      "ShowMore": "Show {count} more",
+      "ShowAll": "Show all ({count})",
+      "Mode": "Weight mode",
+      "Modes": {
+        "Manual": "Manual weights",
+        "PartyLevel": "Character level based"
+      },
+      "AlreadyIn": "{name} is already on the list.",
+      "NotPhysical": "Only physical items (weapons, armor, equipment, consumables, treasure…) can be added to a stock list.",
+      "RemoveFromList": "Remove from list",
+      "NoListMatch": "No list matches the search.",
+      "NameRequired": "Give the list a name before saving.",
+      "SavedNote": "Stock list “{name}” saved.",
+      "GuaranteedOption": "Allow guaranteed items",
+      "Guaranteed": "Guaranteed items",
+      "Min": "Min",
+      "Max": "Max",
+      "AddGuaranteed": "Add as guaranteed item",
+      "RemoveGuaranteed": "Remove from guaranteed items",
+      "GuaranteedDropHint": "Click the pin next to + or drag items here",
+      "GuaranteedHint": "Guaranteed items are always in stock after a restock, in a quantity from Min to Max. They are not part of the draw.",
+      "DrawLimitOption": "Limit maximum quantity",
+      "Limit": "Limit",
+      "LimitHint": "Limit: how many times an item can be drawn in one restock (empty = no limit).",
+      "DeleteTitle": "Delete stock list",
+      "DeleteLabel": "Delete this stock list?",
+      "DeleteEntries": "The list has {count} entries.",
+      "DeleteGuaranteed": "It also has {count} guaranteed items.",
+      "DeleteShops": "Items already in shops stay; shops will no longer draw from this list.",
+      "DeleteIrreversible": "Deleting a list cannot be undone. Export it first if you may need it again.",
+      "DeleteConfirm": "Delete list",
+      "Deleted": "Stock list “{name}” deleted.",
+      "Duplicated": "Created “{name}”.",
+      "CopyName": "{name} (copy)",
+      "CopyNameN": "{name} (copy {n})",
+      "PickNone": "No stock lists yet",
+      "ListMissing": "This stock list was deleted. Pick another one.",
+      "LegacyTable": "Foundry roll table (older setup) — unlink it and pick a stock list.",
+      "GuaranteedTag": "guaranteed",
+      "PartyLevel": "Party level {level}",
+      "NoPartyLevel": "No party — equal chances",
+      "LevelEntriesHint": "Chance of a single draw at the current party level: lower levels less often, +1 and +2 rarely, higher never. Each draw lowers the chance of the same item.",
+      "ImportInvalid": "This file is not a stock list (or it is damaged).",
+      "ImportNewer": "This stock list was made with a newer version of the module. Update the module to import it.",
+      "Imported": "Imported: {names}.",
+      "ImportMissing": "{count} items from the imported list were not found in this world; they stay on the list marked “not found”.",
+      "NotFound": "not found",
+      "NotFoundHint": "This item was not found in this world (by UUID or name). It is skipped when drawing; remove it or add the right item.",
+      "CategoryListsHint": "Categories draw items from the selected lists, within the given number ranges. To create or edit lists, use the “Stock lists” button on the main shop view.",
+      "ItemCount": "{count} items",
+      "ModeTextManual": "You set the weight of each item yourself.",
+      "ModeTextLevel": "Chances follow the party's average level and are calculated automatically.",
+      "Options": "Options",
+      "SourceItems": "Item list",
+      "SourceSpells": "Spell list",
+      "LoadingSpells": "Loading spells…",
+      "SpellForm": "Spell as",
+      "Scroll": "Scroll",
+      "Wand": "Wand",
+      "ScrollRank": "Scroll rank",
+      "ScrollHint": "Shows spells that can be cast at this rank; + and the pin add an item of this rank.",
+      "SpellResults": "Spells",
+      "BaseRank": "Base rank",
+      "ScrollPrice": "Scroll price",
+      "WandRank": "Wand rank",
+      "WandPrice": "Wand price"
+    },
+    "Data": {
+      "NewerShop": "{module}: this shop was saved by a newer version of the module. Update the module to change it — until then it is read-only.",
+      "NewerWorld": "{module}: this world's data was saved by a newer version of the module. Update the module; shops saved in the newer format stay read-only until then.",
+      "MigrationFailed": "{module}: could not update the data of the shop \"{name}\" to the new format. Nothing was lost — the old data is still in place. See the console (F12).",
+      "Migrated": "{module}: data updated to the new format (shops: {shops}, stock lists: {lists}). A copy of the old data was kept."
+    },
+    "SyntaxGuide": {
+      "Title": "Syntax Guide",
+      "AlertTitle": "Early development",
+      "AlertText": "The search engine and its syntax are still in an early stage of development and may change in future versions.",
+      "Examples": "Examples",
+      "CreatorInfo": "Creator info",
+      "AllValues": "All values",
+      "ValueCount": "{count} values",
+      "Credit": "Syntax Guide inspired by <a href=\"https://scryfall.com/docs/syntax\" target=\"_blank\" rel=\"noopener\">Scryfall's search reference</a>. Thank you, Scryfall team!",
+      "Topics": {
+        "basics": "Basics",
+        "logic": "Logical operators",
+        "traits": "Pathfinder2e traits",
+        "rarity": "Rarity",
+        "weapons": "Weapons",
+        "armor": "Armor",
+        "shields": "Shields",
+        "consumables": "Consumables",
+        "ammunition": "Ammunition",
+        "spells": "Spells"
+      },
+      "basics": {
+        "Intro": "<p>The search engine was built for Game Masters and players who need powerful ways to filter and categorize content. Whether you are looking for magic blades, arcane spells or anything else in the game world, it lets you find what you need right in Foundry VTT, without reaching for outside sources.</p><p>Besides searching by name, the engine offers a system of keys which, combined with the right values, narrow the results precisely and find exactly the items you want.</p><p>This Syntax Guide is split into sections for each category of content. Each one describes the keys available there and how to use them.</p>",
+        "filters": {
+          "Title": "Key:value filters",
+          "Text": "<p>An expression in the form <code>key:value</code> filters the content. Values made of several words are written with <b>dashes instead of spaces</b>, e.g. <code>trait:deadly-d12</code>.</p><p>Unlike a plain name search, keys and their values must be typed in full or in a supported short form. For example, <code>trait:mag</code> will not find items with the <code>magical</code> trait.</p><p>The order of the keys doesn't matter — all filters apply at the same time. Any piece of text that isn't recognized as a key is treated as part of the item's name.</p>",
+          "Ex1": {
+            "Query": "trait:magical",
+            "Text": "Finds magical items."
+          },
+          "Ex2": {
+            "Query": "trait:magical sword",
+            "Text": "Finds magical swords."
+          }
+        },
+        "type": {
+          "Title": "Item types",
+          "Text": "<p>The <code>type:value</code> key filters content by its type. This is the most general classification, based on the structure of the Pathfinder 2e system in Foundry VTT.</p><p>The same value can appear in different keys, but that doesn't mean they do the same thing. For example, <code>type:consumable</code> finds items of the Consumable type in Pathfinder 2e, while <code>trait:consumable</code> filters content that has the <code>consumable</code> trait, whatever its type.</p><p>Ammunition, for instance, can have the <code>consumable</code> trait even though its type is <code>type:ammunition</code>.</p><p>There is also a short form: <code>ty:value</code>. For example, <code>ty:weapon</code> works exactly like <code>type:weapon</code>.</p>",
+          "Ex1": {
+            "Query": "type:weapon",
+            "Text": "Finds all weapons."
+          },
+          "Ex2": {
+            "Query": "type:consumable trait:healing",
+            "Text": "Finds all consumables with the healing trait."
+          },
+          "Ex3": {
+            "Query": "ty:armor trait:magical",
+            "Text": "Finds all magical armor, using the short form of the key."
+          }
+        },
+        "tags": {
+          "Title": "Key visualization",
+          "Text": "<p>When you press Space or Enter, or leave the search field, every <code>key:value</code> expression turns into a label in the Pathfinder 2e style.</p><p>Converted filters can still be edited or removed. To remove a filter, click the <b>×</b> next to its label. To edit it, double-click the label.</p><p>There are currently three kinds of labels:</p><ul><li><b>Pathfinder 2e traits</b> — shown in red. Example: <span data-guide-tag=\"trait:acid\"></span></li><li><b>Rarity</b> — shown in the rarity's own color; all four levels side by side: <span class=\"psm-guide__tags\"><span data-guide-tag=\"rarity:common\"></span><span data-guide-tag=\"rarity:uncommon\"></span><span data-guide-tag=\"rarity:rare\"></span><span data-guide-tag=\"rarity:unique\"></span></span></li><li><b>Other keys</b> — shown as plain labels when the value is valid, or with a dashed border when it isn't. Examples: <span data-guide-tag=\"type:weapon\"></span> (<code>type:weapon</code>) and <span data-guide-tag=\"type:weapons\"></span> (<code>type:weapons</code>).</li></ul>"
+        }
+      },
+      "logic": {
+        "Intro": "<p>Beyond searching by name and filtering by key, the search engine supports <b>logical operators</b>. They let any player narrow a search down to exactly what they need right now, and work with both names and filters.</p>",
+        "and": {
+          "Title": "AND Operator",
+          "Text": "<p>Every word and filter separated by a <b>space</b> must match the item. Anything that isn't a <code>key:value</code> filter is read as the item's name. The order of the name and filters doesn't matter.</p>",
+          "Ex1": {
+            "Query": "trait:agile trait:finesse",
+            "Text": "Items with the agile and finesse traits"
+          },
+          "Ex2": {
+            "Query": "type:weapon rarity:uncommon",
+            "Text": "Uncommon weapons"
+          }
+        },
+        "or": {
+          "Title": "OR Operator",
+          "Text": "<p>The <code>|</code> sign searches for <b>any one</b> of several values. Put it between the values, with no spaces. You can list more than one value, but all of them must use the <b>same key</b> — <code>trait:acid|trait:fire</code> is valid, <code>trait:acid|rarity:rare</code> is not.</p><p><b>Short form:</b> write the key only once; the values after the first, without a colon, reuse it. <code>trait:acid|trait:fire</code> works the same as <code>trait:acid|fire</code>. The group is one condition — other words still have to match too.</p>",
+          "Ex1": {
+            "Query": "weapon-group:axe|weapon-group:sword",
+            "Text": "Axes or swords"
+          },
+          "Ex2": {
+            "Query": "type:weapon|shield",
+            "Text": "Weapons or shields (short form)"
+          },
+          "Ex3": {
+            "Query": "potion|elixir",
+            "Text": "Names with “potion” or “elixir”"
+          }
+        },
+        "not": {
+          "Title": "NOT Operator",
+          "Text": "<p>The NOT operator excludes a specific name or filter from the search. Put <code>!</code> before the key.</p>",
+          "Ex1": {
+            "Query": "weapon-group:axe !rarity:rare",
+            "Text": "Axes that aren't rare"
+          },
+          "Ex2": {
+            "Query": "wand !of",
+            "Text": "Wands without “of” in the name"
+          }
+        },
+        "combine": {
+          "Title": "Combining operators",
+          "Text": "<p>Operators can't be combined in one filter yet. This may arrive in the official 1.0 release.</p>",
+          "Ex1": {
+            "Query": "!trait:acid|fire",
+            "Text": "Won't work"
+          }
+        }
+      },
+      "traits": {
+        "Intro": "<p>Thanks to the hard work of Paizo and the creators of the Pathfinder 2e system for Foundry VTT, every item, spell and feat is described by one or more traits that define its properties and use. The game database contains hundreds of unique traits, each with its own function.</p><p>Because of their number and variety, they are not split into further categories. Instead, the search engine lets you look traits up directly by name — a single key is enough to find the entry you want.</p>",
+        "trait": {
+          "Title": "Usage",
+          "Text": "<p>To search with the official Pathfinder 2e property system, use the <code>trait:value</code> key or its short form, <code>t:value</code>. To see every trait that exists in the system, open <b>All values</b> below.</p>",
+          "Ex1": {
+            "Query": "trait:magical",
+            "Text": "Items with the magical trait"
+          },
+          "Ex2": {
+            "Query": "t:fire|cold|electricity",
+            "Text": "Items with the fire, cold or electricity trait, using the short form of the key"
+          }
+        }
+      },
+      "rarity": {
+        "Intro": "<p>Every item and spell in Pathfinder has a rarity. Most items in the world of Pathfinder are classified as common, but some are harder to come by, and a few are one of a kind. To find such items, use the <code>rarity:value</code> key.</p>",
+        "rarity": {
+          "Title": "Usage",
+          "Text": "<p>Items with no rarity listed are considered common. You can also use the short form of the key, <code>r:value</code>.</p>",
+          "Ex1": {
+            "Query": "weapon-group:sword rarity:unique",
+            "Text": "Unique swords"
+          },
+          "Ex2": {
+            "Query": "type:shield r:rare",
+            "Text": "Rare shields, using the short form of the key"
+          }
+        }
+      },
+      "weapons": {
+        "category": {
+          "Title": "Weapon category",
+          "Text": "<p>Use the <code>weapon-category:value</code> key, or its short form <code>wct:value</code>, to find weapons by their proficiency category.</p>",
+          "Ex1": {
+            "Query": "weapon-category:martial",
+            "Text": "Martial weapons"
+          },
+          "Ex2": {
+            "Query": "wct:simple|martial",
+            "Text": "Simple or martial weapons"
+          }
+        },
+        "group": {
+          "Title": "Weapon group",
+          "Text": "<p>Use the <code>weapon-group:value</code> key, or its short form <code>wg:value</code>, to find weapons by their group. Under the Pathfinder 2e rules, a weapon's group determines its critical specialization effect.</p>",
+          "Ex1": {
+            "Query": "weapon-group:sword",
+            "Text": "Swords"
+          },
+          "Ex2": {
+            "Query": "wg:bow|crossbow",
+            "Text": "Bows or crossbows"
+          }
+        },
+        "base": {
+          "Title": "Weapon base",
+          "Text": "<p>Use the <code>weapon-base:value</code> key, or its short form <code>wb:value</code>, to find weapons built on a specific base weapon.</p>",
+          "Ex1": {
+            "Query": "weapon-base:longsword",
+            "Text": "Every longsword, including magic ones"
+          },
+          "Ex2": {
+            "Query": "wb:dagger rarity:uncommon",
+            "Text": "Uncommon daggers"
+          }
+        },
+        "range": {
+          "Title": "Weapon range",
+          "Text": "<p>Use the <code>weapon-range:value</code> key, or its short form <code>wr:value</code>, to set the range of the weapons you are looking for. Ranged weapons use their range increment in feet, e.g. <code>weapon-range:60</code>. Melee weapons use the value <code>weapon-range:melee</code>.</p>",
+          "Note": "In the future, I plan to add range filtering with the greater-than (&gt;) and less-than (&lt;) signs.",
+          "Ex1": {
+            "Query": "weapon-range:melee",
+            "Text": "Melee weapons"
+          },
+          "Ex2": {
+            "Query": "wr:60",
+            "Text": "Weapons with a 60 ft. range increment"
+          }
+        }
+      },
+      "armor": {
+        "category": {
+          "Title": "Armor category",
+          "Text": "<p>Use the <code>armor-category:value</code> key, or its short form <code>act:value</code>, to find armor by its category. Light, medium and heavy armor use the short values <code>light</code>, <code>medium</code> and <code>heavy</code>, while barding uses the full values <code>light-barding</code> and <code>heavy-barding</code>. Clothing that grants no armor uses <code>unarmored</code>.</p>",
+          "Ex1": {
+            "Query": "armor-category:heavy",
+            "Text": "Heavy armor"
+          },
+          "Ex2": {
+            "Query": "act:light|medium",
+            "Text": "Light or medium armor"
+          }
+        },
+        "group": {
+          "Title": "Armor group",
+          "Text": "<p>Use the <code>armor-group:value</code> key, or its short form <code>ag:value</code>, to find armor by its group. Under the Pathfinder 2e rules, an armor's group determines its armor specialization effect.</p>",
+          "Ex1": {
+            "Query": "armor-group:plate",
+            "Text": "Plate armor"
+          },
+          "Ex2": {
+            "Query": "ag:chain|leather",
+            "Text": "Chain or leather armor"
+          }
+        },
+        "base": {
+          "Title": "Armor base",
+          "Text": "<p>Use the <code>armor-base:value</code> key, or its short form <code>ab:value</code>, to find armor built on a specific base armor.</p>",
+          "Ex1": {
+            "Query": "armor-base:full-plate",
+            "Text": "Every full plate, including magic ones"
+          },
+          "Ex2": {
+            "Query": "ab:chain-mail rarity:uncommon",
+            "Text": "Uncommon chain mail"
+          }
+        },
+        "class": {
+          "Title": "Armor class",
+          "Text": "<p>Use the <code>armor-class:value</code> key, or its short form <code>ac:value</code>, to find armor by the AC bonus it grants. The value is the bonus as a number, e.g. <code>armor-class:4</code> for a +4 bonus.</p>",
+          "Ex1": {
+            "Query": "armor-class:6",
+            "Text": "Armor with a +6 AC bonus"
+          },
+          "Ex2": {
+            "Query": "ac:1|2",
+            "Text": "Armor with a +1 or +2 AC bonus"
+          }
+        }
+      },
+      "shields": {
+        "class": {
+          "Title": "Shield class",
+          "Text": "<p>Use the <code>shield-class:value</code> key, or its short form <code>sc:value</code>, to find shields by the AC bonus they grant. The value is the bonus as a number, e.g. <code>shield-class:2</code> for a +2 bonus. Under the Pathfinder 2e rules, a shield grants this bonus only while it is raised.</p>",
+          "Ex1": {
+            "Query": "shield-class:2",
+            "Text": "Shields with a +2 AC bonus"
+          },
+          "Ex2": {
+            "Query": "sc:1 rarity:common",
+            "Text": "Common shields with a +1 AC bonus"
+          }
+        },
+        "base": {
+          "Title": "Shield base",
+          "Text": "<p>Use the <code>shield-base:value</code> key, or its short form <code>sb:value</code>, to find shields built on a specific base shield.</p>",
+          "Ex1": {
+            "Query": "shield-base:steel-shield",
+            "Text": "Every steel shield, including magic ones"
+          },
+          "Ex2": {
+            "Query": "sb:tower-shield|fortress-shield",
+            "Text": "Tower or fortress shields"
+          }
+        }
+      },
+      "consumables": {
+        "category": {
+          "Title": "Consumable category",
+          "Text": "<p>Use the <code>consumable-category:value</code> key, or its short form <code>cct:value</code>, to find consumables by their category, such as potions, elixirs, scrolls or talismans.</p>",
+          "Ex1": {
+            "Query": "consumable-category:potion",
+            "Text": "Potions"
+          },
+          "Ex2": {
+            "Query": "cct:scroll|wand",
+            "Text": "Scrolls or wands"
+          }
+        }
+      },
+      "ammunition": {
+        "type": {
+          "Title": "Ammunition type",
+          "Text": "<p>Use the <code>ammunition-type:value</code> key, or its short form <code>amt:value</code>, to find ammunition by its type. Special ammunition without a chosen type, such as Beacon Shot, matches every type it can be made as. Parent types include their variants: <code>rounds</code> finds rounds for every firearm.</p>",
+          "Ex1": {
+            "Query": "ammunition-type:arrows",
+            "Text": "Arrows"
+          },
+          "Ex2": {
+            "Query": "amt:bolts|arrows",
+            "Text": "Bolts or arrows"
+          }
+        }
+      },
+      "spells": {
+        "tradition": {
+          "Title": "Spell tradition",
+          "Text": "<p>Use the <code>spell-tradition:value</code> key, or its short form <code>spt:value</code>, to find spells on a specific tradition's spell list. Traditions are also item traits: <code>trait:arcane</code> finds items with the arcane trait, not arcane spells.</p>",
+          "Ex1": {
+            "Query": "spell-tradition:divine",
+            "Text": "Spells on the divine list"
+          },
+          "Ex2": {
+            "Query": "spt:arcane|occult",
+            "Text": "Spells on the arcane or occult list"
+          }
+        }
+      }
+    }
+  }
+}

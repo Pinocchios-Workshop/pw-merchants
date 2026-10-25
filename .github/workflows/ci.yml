@@ -1,0 +1,32 @@
+name: CI
+
+# Tests on every push and pull request to the main branches.
+on:
+  push:
+    branches: [main, dev]
+  pull_request:
+    branches: [main, dev]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Check JSON files
+        run: |
+          node -e '
+            for (const f of ["module.json", "lang/en.json", "lang/pl.json"]) {
+              JSON.parse(require("fs").readFileSync(f, "utf8"));
+              console.log("OK", f);
+            }'
+
+      - name: Unit tests
+        run: node tests/run-tests.mjs
+
+      - name: Release package builds
+        run: node tools/build-release.mjs

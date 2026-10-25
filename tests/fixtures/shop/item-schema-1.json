@@ -1,0 +1,6 @@
+{
+  "description": "Flagi przedmiotu w schemacie 1; pozostałość „pp” po migracji (scalanie flag w Foundry) jest pomijana.",
+  "item": true,
+  "input": { "schema": 1, "category": null, "basePrice": { "pp": 1, "gp": 12, "sp": 5, "cp": 0 }, "futureFlag": "x" },
+  "expected": { "schema": 1, "category": null, "basePrice": { "gp": 12, "sp": 5, "cp": 0 }, "futureFlag": "x" }
+}

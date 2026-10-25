@@ -1,0 +1,6 @@
+{
+  "description": "Sklep zapisany przez nowszą wersję modułu: czytany bez migracji, oznaczony jako tylko do odczytu.",
+  "newer": true,
+  "input": { "schema": 99, "shop": { "priceModifier": 1 }, "categories": [] },
+  "expected": { "schema": 99, "shop": { "priceModifier": 1, "tags": [] }, "categories": [] }
+}

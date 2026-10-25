@@ -1,0 +1,42 @@
+name: Release
+
+# Pushing a version tag (e.g. v0.55.0) on main publishes a GitHub release with the
+# installable package. Foundry installs the module from:
+#   https://github.com/<owner>/<repo>/releases/latest/download/module.json
+on:
+  push:
+    tags: ["v*.*.*"]
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Tag must be on main
+        run: |
+          git fetch origin main
+          git merge-base --is-ancestor "$GITHUB_SHA" origin/main || { echo "Tag $GITHUB_REF_NAME is not on main"; exit 1; }
+
+      - name: Unit tests
+        run: node tests/run-tests.mjs
+
+      - name: Build release package
+        run: node tools/build-release.mjs --version "${GITHUB_REF_NAME#v}" --repo "$GITHUB_REPOSITORY"
+
+      - name: Publish GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" dist/module.json dist/pw-merchant.zip \
+            --title "Pinocchio's Merchants $GITHUB_REF_NAME" \
+            --generate-notes

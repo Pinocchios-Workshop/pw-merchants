@@ -1,0 +1,58 @@
+<div class="psm-dialog">
+  <p class="psm-dialog__intro">{{localize "PF2E_SHOP.Randomize.Intro" shop=shopName}}</p>
+
+  {{!-- Kategorie, które zostaną wylosowane --}}
+  <section class="psm-category">
+    <header class="psm-category__header">
+      <input type="checkbox" class="psm-randomize__check" data-select-all checked
+             aria-label="{{localize "PF2E_SHOP.Randomize.SelectAll"}}" data-psm-tooltip="{{localize "PF2E_SHOP.Randomize.SelectAll"}}" />
+      <h3>{{localize "PF2E_SHOP.Randomize.Categories"}}</h3>
+      <span class="psm-count psm-micro" data-selected-count>{{count}}/{{count}}</span>
+      <span class="psm-category__meta"></span>
+    </header>
+    <ul class="psm-items psm-entries">
+      {{#each categories}}
+        <li class="psm-item{{#if odd}} odd{{/if}}">
+          <label class="psm-randomize__row">
+            <input type="checkbox" class="psm-randomize__check" data-category-check value="{{id}}" checked />
+            <span class="psm-item__name"><span>{{name}}</span></span>
+            <span class="psm-randomize__table psm-micro">{{table}}</span>
+            <span class="psm-randomize__range psm-micro">{{localize "PF2E_SHOP.Randomize.Range" range=range}}</span>
+          </label>
+        </li>
+      {{/each}}
+    </ul>
+    <p class="psm-randomize__none" data-none-selected hidden>{{localize "PF2E_SHOP.Randomize.NoneSelected"}}</p>
+  </section>
+
+  {{!-- Tryb losowania --}}
+  <section class="psm-gm" aria-label="{{localize "PF2E_SHOP.Randomize.Mode"}}">
+    <header><h2>{{localize "PF2E_SHOP.Randomize.Mode"}}</h2></header>
+    <div class="psm-modes">
+      <label class="psm-mode-card">
+        <input type="radio" name="mode" value="replace" checked />
+        <span class="psm-mode-card__body">
+          <span class="psm-mode-card__title"><i class="fa-solid fa-rotate" inert></i> {{localize "PF2E_SHOP.Randomize.Replace"}}</span>
+          <span class="psm-mode-card__text">{{localize "PF2E_SHOP.Randomize.ReplaceHint"}}</span>
+        </span>
+      </label>
+      <label class="psm-mode-card">
+        <input type="radio" name="mode" value="add" />
+        <span class="psm-mode-card__body">
+          <span class="psm-mode-card__title"><i class="fa-solid fa-plus" inert></i> {{localize "PF2E_SHOP.Randomize.Add"}}</span>
+          <span class="psm-mode-card__text">{{localize "PF2E_SHOP.Randomize.AddHint"}}</span>
+        </span>
+      </label>
+    </div>
+  </section>
+
+  <p class="psm-note">{{localize "PF2E_SHOP.Randomize.Untouched"}}</p>
+
+  <footer class="psm-dialog__footer">
+    <span class="psm-spacer"></span>
+    <button type="button" class="psm-btn psm-btn--neutral" data-action="cancel">{{localize "PF2E_SHOP.Randomize.Cancel"}}</button>
+    <button type="submit" class="psm-btn psm-btn--primary">
+      <i class="fa-solid fa-dice" inert></i> {{localize "PF2E_SHOP.Randomize.Confirm"}}
+    </button>
+  </footer>
+</div>

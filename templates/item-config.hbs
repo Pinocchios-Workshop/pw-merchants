@@ -1,0 +1,51 @@
+<div class="psm-dialog">
+  <header class="psm-item-head">
+    <img class="psm-item-head__img" src="{{img}}" alt="" />
+    <div class="psm-item-head__text">
+      <span class="psm-item-head__name">{{name}}</span>
+      <span class="psm-micro">{{localize "PF2E_SHOP.ItemConfig.Level" level=level}}</span>
+    </div>
+  </header>
+
+  <section class="psm-gm" aria-label="{{localize "PF2E_SHOP.ItemConfig.PriceSection"}}">
+    <header><h2>{{localize "PF2E_SHOP.ItemConfig.PriceSection"}}</h2></header>
+
+    <div class="psm-modifier__row">
+      <span class="psm-micro">{{localize "PF2E_SHOP.ItemConfig.BookPrice"}}</span>
+      <span class="psm-price-value">{{bookPrice}}</span>
+    </div>
+
+    <label class="psm-check">
+      <input class="psm-check__input" type="checkbox" name="useCustom" {{#if useCustom}}checked{{/if}} />
+      <span class="psm-check__box" aria-hidden="true"></span>
+      <span class="psm-check__label">{{localize "PF2E_SHOP.ItemConfig.UseCustom"}}</span>
+    </label>
+
+    <div class="psm-price-editor{{#unless useCustom}} psm-price-editor--off{{/unless}}">
+      {{#each coins}}
+        <label class="psm-coin-input">
+          <input type="number" min="0" step="1" value="{{value}}" data-coin="{{denomination}}"
+                 aria-label="{{denomination}}" {{#unless @root.useCustom}}disabled{{/unless}} />
+          <span class="psm-micro">{{denomination}}</span>
+        </label>
+      {{/each}}
+    </div>
+    <span class="psm-hint">{{localize "PF2E_SHOP.ItemConfig.OneCurrency"}}{{#if showPer}} {{localize "PF2E_SHOP.ItemConfig.PerHint" per=per}}{{/if}}</span>
+
+    <div class="psm-modifier__row psm-price-result">
+      <span class="psm-micro">{{#if buyback}}{{localize "PF2E_SHOP.ItemConfig.ShopPriceBuyback"}}{{else}}{{localize "PF2E_SHOP.ItemConfig.ShopPrice" percent=modifierPercent}}{{/if}}</span>
+      <span class="psm-price-value psm-price-value--big" data-shop-price>{{shopPrice}}</span>
+    </div>
+  </section>
+
+  <p class="psm-note">{{localize "PF2E_SHOP.ItemConfig.Note"}}</p>
+
+  <footer class="psm-dialog__footer">
+    <button type="button" class="psm-btn psm-btn--neutral" data-action="useBookPrice" {{#unless useCustom}}disabled{{/unless}}>
+      <i class="fa-solid fa-book" inert></i> {{localize "PF2E_SHOP.ItemConfig.UseBook"}}
+    </button>
+    <span class="psm-spacer"></span>
+    <button type="button" class="psm-btn psm-btn--neutral" data-action="cancel">{{localize "PF2E_SHOP.CategoryConfig.Cancel"}}</button>
+    <button type="submit" class="psm-btn psm-btn--primary">{{localize "PF2E_SHOP.CategoryConfig.Save"}}</button>
+  </footer>
+</div>

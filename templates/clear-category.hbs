@@ -1,0 +1,58 @@
+{{!--
+  Okno potwierdzenia: usunięcie wszystkich przedmiotów z kategorii (także z "Inne").
+  Otwierane koszem w nagłówku kategorii (scripts/apps/clear-category-dialog.js).
+  Kontekst: { name, isOther, positions, units, items: [{ name, img, quantity, odd }] }
+--}}
+<div class="psm-dialog">
+  <section class="psm-gm psm-delete" aria-label="{{localize "PF2E_SHOP.ClearCategory.Title"}}">
+    <div class="psm-delete__head">
+      <span class="psm-delete__icon"><i class="fa-solid fa-dumpster-fire" inert></i></span>
+      <div class="psm-delete__text">
+        <span class="psm-micro">{{localize "PF2E_SHOP.ClearCategory.Label"}}</span>
+        <h2 class="psm-delete__name">{{name}}</h2>
+      </div>
+    </div>
+  </section>
+
+  <section class="psm-category">
+    <header class="psm-category__header">
+      <h3>{{localize "PF2E_SHOP.ClearCategory.ToRemove"}}</h3>
+      <span class="psm-count psm-micro">{{positions}}</span>
+      <span class="psm-category__meta"></span>
+      <span class="psm-col psm-col--qty psm-micro">{{localize "PF2E_SHOP.Inventory.Quantity"}}</span>
+    </header>
+    <ul class="psm-items psm-entries">
+      {{#each items}}
+        <li class="psm-item{{#if odd}} odd{{/if}}">
+          {{#if img}}<img class="psm-item__img" src="{{img}}" alt="" />{{/if}}
+          <span class="psm-item__name"><span>{{name}}</span></span>
+          <span class="psm-col psm-col--qty">{{quantity}}</span>
+        </li>
+      {{/each}}
+    </ul>
+  </section>
+
+  <ul class="psm-delete__facts">
+    <li>
+      <i class="fa-solid fa-box-open" inert></i>
+      <span>{{localize "PF2E_SHOP.ClearCategory.Summary" positions=positions units=units}}</span>
+    </li>
+    <li>
+      <i class="fa-solid fa-folder" inert></i>
+      <span>{{#if isOther}}{{localize "PF2E_SHOP.ClearCategory.KeepsOther" name=name}}{{else}}{{localize "PF2E_SHOP.ClearCategory.Keeps"}}{{/if}}</span>
+    </li>
+  </ul>
+
+  <p class="psm-warning">
+    <i class="fa-solid fa-triangle-exclamation" inert></i>
+    {{localize "PF2E_SHOP.ClearCategory.Irreversible"}}
+  </p>
+
+  <footer class="psm-dialog__footer">
+    <span class="psm-spacer"></span>
+    <button type="button" class="psm-btn psm-btn--neutral" data-action="cancel" autofocus>{{localize "PF2E_SHOP.ClearCategory.Cancel"}}</button>
+    <button type="submit" class="psm-btn psm-btn--primary">
+      <i class="fa-solid fa-trash" inert></i> {{localize "PF2E_SHOP.ClearCategory.Confirm"}}
+    </button>
+  </footer>
+</div>

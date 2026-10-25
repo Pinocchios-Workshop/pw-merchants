@@ -1,0 +1,215 @@
+{{!--
+  Listy towaru (zamiast tabel losowych Foundry). Jedno okno, dwa stany:
+  biblioteka list i edytor jednej listy (zasada dwóch okien: karta sklepu → to okno).
+  Biblioteka pokazuje listy zapisane w świecie; edytor pracuje na szkicu listy i zapisuje go przyciskiem „Zapisz listę”.
+--}}
+<div class="psm-dialog psm-lists{{#if editor}} psm-lists--editor{{/if}}">
+  {{#if editor}}
+    {{!-- ================= EDYTOR LISTY ================= --}}
+    <div class="psm-lists__bar">
+      <button type="button" class="psm-btn psm-btn--neutral psm-lists__back" data-action="backToLibrary">
+        <i class="fa-solid fa-arrow-left" inert></i> {{localize "PF2E_SHOP.StockLists.Back"}}
+      </button>
+      <div class="psm-field psm-field--grow">
+        <label for="psm-list-name" class="psm-micro">{{localize "PF2E_SHOP.StockLists.Name"}}</label>
+        <input id="psm-list-name" class="psm-name-input" type="text" name="name" value="{{editor.name}}" data-draft="name"
+               placeholder="{{localize "PF2E_SHOP.StockLists.NamePlaceholder"}}" />
+      </div>
+    </div>
+
+    <div class="psm-lists__grid">
+      {{!-- ===== LEWA: przedmioty z kompendiów ===== --}}
+      <div class="psm-sheet psm-lists__browser">
+        {{!-- Wyszukiwanie i filtry takie same jak na karcie sklepu (wspólny partial, bez przełączników grup).
+              Przedmioty: kompendia systemu PF2e i katalog przedmiotów świata. --}}
+        {{> psmFilters idPrefix="stock-list" sourceToggle=true}}
+
+        {{!-- Lista zaklęć: z czego sklep dostaje zaklęcie — zwój albo różdżka (różdżka później).
+              Ustawienia zwoju: ranga — zawęża listę (ranga bazowa ≤ ranga zwoju) i ustala rangę dodawanych zwojów. --}}
+        <section class="psm-spell-panel" data-spell-panel hidden aria-label="{{localize "PF2E_SHOP.StockLists.SpellForm"}}">
+          <div class="psm-source__buttons" role="group" aria-label="{{localize "PF2E_SHOP.StockLists.SpellForm"}}">
+            <button type="button" class="psm-source__btn" data-spell-form="scroll" aria-pressed="true">
+              <i class="fa-solid fa-scroll" inert></i> {{localize "PF2E_SHOP.StockLists.Scroll"}}
+            </button>
+            <button type="button" class="psm-source__btn" data-spell-form="wand" aria-pressed="false">
+              <i class="fa-solid fa-wand-sparkles" inert></i> {{localize "PF2E_SHOP.StockLists.Wand"}}
+            </button>
+          </div>
+          {{!-- Te same ustawienia dla zwoju i różdżki (zmienia się tylko podpis i rangi — różdżki do 9) --}}
+          <div class="psm-spell-panel__options">
+            <label class="psm-spell-panel__field">
+              <span class="psm-micro" data-spell-rank-label>{{localize "PF2E_SHOP.StockLists.ScrollRank"}}</span>
+              <select class="psm-sort" data-spell-option="rank">
+                {{#each spellRanks}}<option value="{{this}}">{{this}}</option>{{/each}}
+              </select>
+            </label>
+            <span class="psm-micro psm-spell-panel__hint">{{localize "PF2E_SHOP.StockLists.ScrollHint"}}</span>
+            {{!-- Cena zwoju wybranej rangi (jedna dla wszystkich zaklęć, więc nie w każdym wierszu) --}}
+            <span class="psm-spell-panel__price">
+              <span class="psm-micro" data-spell-price-label>{{localize "PF2E_SHOP.StockLists.ScrollPrice"}}</span>
+              <span class="psm-price-value" data-scroll-price>—</span>
+            </span>
+          </div>
+        </section>
+
+        <section class="psm-category psm-lists__results" data-browser>
+          <header class="psm-category__header">
+            <h3 data-browser-title>{{localize "PF2E_SHOP.StockLists.Results"}}</h3>
+            <span class="psm-count psm-micro" data-browser-count></span>
+            <span class="psm-category__meta psm-micro" data-browser-meta></span>
+            <span class="psm-col psm-col--level psm-micro" data-browser-level-col>{{localize "PF2E_SHOP.Inventory.Level"}}</span>
+            <span class="psm-col psm-col--price psm-micro">{{localize "PF2E_SHOP.Inventory.Price"}}</span>
+            <span class="psm-col psm-lists__col-add"></span>
+          </header>
+          {{!-- Wiersze wstawia okno po przefiltrowaniu indeksu (najwyżej kilkaset naraz) --}}
+          <ul class="psm-items" data-browser-list>
+            <li class="psm-item psm-item--empty">{{localize "PF2E_SHOP.StockLists.Loading"}}</li>
+          </ul>
+        </section>
+      </div>
+
+      {{!-- ===== PRAWA: u góry ustawienia listy, pod nimi pozycje listy ===== --}}
+      <div class="psm-lists__side">
+      <section class="psm-gm psm-lists__settings" aria-label="{{localize "PF2E_SHOP.StockLists.Settings"}}">
+        <header>
+          <h2>{{localize "PF2E_SHOP.StockLists.Settings"}}</h2>
+          {{!-- Poziom drużyny, dla którego liczone są szanse (tylko w trybie według poziomu postaci) --}}
+          <span class="psm-micro psm-lists__party">
+            <i class="fa-solid fa-users" inert></i>
+            {{#if editor.partyLevel}}{{localize "PF2E_SHOP.StockLists.PartyLevel" level=editor.partyLevel}}{{else}}{{localize "PF2E_SHOP.StockLists.NoPartyLevel"}}{{/if}}
+          </span>
+        </header>
+        {{!-- Tryb losowania jako dwie karty (ten sam wzór co tryb w „Uzupełnij towar”) --}}
+        <span class="psm-micro psm-lists__settings-label">{{localize "PF2E_SHOP.StockLists.Mode"}}</span>
+        <div class="psm-modes" role="radiogroup" aria-label="{{localize "PF2E_SHOP.StockLists.Mode"}}">
+          {{#each editor.modes}}
+            <label class="psm-mode-card">
+              <input type="radio" name="mode" value="{{value}}" data-draft="mode" {{#if selected}}checked{{/if}} />
+              <span class="psm-mode-card__body">
+                <span class="psm-mode-card__title"><i class="fa-solid {{icon}}" inert></i> {{localize label}}</span>
+                <span class="psm-mode-card__text">{{localize text}}</span>
+              </span>
+            </label>
+          {{/each}}
+        </div>
+
+        {{!-- Opcje listy (w obu trybach) --}}
+        <span class="psm-micro psm-lists__settings-label">{{localize "PF2E_SHOP.StockLists.Options"}}</span>
+        <div class="psm-lists__options">
+          {{!-- Lista przedmiotów gwarantowanych pod pozycjami listy --}}
+          <label class="psm-check">
+            <input class="psm-check__input" type="checkbox" name="guaranteed" data-draft="guaranteed" {{#if editor.guaranteed}}checked{{/if}} />
+            <span class="psm-check__box" aria-hidden="true"></span>
+            <span class="psm-check__label">{{localize "PF2E_SHOP.StockLists.GuaranteedOption"}}</span>
+          </label>
+          {{!-- Kolumna „Limit” przy pozycjach — ile razy przedmiot może zostać wylosowany --}}
+          <label class="psm-check">
+            <input class="psm-check__input" type="checkbox" name="drawLimit" data-draft="drawLimit" {{#if editor.drawLimit}}checked{{/if}} />
+            <span class="psm-check__box" aria-hidden="true"></span>
+            <span class="psm-check__label">{{localize "PF2E_SHOP.StockLists.DrawLimitOption"}}</span>
+          </label>
+        </div>
+      </section>
+
+      <div class="psm-sheet psm-lists__entries">
+        <section class="psm-category" data-entries-drop>
+          <header class="psm-category__header">
+            <h3>{{localize "PF2E_SHOP.StockLists.Entries"}}</h3>
+            <span class="psm-count psm-micro" data-entries-count></span>
+            <span class="psm-category__meta psm-micro"></span>
+            <span class="psm-col psm-col--level psm-micro">{{localize "PF2E_SHOP.Inventory.Level"}}</span>
+            <span class="psm-col psm-col--weight psm-micro">{{localize "PF2E_SHOP.CategoryConfig.EntryWeight"}}</span>
+            <span class="psm-col psm-col--limit psm-micro" data-psm-tooltip="{{localize "PF2E_SHOP.StockLists.LimitHint"}}">{{localize "PF2E_SHOP.StockLists.Limit"}}</span>
+            <span class="psm-col psm-col--chance psm-micro">{{localize "PF2E_SHOP.CategoryConfig.Chance"}}</span>
+            <span class="psm-col psm-col--action"></span>
+          </header>
+          {{!-- Pozycje wstawia okno (dodawanie „+”, przeciąganie, waga, kosz bez przebudowy okna) --}}
+          <ul class="psm-items" data-entries-list></ul>
+        </section>
+      </div>
+
+      {{!-- Przedmioty gwarantowane: widoczne po zaznaczeniu opcji w ustawieniach listy --}}
+      <div class="psm-sheet psm-lists__entries psm-lists__guaranteed" data-guaranteed {{#unless editor.guaranteed}}hidden{{/unless}}>
+        <section class="psm-category" data-guaranteed-drop>
+          <header class="psm-category__header">
+            <h3><i class="fa-solid fa-thumbtack" inert></i> {{localize "PF2E_SHOP.StockLists.Guaranteed"}}</h3>
+            <span class="psm-count psm-micro" data-guaranteed-count></span>
+            <span class="psm-category__meta psm-micro"></span>
+            <span class="psm-col psm-col--qty psm-micro">{{localize "PF2E_SHOP.StockLists.Min"}}</span>
+            <span class="psm-col psm-col--qty psm-micro">{{localize "PF2E_SHOP.StockLists.Max"}}</span>
+            <span class="psm-col psm-col--action"></span>
+          </header>
+          <ul class="psm-items" data-guaranteed-list></ul>
+        </section>
+      </div>
+      </div>
+    </div>
+
+    {{!-- Podpisy pod kolumnami w osobnym wierszu: listy po lewej i po prawej kończą się na tej samej wysokości --}}
+    <div class="psm-lists__notes">
+      <p class="psm-note">{{localize "PF2E_SHOP.StockLists.BrowserHint"}}</p>
+      <p class="psm-note"><span class="psm-lists__manual-note">{{localize "PF2E_SHOP.StockLists.EntriesHint"}}</span><span class="psm-lists__level-note">{{localize "PF2E_SHOP.StockLists.LevelEntriesHint"}}</span><span class="psm-lists__limit-note"> {{localize "PF2E_SHOP.StockLists.LimitHint"}}</span><span class="psm-lists__guaranteed-note"> {{localize "PF2E_SHOP.StockLists.GuaranteedHint"}}</span></p>
+    </div>
+
+    <footer class="psm-dialog__footer">
+      <span class="psm-spacer"></span>
+      <button type="button" class="psm-btn psm-btn--neutral" data-action="backToLibrary">{{localize "PF2E_SHOP.CategoryConfig.Cancel"}}</button>
+      <button type="submit" class="psm-btn psm-btn--primary"><i class="fa-solid fa-floppy-disk" inert></i> {{localize "PF2E_SHOP.StockLists.Save"}}</button>
+    </footer>
+
+  {{else}}
+    {{!-- ================= BIBLIOTEKA LIST ================= --}}
+    <section class="psm-gm psm-lists__intro" aria-label="{{localize "PF2E_SHOP.StockLists.Library"}}">
+      <header><h2>{{localize "PF2E_SHOP.StockLists.Library"}}</h2><span class="psm-micro">{{localize "PF2E_SHOP.StockLists.Count" count=lists.length}}</span></header>
+      <p class="psm-lists__lead">{{localize "PF2E_SHOP.StockLists.Lead"}}</p>
+      <div class="psm-lists__actions">
+        <button type="button" class="psm-btn psm-btn--light" data-action="newList"><i class="fa-solid fa-plus" inert></i> {{localize "PF2E_SHOP.StockLists.New"}}</button>
+        <button type="button" data-action="importList" class="psm-btn psm-btn--ghost"><i class="fa-solid fa-file-import" inert></i> {{localize "PF2E_SHOP.StockLists.Import"}}</button>
+      </div>
+    </section>
+
+    <div class="psm-sheet psm-lists__lib">
+    {{#if lists.length}}
+    <div class="psm-search">
+      <i class="fa-solid fa-magnifying-glass" inert></i>
+      <input type="search" placeholder="{{localize "PF2E_SHOP.StockLists.SearchLists"}}" autocomplete="off" data-list-search />
+    </div>
+    {{/if}}
+
+    <section class="psm-category psm-lists__library">
+      <header class="psm-category__header">
+        <h3>{{localize "PF2E_SHOP.StockLists.Saved"}}</h3>
+        <span class="psm-count psm-micro">{{lists.length}}</span>
+        <span class="psm-category__meta psm-micro"></span>
+        <span class="psm-col psm-lists__col-tools"></span>
+      </header>
+      <ul class="psm-items">
+        {{#each lists}}
+          <li class="psm-item{{#if odd}} odd{{/if}}" data-list-id="{{id}}" data-list-name="{{name}}">
+            <span class="psm-lists__list-ico"><i class="fa-solid fa-scroll" inert></i></span>
+            <span class="psm-item__name psm-lists__list-name">
+              {{!-- Pierwsza linia: nazwa i tag trybu losowania; druga: liczba pozycji i zakres poziomów --}}
+              <span class="psm-lists__list-head">
+                <span class="psm-lists__list-title">{{name}}</span>
+                <span class="psm-tag psm-micro psm-lists__mode"><i class="fa-solid {{#if levelMode}}fa-users{{else}}fa-scale-balanced{{/if}}" inert></i> {{localize modeLabel}}</span>
+              </span>
+              <span class="psm-micro psm-lists__list-meta">{{localize "PF2E_SHOP.StockLists.Meta" entries=entries levels=levels}}</span>
+            </span>
+            <span class="psm-col psm-lists__col-tools">
+              <button type="button" class="psm-icon-btn" data-action="editList" data-psm-tooltip="{{localize "PF2E_SHOP.StockLists.Edit"}}" aria-label="{{localize "PF2E_SHOP.StockLists.Edit"}}: {{name}}"><i class="fa-solid fa-pen" inert></i></button>
+              <button type="button" data-action="duplicateList" class="psm-icon-btn" data-psm-tooltip="{{localize "PF2E_SHOP.StockLists.Duplicate"}}" aria-label="{{localize "PF2E_SHOP.StockLists.Duplicate"}}: {{name}}"><i class="fa-solid fa-clone" inert></i></button>
+              <button type="button" data-action="exportList" class="psm-icon-btn" data-psm-tooltip="{{localize "PF2E_SHOP.StockLists.Export"}}" aria-label="{{localize "PF2E_SHOP.StockLists.Export"}}: {{name}}"><i class="fa-solid fa-file-export" inert></i></button>
+              <button type="button" data-action="deleteList" class="psm-icon-btn psm-icon-btn--danger" data-psm-tooltip="{{localize "PF2E_SHOP.StockLists.Delete"}}" aria-label="{{localize "PF2E_SHOP.StockLists.Delete"}}: {{name}}"><i class="fa-solid fa-trash" inert></i></button>
+            </span>
+          </li>
+        {{else}}
+          {{!-- Brak list: zachęta na środku pola --}}
+          <li class="psm-item psm-lists__none">{{localize "PF2E_SHOP.StockLists.NoLists"}}</li>
+        {{/each}}
+        {{#if lists.length}}<li class="psm-item psm-item--empty" data-list-no-match hidden>{{localize "PF2E_SHOP.StockLists.NoListMatch"}}</li>{{/if}}
+      </ul>
+    </section>
+    <p class="psm-note">{{localize "PF2E_SHOP.StockLists.LibraryHint"}}</p>
+    </div>
+  {{/if}}
+</div>

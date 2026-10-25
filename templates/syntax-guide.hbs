@@ -1,0 +1,53 @@
+{{!--
+  Syntax Guide (apps/syntax-guide.js): ostrzeżenie, przyciski tematów, podkategorie
+  wybranego tematu (opis 2/3 + przykłady 1/3, rozwijane „All values”), stopka.
+--}}
+<div class="psm-sheet psm-guide">
+  <div class="psm-guide__alert" role="note">
+    <i class="fa-solid fa-triangle-exclamation" inert></i>
+    <div><b>{{localize "PF2E_SHOP.SyntaxGuide.AlertTitle"}}</b>{{localize "PF2E_SHOP.SyntaxGuide.AlertText"}}</div>
+  </div>
+
+  <nav class="psm-guide__tabs psm-source__buttons" aria-label="{{localize "PF2E_SHOP.SyntaxGuide.Title"}}">
+    {{#each topics}}
+    <button type="button" class="psm-source__btn" data-action="topic" data-topic="{{id}}" aria-pressed="{{#if active}}true{{else}}false{{/if}}">
+      <i class="fa-solid {{icon}}" inert></i> {{label}}
+    </button>
+    {{/each}}
+  </nav>
+
+  {{#if intro}}<div class="psm-guide__lead">{{{intro}}}</div>{{/if}}
+
+  {{#each sections}}
+  <section class="psm-guide__section">
+    <header class="psm-category__header"><h3>{{title}}</h3></header>
+    <div class="psm-guide__body{{#unless examples.length}} psm-guide__body--full{{/unless}}">
+      <div class="psm-guide__text">{{{text}}}
+        {{#if note}}
+        <aside class="psm-guide__note" role="note">
+          <i class="fa-solid fa-circle-info" inert></i>
+          <div><b>{{localize "PF2E_SHOP.SyntaxGuide.CreatorInfo"}}</b>{{{note}}}</div>
+        </aside>
+        {{/if}}
+      </div>
+      {{#if examples.length}}
+      <div class="psm-guide__examples">
+        <span class="psm-micro">{{localize "PF2E_SHOP.SyntaxGuide.Examples"}}</span>
+        {{#each examples}}
+        <div class="psm-guide__example"><code>{{query}}</code><span>{{text}}</span></div>
+        {{/each}}
+      </div>
+      {{/if}}
+    </div>
+    {{#if values}}
+    <details class="psm-guide__all" data-guide-values="{{values.ref}}">
+      <summary><i class="fa-solid fa-chevron-right" inert></i> {{localize "PF2E_SHOP.SyntaxGuide.AllValues"}}
+        <span class="psm-guide__count">{{localize "PF2E_SHOP.SyntaxGuide.ValueCount" count=values.count}}</span></summary>
+      <div class="psm-guide__values"></div>
+    </details>
+    {{/if}}
+  </section>
+  {{/each}}
+
+  <footer class="psm-guide__credit">{{{localize "PF2E_SHOP.SyntaxGuide.Credit"}}}</footer>
+</div>

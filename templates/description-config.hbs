@@ -1,0 +1,14 @@
+<div class="psm-dialog">
+  <p class="psm-dialog__intro">{{localize "PF2E_SHOP.DescriptionConfig.Intro"}}</p>
+
+  <div class="psm-description-slot" data-editor-slot>
+    {{!-- Zastępowane edytorem ProseMirror; pole tekstowe tylko awaryjnie. --}}
+    <textarea name="description" rows="12" hidden>{{description}}</textarea>
+  </div>
+
+  <footer class="psm-dialog__footer">
+    <span class="psm-spacer"></span>
+    <button type="button" class="psm-btn psm-btn--neutral" data-action="cancel">{{localize "PF2E_SHOP.CategoryConfig.Cancel"}}</button>
+    <button type="submit" class="psm-btn psm-btn--primary">{{localize "PF2E_SHOP.CategoryConfig.Save"}}</button>
+  </footer>
+</div>

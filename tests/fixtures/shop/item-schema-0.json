@@ -1,0 +1,6 @@
+{
+  "description": "Flagi przedmiotu sprzed wersjonowania: cena z platyną (1 pp 2 gp 5 sp → 12 gp 5 sp).",
+  "item": true,
+  "input": { "category": "cat1", "basePrice": { "pp": 1, "gp": 2, "sp": 5, "cp": 0 } },
+  "expected": { "schema": 1, "category": "cat1", "basePrice": { "gp": 12, "sp": 5, "cp": 0 } }
+}

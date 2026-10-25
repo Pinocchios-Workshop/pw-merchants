@@ -1,0 +1,73 @@
+{
+  "description": "Lista w schemacie 1 (tryb według poziomu, przedmioty gwarantowane, pole nieznane).",
+  "input": {
+    "format": "pw-merchant.stock-list",
+    "schema": 1,
+    "id": "list2",
+    "name": "Broń",
+    "mode": "partyLevel",
+    "guaranteed": true,
+    "drawLimit": false,
+    "entries": [
+      {
+        "uuid": "Compendium.pf2e.equipment-srd.Item.c",
+        "name": "Longsword",
+        "img": "a.webp",
+        "level": 0,
+        "rarity": "uncommon",
+        "weight": 1,
+        "limit": null,
+        "missing": true
+      }
+    ],
+    "guaranteedEntries": [
+      {
+        "uuid": "Compendium.pf2e.equipment-srd.Item.d",
+        "name": "Arrows",
+        "img": "b.webp",
+        "level": 0,
+        "rarity": "common",
+        "min": 5,
+        "max": 2
+      }
+    ],
+    "futureOption": 1
+  },
+  "expected": {
+    "format": "pw-merchant.stock-list",
+    "schema": 1,
+    "id": "list2",
+    "name": "Broń",
+    "mode": "partyLevel",
+    "guaranteed": true,
+    "drawLimit": false,
+    "entries": [
+      {
+        "uuid": "Compendium.pf2e.equipment-srd.Item.c",
+        "name": "Longsword",
+        "img": "a.webp",
+        "level": 0,
+        "rarity": "uncommon",
+        "weight": 1,
+        "limit": null,
+        "missing": true,
+        "scroll": null,
+        "wand": null
+      }
+    ],
+    "guaranteedEntries": [
+      {
+        "uuid": "Compendium.pf2e.equipment-srd.Item.d",
+        "name": "Arrows",
+        "img": "b.webp",
+        "level": 0,
+        "rarity": "common",
+        "min": 5,
+        "max": 5,
+        "scroll": null,
+        "wand": null
+      }
+    ],
+    "futureOption": 1
+  }
+}

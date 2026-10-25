@@ -1,0 +1,34 @@
+{{!--
+  Wspólne okno potwierdzenia usunięcia (scripts/apps/confirm-dialog.js).
+  Kontekst: { label, name, icon, facts: [{ icon, text }], note, warning, confirmLabel, cancelLabel }
+--}}
+<div class="psm-dialog">
+  <section class="psm-gm psm-delete" aria-label="{{label}}">
+    <div class="psm-delete__head">
+      <span class="psm-delete__icon"><i class="fa-solid {{#if icon}}{{icon}}{{else}}fa-triangle-exclamation{{/if}}" inert></i></span>
+      <div class="psm-delete__text">
+        <span class="psm-micro">{{label}}</span>
+        <h2 class="psm-delete__name">{{name}}</h2>
+      </div>
+    </div>
+  </section>
+
+  {{#if facts.length}}
+  <ul class="psm-delete__facts">
+    {{#each facts}}
+      <li><i class="fa-solid {{icon}}" inert></i> <span>{{text}}</span></li>
+    {{/each}}
+  </ul>
+  {{/if}}
+
+  {{#if note}}<p class="psm-note">{{note}}</p>{{/if}}
+  {{#if warning}}<p class="psm-warning"><i class="fa-solid fa-triangle-exclamation" inert></i> {{warning}}</p>{{/if}}
+
+  <footer class="psm-dialog__footer">
+    <span class="psm-spacer"></span>
+    <button type="button" class="psm-btn psm-btn--neutral" data-action="cancel" autofocus>{{cancelLabel}}</button>
+    <button type="submit" class="psm-btn psm-btn--primary">
+      <i class="fa-solid fa-trash" inert></i> {{confirmLabel}}
+    </button>
+  </footer>
+</div>

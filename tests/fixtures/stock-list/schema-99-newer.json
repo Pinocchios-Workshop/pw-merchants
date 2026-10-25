@@ -1,0 +1,5 @@
+{
+  "description": "Lista zapisana przez nowszą wersję: odczyt zwraca błąd „nowsza wersja”, zapis jej nie kasuje.",
+  "error": "PF2E_SHOP.StockLists.ImportNewer",
+  "input": { "format": "pw-merchant.stock-list", "schema": 99, "id": "list9", "name": "Z przyszłości", "entries": [] }
+}

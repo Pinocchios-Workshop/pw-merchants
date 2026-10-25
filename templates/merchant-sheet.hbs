@@ -1,0 +1,230 @@
+<form class="{{cssClass}} psm-sheet" autocomplete="off" data-tooltip-class="pf2e">
+
+  {{!-- Tag sklepu (w wierszu i w rozwiniętej liście) --}}
+  {{#*inline "shopTag"}}<span class="psm-shop-tag psm-micro"><span class="psm-shop-tag__name">{{tag.name}}</span>{{#if isGM}}<button type="button" class="psm-shop-tag__remove"
+  data-shop-action="remove-tag" data-tag-index="{{tag.index}}" aria-label="{{localize "PF2E_SHOP.Tags.Remove"}}: {{tag.name}}"><i class="fa-solid fa-xmark" inert></i></button>{{/if}}</span>{{/inline}}
+
+  {{!-- ============ GÓRA: art + nazwa + kasa + panel ============ --}}
+  <div class="psm-top{{#unless shop.isGM}} psm-top--player{{/unless}}">
+    <div class="psm-art">
+      <figure class="psm-portrait">
+        {{#if editable}}
+          <img src="{{shop.img}}" alt="{{shop.name}}" data-edit="img" data-psm-tooltip="{{localize "PF2E_SHOP.Portrait.Edit"}}" />
+          <figcaption class="psm-micro">{{localize "PF2E_SHOP.Portrait.Hint"}}</figcaption>
+        {{else}}
+          {{!-- Gracz nie może zmienić artu: kliknięcie pokazuje go w powiększeniu --}}
+          <img src="{{shop.img}}" alt="{{shop.name}}" data-shop-action="view-art" data-psm-tooltip="{{localize "PF2E_SHOP.Portrait.View"}}" />
+          <figcaption class="psm-micro">{{localize "PF2E_SHOP.Portrait.ViewHint"}}</figcaption>
+        {{/if}}
+      </figure>
+      {{#if shop.isGM}}
+        <button type="button" class="psm-btn psm-btn--light psm-description-btn" data-shop-action="edit-description">
+          <i class="fa-solid fa-scroll" inert></i> {{localize "PF2E_SHOP.DescriptionConfig.Button"}}
+        </button>
+      {{else}}
+        <button type="button" class="psm-btn psm-btn--light psm-description-btn" data-shop-action="sell">
+          <i class="fa-solid fa-hand-holding-dollar" inert></i> {{localize "PF2E_SHOP.Sell.Button"}}
+        </button>
+      {{/if}}
+    </div>
+
+    <div class="psm-top-main">
+      <div class="psm-title-row">
+        <div class="psm-title">
+          {{#if shop.isGM}}
+            <input class="psm-name-edit" type="text" value="{{shop.name}}" data-shop-name spellcheck="false"
+                   aria-label="{{localize "PF2E_SHOP.Name"}}" data-psm-tooltip="{{localize "PF2E_SHOP.NameHint"}}" />
+          {{else}}
+            <h1>{{shop.name}}</h1>
+          {{/if}}
+          <div class="psm-shop-tags" data-shop-tags>
+            <span class="psm-micro psm-shop-tags__type">{{localize "PF2E_SHOP.Subtitle"}}</span>
+            {{#if shop.showTagDot}}<span class="psm-shop-tags__dot" aria-hidden="true">·</span>{{/if}}
+            {{!-- Tagi w jednej linii; te, które się nie mieszczą, chowa przycisk „+N”. --}}
+            <span class="psm-shop-tags__list" data-shop-tags-list>
+              {{#each shop.tags}}{{> shopTag tag=this isGM=@root.shop.isGM}}{{/each}}
+            </span>
+            <button type="button" class="psm-shop-tags__more psm-micro" data-shop-tags-more hidden
+                    aria-expanded="false" data-psm-tooltip="{{localize "PF2E_SHOP.Tags.ShowAll"}}"></button>
+            {{#if shop.isGM}}
+              <input class="psm-shop-tag-input psm-micro" type="text" maxlength="40" data-shop-tag-input hidden
+                     placeholder="{{localize "PF2E_SHOP.Tags.Placeholder"}}" aria-label="{{localize "PF2E_SHOP.Tags.Add"}}" />
+              <button type="button" class="psm-shop-tag-add" data-shop-tag-add
+                      aria-label="{{localize "PF2E_SHOP.Tags.Add"}}" data-psm-tooltip="{{localize "PF2E_SHOP.Tags.Add"}}">
+                <i class="fa-solid fa-plus" inert></i>
+              </button>
+            {{/if}}
+            {{!-- Wszystkie tagi po kliknięciu „+N” --}}
+            <div class="psm-shop-tags__popover" data-shop-tags-popover hidden>
+              <span class="psm-micro psm-shop-tags__popover-title">{{localize "PF2E_SHOP.Tags.All"}}</span>
+              <div class="psm-shop-tags__popover-list">
+                {{#each shop.tags}}{{> shopTag tag=this isGM=@root.shop.isGM}}{{/each}}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="psm-purse">
+          <span class="psm-micro">{{localize "PF2E_SHOP.Purse"}}</span>
+          <div class="psm-coins">
+            {{#if shop.isGM}}
+              <button type="button" class="psm-coin-edit" data-shop-action="edit-purse" aria-label="{{localize "PF2E_SHOP.EditPurse"}}" data-psm-tooltip="{{localize "PF2E_SHOP.EditPurse"}}">
+                <i class="fa-solid fa-pen" inert></i>
+              </button>
+            {{/if}}
+            {{#each shop.purse}}
+              <span class="psm-coin">{{value}} <span class="psm-micro">{{denomination}}</span></span>
+            {{/each}}
+          </div>
+        </div>
+      </div>
+
+      {{#if shop.isGM}}
+        {{!-- Panel ustawień MG --}}
+        <section class="psm-gm" aria-label="{{localize "PF2E_SHOP.GM.Legend"}}">
+          <header>
+            <h2>{{localize "PF2E_SHOP.GM.Legend"}}</h2>
+            <label class="psm-mode">
+              <span class="psm-micro">{{localize "PF2E_SHOP.GM.Mode"}}</span>
+              {{formInput systemFields.lootSheetType value=data.lootSheetType options=lootSheetTypeOptions}}
+            </label>
+          </header>
+
+          <div class="psm-modifier">
+            <div class="psm-modifier__row">
+              <label for="psm-modifier-{{actor.id}}" class="psm-micro">{{localize "PF2E_SHOP.GM.PriceModifier"}}</label>
+              <div class="psm-modifier__value">
+                <span data-shop-modifier-label>{{shop.modifierPercent}}%</span>
+                <button type="button" class="psm-btn psm-btn--ghost psm-micro" data-shop-action="reset-modifier">{{localize "PF2E_SHOP.GM.Reset"}}</button>
+              </div>
+            </div>
+            <input id="psm-modifier-{{actor.id}}" type="range" min="0" max="200" step="5" value="{{shop.modifierPercent}}" data-shop-modifier />
+            <div class="psm-modifier__scale psm-micro"><span>0%</span><span>100%</span><span>200%</span></div>
+          </div>
+
+          <div class="psm-gm__buttons">
+            <button type="button" class="psm-btn psm-btn--light" data-shop-action="randomize">
+              <i class="fa-solid fa-dice" inert></i> {{localize "PF2E_SHOP.GM.Randomize"}}
+            </button>
+            <button type="button" class="psm-btn psm-btn--ghost" data-shop-action="new-category">
+              <i class="fa-solid fa-plus" inert></i> {{localize "PF2E_SHOP.GM.NewCategory"}}
+            </button>
+            {{!-- Listy towaru (własne listy losowania zamiast tabel Foundry) — na razie tylko design --}}
+            <button type="button" class="psm-btn psm-btn--ghost" data-shop-action="stock-lists">
+              <i class="fa-solid fa-scroll" inert></i> {{localize "PF2E_SHOP.GM.StockLists"}}
+            </button>
+          </div>
+        </section>
+      {{else}}
+        {{!-- Opis sklepu dla gracza --}}
+        <section class="psm-description" aria-label="{{localize "PF2E_SHOP.Description"}}">
+          <h2>{{localize "PF2E_SHOP.Description"}}</h2>
+          {{#if shop.hasDescription}}
+            <div class="psm-description__text">{{{shop.description}}}</div>
+          {{else}}
+            <p class="psm-description__empty">{{localize "PF2E_SHOP.NoDescription"}}</p>
+          {{/if}}
+        </section>
+      {{/if}}
+    </div>
+  </div>
+
+  {{!-- ============ FILTRY (wspólny partial z listami towaru) ============ --}}
+  {{> psmFilters idPrefix=actor.id chips=shop.categories chipsLabel="PF2E_SHOP.Filters.Categories"}}
+
+  {{!-- ============ LISTA TOWARU ============ --}}
+  <div class="sheet-body psm-body">
+    {{#each shop.categories}}
+      <section class="psm-category{{#if buyback}} psm-category--buyback{{/if}}" data-category-id="{{id}}">
+        <header class="psm-category__header">
+          {{#if @root.shop.isGM}}
+            {{#if editable}}
+              <button type="button" class="psm-icon-btn psm-cat-handle" draggable="true" data-category-handle="{{id}}"
+                      aria-label="{{localize "PF2E_SHOP.Category.Move"}}: {{name}}" data-psm-tooltip="{{localize "PF2E_SHOP.Category.MoveHint"}}">
+                <i class="fa-solid fa-grip-vertical" inert></i>
+              </button>
+            {{/if}}
+          {{/if}}
+          <h3>{{name}}</h3>
+          <span class="psm-count psm-micro" data-count-total="{{count}}">{{count}}</span>
+          <span class="psm-category__meta psm-micro">{{#if @root.shop.isGM}}{{meta}}{{/if}}</span>
+          <span class="psm-col psm-col--level psm-micro">{{localize "PF2E_SHOP.Inventory.Level"}}</span>
+          <span class="psm-col psm-col--price psm-micro">{{localize "PF2E_SHOP.Inventory.Price"}}</span>
+          <span class="psm-col psm-col--bulk psm-micro">{{localize "PF2E_SHOP.Inventory.Bulk"}}</span>
+          <span class="psm-col psm-col--qty psm-micro">{{localize "PF2E_SHOP.Inventory.Quantity"}}</span>
+          {{#if @root.shop.isGM}}
+            {{!-- Po prawej: ustawienia, potem kosz (usuwa wszystkie przedmioty z kategorii).
+                  Kosz jest skrajnie z prawej, w jednej linii z koszami w wierszach. --}}
+            <span class="psm-col psm-col--action psm-category__controls">
+              {{#if editable}}
+                <button type="button" class="psm-icon-btn" data-shop-action="category-settings" data-category-id="{{id}}"
+                        aria-label="{{localize "PF2E_SHOP.Category.Settings"}}: {{name}}" data-psm-tooltip="{{localize "PF2E_SHOP.Category.Settings"}}">
+                  <i class="fa-solid fa-gear" inert></i>
+                </button>
+              {{else}}
+                <span class="psm-icon-spacer"></span>
+              {{/if}}
+              <button type="button" class="psm-icon-btn" data-shop-action="clear-category" data-category-id="{{id}}"
+                      aria-label="{{localize "PF2E_SHOP.Category.Clear"}}: {{name}}" data-psm-tooltip="{{localize "PF2E_SHOP.Category.Clear"}}"
+                      {{#unless count}}disabled{{/unless}}>
+                <i class="fa-solid fa-trash" inert></i>
+              </button>
+            </span>
+          {{else}}
+            <span class="psm-col psm-col--buy"></span>
+          {{/if}}
+        </header>
+
+        <ul class="psm-items" data-loot>
+          {{#each items}}
+            <li class="psm-item{{#if odd}} odd{{/if}}{{#if soldOut}} psm-item--sold-out{{/if}}" data-item-id="{{id}}" data-name="{{name}}" data-tags="{{tags}}" data-level="{{level}}" data-price="{{priceCp}}" {{#if rarityColor}}style="border-left-color: {{rarityColor}}"{{/if}}>
+              <img class="psm-item__img" src="{{img}}" alt="" />
+              {{!-- Kliknięcie nazwy rozwija opis przedmiotu (wspólny moduł opisów: apps/item-summary.js). --}}
+              <span class="psm-item__name">
+                <button type="button" class="psm-item__toggle" data-shop-action="summary"
+                        aria-label="{{localize "PF2E_SHOP.Inventory.ShowDetails"}}: {{name}}">{{name}}</button>
+                {{#if soldOut}}<span class="psm-sold-out psm-micro">{{localize "PF2E_SHOP.Inventory.SoldOut"}}</span>{{/if}}
+                {{#if showRarity}}<span class="psm-rarity psm-micro" style="background: {{rarityColor}}">{{rarityLabel}}</span>{{/if}}
+              </span>
+              <span class="psm-col psm-col--level">{{level}}</span>
+              <span class="psm-col psm-col--price">
+                <span>{{#if @root.shop.isGM}}{{#if customPrice}}<i class="fa-solid fa-pen psm-custom-price"
+                  data-psm-tooltip="{{localize "PF2E_SHOP.Inventory.CustomPrice" price=bookPrice}}"></i> {{/if}}{{/if}}{{price}}</span>
+                {{#if showBase}}<span class="psm-base psm-micro">{{localize "PF2E_SHOP.Inventory.Base"}} {{basePrice}}</span>{{/if}}
+              </span>
+              <span class="psm-col psm-col--bulk">{{bulk}}</span>
+              {{#if @root.shop.isGM}}
+                <span class="psm-col psm-col--qty"><input type="number" value="{{quantity}}" min="0" step="1" data-item-quantity aria-label="{{localize "PF2E_SHOP.Inventory.Quantity"}}: {{name}}" /></span>
+                {{!-- Ustawienia przedmiotu pod zębatką kategorii, kosz pod koszem kategorii. --}}
+                <span class="psm-col psm-col--action psm-item__controls">
+                  <button type="button" class="psm-icon-btn" data-shop-action="item-settings"
+                          aria-label="{{localize "PF2E_SHOP.Inventory.Settings"}}: {{name}}" data-psm-tooltip="{{localize "PF2E_SHOP.Inventory.Settings"}}">
+                    <i class="fa-solid fa-gear" inert></i>
+                  </button>
+                  <button type="button" class="psm-icon-btn psm-icon-btn--danger" data-shop-action="remove-item" aria-label="{{localize "PF2E_SHOP.Inventory.Remove"}}: {{name}}" data-psm-tooltip="{{localize "PF2E_SHOP.Inventory.Remove"}}">
+                    <i class="fa-solid fa-trash" inert></i>
+                  </button>
+                </span>
+              {{else}}
+                <span class="psm-col psm-col--qty">{{quantity}}</span>
+                <button type="button" class="psm-col psm-col--buy psm-btn psm-btn--buy" data-shop-action="buy" aria-label="{{localize "PF2E_SHOP.Inventory.Buy"}}: {{name}}"
+                        {{#if soldOut}}disabled data-sold-out data-psm-tooltip="{{localize "PF2E_SHOP.Inventory.SoldOut"}}"{{/if}}>
+                  <i class="fa-solid fa-cart-shopping" inert></i> {{localize "PF2E_SHOP.Inventory.Buy"}}
+                </button>
+              {{/if}}
+              <div class="item-summary psm-item__summary" hidden></div>
+            </li>
+          {{else}}
+            <li class="psm-item psm-item--empty">{{localize "PF2E_SHOP.Inventory.EmptyCategory"}}</li>
+          {{/each}}
+          {{#if count}}<li class="psm-item psm-item--empty psm-item--no-match" hidden>{{localize "PF2E_SHOP.Filters.NoMatch"}}</li>{{/if}}
+        </ul>
+      </section>
+    {{/each}}
+
+    {{#if shop.hasWares}}<p class="psm-note psm-list-hint">{{localize "PF2E_SHOP.Inventory.ExpandHint"}}</p>{{/if}}
+
+    {{#if shop.isGM}}
+      <p class="psm-drop-hint"><i class="fa-solid fa-arrow-down" inert></i> {{localize "PF2E_SHOP.Inventory.DropHint"}}</p>
+    {{/if}}
+  </div>
+</form>
